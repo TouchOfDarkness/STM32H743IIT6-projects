@@ -1,0 +1,68 @@
+22:38:41 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/gpio.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/gpio.d" -MT"Core/Src/gpio.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/gpio.o"
+arm-none-eabi-gcc -o "SDRAM_TEST.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\SDRAM_TEST\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SDRAM_TEST.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: SDRAM_TEST.elf
+ 
+arm-none-eabi-size  SDRAM_TEST.elf 
+arm-none-eabi-objdump -h -S SDRAM_TEST.elf  > "SDRAM_TEST.list"
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+arm-none-eabi-objcopy  -O ihex SDRAM_TEST.elf  "SDRAM_TEST.hex"
+Finished building: default.size.stdout
+ 
+Finished building: SDRAM_TEST.hex
+ 
+Finished building: SDRAM_TEST.list
+ 
+11:26:33 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-size  SDRAM_TEST.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+Finished building: default.size.stdout
+ 
+11:28:48 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-size  SDRAM_TEST.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+Finished building: default.size.stdout
+ 
+16:02:04 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-gcc -o "SDRAM_TEST.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\SDRAM_TEST\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SDRAM_TEST.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: SDRAM_TEST.elf
+ 
+arm-none-eabi-size  SDRAM_TEST.elf 
+arm-none-eabi-objdump -h -S SDRAM_TEST.elf  > "SDRAM_TEST.list"
+arm-none-eabi-objcopy  -O ihex SDRAM_TEST.elf  "SDRAM_TEST.hex"
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+Finished building: default.size.stdout
+ 
+Finished building: SDRAM_TEST.hex
+ 
+Finished building: SDRAM_TEST.list
+ 
+16:02:55 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-size  SDRAM_TEST.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+Finished building: default.size.stdout
+ 
+16:05:55 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-size  SDRAM_TEST.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+Finished building: default.size.stdout
+ 
+16:07:10 **** Incremental Build of configuration Debug for project SDRAM_TEST ****
+make -j12 all 
+arm-none-eabi-size  SDRAM_TEST.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27064	     16	   3312	  30392	   76b8	SDRAM_TEST.elf
+Finished building: default.size.stdout
+ 
