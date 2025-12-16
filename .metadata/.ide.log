@@ -629,3 +629,334 @@
 2025-12-16 17:25:01,703 [WARN] IP:2251 - MinOscClkPeriodsCCU not found: check if there is a RefParameter without a condition.
 2025-12-16 17:25:01,703 [WARN] IP:2251 - TimeQuantaPerBitTimeCCU not found: check if there is a RefParameter without a condition.
 2025-12-16 17:25:01,703 [WARN] IP:2251 - WatchdogStartValueCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:39,721 [INFO] MainUpdater:2872 - connection check result : 10
+2025-12-16 17:36:39,721 [INFO] MainUpdater:2872 - connection check result : 10
+2025-12-16 17:36:40,392 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] Nominal 
+2025-12-16 17:36:40,443 [INFO] I2cTimingTraitement:330 - 0x00000E14
+2025-12-16 17:36:40,472 [INFO] I2cTimingTraitement:330 - 0x00000E14
+2025-12-16 17:36:40,480 [INFO] MicroXplorer:468 - Change Database Path : 
+2025-12-16 17:36:40,480 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.130
+2025-12-16 17:36:40,516 [ERROR] ProjectManagerView:394 - 
+java.lang.NullPointerException: Cannot invoke "javax.swing.JTextField.getText()" because the return value of "java.util.List.get(int)" is null
+	at com.st.microxplorer.plugins.projectmanager.gui.ProjectChoiceTab$9.caretUpdate(ProjectChoiceTab.java:2616) ~[filemanager.jar:?]
+	at javax.swing.text.JTextComponent.fireCaretUpdate(JTextComponent.java:408) ~[?:?]
+	at javax.swing.text.JTextComponent$MutableCaretEvent.fire(JTextComponent.java:4484) ~[?:?]
+	at javax.swing.text.JTextComponent$MutableCaretEvent.stateChanged(JTextComponent.java:4506) ~[?:?]
+	at javax.swing.text.DefaultCaret.fireStateChanged(DefaultCaret.java:857) ~[?:?]
+	at javax.swing.text.DefaultCaret.changeCaretPosition(DefaultCaret.java:1343) ~[?:?]
+	at javax.swing.text.DefaultCaret.handleSetDot(DefaultCaret.java:1242) ~[?:?]
+	at javax.swing.text.DefaultCaret.setDot(DefaultCaret.java:1223) ~[?:?]
+	at javax.swing.text.DefaultCaret$Handler.insertUpdate(DefaultCaret.java:1819) ~[?:?]
+	at javax.swing.text.AbstractDocument.fireInsertUpdate(AbstractDocument.java:227) ~[?:?]
+	at javax.swing.text.AbstractDocument.handleInsertString(AbstractDocument.java:781) ~[?:?]
+	at javax.swing.text.AbstractDocument.insertString(AbstractDocument.java:740) ~[?:?]
+	at javax.swing.text.PlainDocument.insertString(PlainDocument.java:131) ~[?:?]
+	at javax.swing.text.AbstractDocument.replace(AbstractDocument.java:699) ~[?:?]
+	at javax.swing.text.JTextComponent.setText(JTextComponent.java:1725) ~[?:?]
+	at com.st.microxplorer.plugins.projectmanager.gui.ProjectChoiceTab.createHeapStackFields(ProjectChoiceTab.java:975) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.projectmanager.gui.ProjectChoiceTab.buildLinkSettingsPanel(ProjectChoiceTab.java:3666) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.projectmanager.gui.ProjectChoiceTab.defineWindowsFields(ProjectChoiceTab.java:1934) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.projectmanager.gui.ProjectChoiceTab.updateSettings(ProjectChoiceTab.java:553) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.projectmanager.gui.ProjectSettingsPanel.UpdateDialog(ProjectSettingsPanel.java:245) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.projectmanager.ProjectManagerView.propertyChange(ProjectManagerView.java:391) ~[filemanager.jar:?]
+	at java.beans.PropertyChangeSupport.fire(PropertyChangeSupport.java:343) ~[?:?]
+	at java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:335) ~[?:?]
+	at java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:268) ~[?:?]
+	at com.st.microxplorer.util.MXPropertyChangeSupport.firePropertyChange(MXPropertyChangeSupport.java:54) ~[STM32CubeMX.jar:?]
+	at com.st.microxplorer.mxsystem.MxSystem.closeConfig(MxSystem.java:899) ~[STM32CubeMX.jar:?]
+	at com.st.microxplorer.maingui.MainPanel.closeConfig(MainPanel.java:789) ~[STM32CubeMX.jar:?]
+	at com.st.microxplorer.plugins.filemanager.engine.OpenFileManager.loadConfigurationFile(OpenFileManager.java:265) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.filemanager.engine.MainFileManager.userLoadConfig(MainFileManager.java:340) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.filemanager.engine.MainFileManager.userLoadConfig(MainFileManager.java:318) ~[filemanager.jar:?]
+	at com.st.microxplorer.plugins.filemanager.FileManagerView.getSpecificTask(FileManagerView.java:246) ~[filemanager.jar:?]
+	at com.st.stm32cube.common.mx.editor.CubeMxEditor.getMxTabbedPaneInstance(CubeMxEditor.java:1198) ~[com.st.stm32cube.common.mx_6.13.0.202411220809/:?]
+	at com.st.stm32cube.common.mx.editor.CubeMxEditor$12$1.createSwingComponent(CubeMxEditor.java:1068) ~[com.st.stm32cube.common.mx_6.13.0.202411220809/:?]
+	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.EmbeddedSwingComposite.doComponentCreation(EmbeddedSwingComposite.java:492) ~[com.st.stm32cube.common.mx.oss_6.13.0.202411220809/:?]
+	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.EmbeddedSwingComposite$4.run(EmbeddedSwingComposite.java:291) ~[com.st.stm32cube.common.mx.oss_6.13.0.202411220809/:?]
+	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.AwtEnvironment$2.run(AwtEnvironment.java:166) ~[com.st.stm32cube.common.mx.oss_6.13.0.202411220809/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) ~[?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:720) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:714) ~[?:?]
+	at java.security.AccessController.doPrivileged(AccessController.java:400) ~[?:?]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87) ~[?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:742) ~[?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) ~[?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) ~[?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) ~[?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) ~[?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) ~[?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) ~[?:?]
+2025-12-16 17:36:40,545 [WARN] ThirdParty:871 - waiting for thirdparty lock release [close project]
+2025-12-16 17:36:40,545 [INFO] ThirdParty:873 - entering critical section [close project]
+2025-12-16 17:36:40,545 [INFO] ThirdParty:883 - exiting critical section [close project]
+2025-12-16 17:36:40,550 [INFO] PinOutPanel:1589 - setPackage(No Configuration,No Configuration)
+2025-12-16 17:36:40,578 [WARN] IpParametersView:154 - Warning: This peripheral hasn't parameters
+2025-12-16 17:36:40,618 [WARN] MainPanel:289 - <html><b><center>Warning: This peripheral has no parameters to be configured<br></b></html>
+2025-12-16 17:36:40,626 [ERROR] MainPanel:599 - java.lang.IndexOutOfBoundsException: Index: 0, Tab count: 0
+2025-12-16 17:36:40,646 [INFO] UtilMem:75 - Begin LoadConfig() Used Memory: 972781968 Bytes (1073741824)
+2025-12-16 17:36:40,648 [INFO] MicroXplorer:468 - Change Database Path : 
+2025-12-16 17:36:40,648 [INFO] MicroXplorer:498 - Change Database Version : DB.6.0.130
+2025-12-16 17:36:40,648 [INFO] OpenFileManager:332 - Change cursor
+2025-12-16 17:36:40,707 [INFO] Mcu:2035 - Initializing MCU STM32H743IITx STM32H743IITx STM32H743IIT6
+2025-12-16 17:36:48,058 [INFO] Context:748 - Trying to add GPIOservice into a context  which must be forbidden
+2025-12-16 17:36:51,434 [INFO] RtosManager:555 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2025-12-16 17:36:51,434 [INFO] RtosManager:555 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2025-12-16 17:36:51,434 [INFO] RtosManager:555 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2025-12-16 17:36:51,436 [INFO] RtosManager:555 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2025-12-16 17:36:51,436 [WARN] ModelIntegratedComponent:184 - Missing modes for component STMicroelectronics:FreeRTOS:0.0.1:STMicroelectronics:RTOS:FreeRTOS:Core:::10.2.0:
+2025-12-16 17:36:51,454 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,454 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,454 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,455 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,455 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,455 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,455 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,455 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,456 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,456 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,456 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,456 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,456 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,456 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,457 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,457 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,457 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,457 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,457 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,458 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,459 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,459 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,459 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,459 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,459 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,459 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,460 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,460 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,460 [WARN] ModelIntegratedComponent:63 - No mode defined for component null
+2025-12-16 17:36:51,460 [WARN] ModelPack:524 - Component already loaded: STMicroelectronics:HAL Drivers:0.0.0:STMicroelectronics:Device:STMicro_Driver:XSPI:HAL::0.0.1:HAL_XSPI
+2025-12-16 17:36:51,507 [INFO] ThirdPartyModel:298 - Start build external matchings
+2025-12-16 17:36:52,014 [INFO] ThirdPartyModel:316 - End build external matchings
+2025-12-16 17:36:52,041 [WARN] IP:2251 - ClockDivider not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:52,042 [WARN] IP:2251 - ClockDividerCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:52,042 [WARN] IP:2251 - MinOscClkPeriodsCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:52,042 [WARN] IP:2251 - TimeQuantaPerBitTimeCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:52,042 [WARN] IP:2251 - WatchdogStartValueCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:52,051 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (ADCFreq_Value) has invalid value (129000000)
+2025-12-16 17:36:52,062 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2025-12-16 17:36:52,063 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (LPTIM1Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,063 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (LPTIM2Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,064 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (LPTIM345Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,064 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (LPUART1Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,064 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SPI45Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,064 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SPI6Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,065 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (SWPMI1Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,065 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USART16Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:52,065 [INFO] ImportTextPane:218 - (OptionalMessage_ERROR) IP (RCC) : Parameter (USART234578Freq_Value) has invalid value (64000000)
+2025-12-16 17:36:53,349 [INFO] UtilMem:75 - End LoadConfig() Used Memory: 946802440 Bytes (1073741824)
+2025-12-16 17:36:53,437 [WARN] ThirdParty:833 - waiting for thirdparty lock release [change project]
+2025-12-16 17:36:53,438 [INFO] ThirdParty:835 - entering critical section [change project]
+2025-12-16 17:36:53,438 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-PM33A1 1.0.0
+2025-12-16 17:36:53,438 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics USBPD 4.1
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC9 1.0.0
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FP-SNS-MOTENVWB1 1.4.0
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F4 1.1.0
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics LIBJPEG 8.0.0
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-ASTRA1 2.0.2
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 7.1.0
+2025-12-16 17:36:53,439 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SMBUS 2.1.0
+2025-12-16 17:36:53,440 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfMQTT 1.19.2
+2025-12-16 17:36:53,440 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2025-12-16 17:36:53,440 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ISPU 2.1.0
+2025-12-16 17:36:53,440 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-EEPRMA1 5.2.0
+2025-12-16 17:36:53,440 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLEMGR 4.1.0
+2025-12-16 17:36:53,440 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-FREERTOS 1.2.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WB 2.0.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSL 5.8.4
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :Cesanta I-CUBE-Mongoose 7.20.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC12 1.0.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F7 1.1.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L5 2.0.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2025-12-16 17:36:53,441 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC6 3.1.0
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :ARM CMSIS 5.7.0
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :quantropi X-CUBE-qispace-sdk-base 2.1.0
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 12.0.0
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G0 1.1.0
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 3.0.0
+2025-12-16 17:36:53,442 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 5.0.0
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics STM32_WPAN 1.0.0
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :EmbeddedOffice I-CUBE-FS-RTOS 1.0.1
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G4 2.0.0
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-WB05N 2.0.0
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2025-12-16 17:36:53,443 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2025-12-16 17:36:53,444 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfTPM 3.8.0
+2025-12-16 17:36:53,444 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 3.4.0
+2025-12-16 17:36:53,444 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DISPLAY 3.0.0
+2025-12-16 17:36:53,444 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSH 1.4.20
+2025-12-16 17:36:53,444 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC7 2.0.0
+2025-12-16 17:36:53,445 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TCPP 4.2.0
+2025-12-16 17:36:53,445 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :RealThread X-CUBE-RT-Thread_Nano 4.1.1
+2025-12-16 17:36:53,445 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-SIGFOX1 3.2.0
+2025-12-16 17:36:53,446 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC10 1.0.0
+2025-12-16 17:36:53,446 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics HAL Drivers 0.0.0
+2025-12-16 17:36:53,446 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2025-12-16 17:36:53,446 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ST60 1.1.0
+2025-12-16 17:36:53,446 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALS 1.0.2
+2025-12-16 17:36:53,446 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :emotas I-CUBE-CANOPEN 1.3.0
+2025-12-16 17:36:53,447 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.22.0
+2025-12-16 17:36:53,447 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2025-12-16 17:36:53,447 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 7.1.0
+2025-12-16 17:36:53,447 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :ITTIA_DB I-CUBE-ITTIADB 8.9.0
+2025-12-16 17:36:53,447 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.26.0
+2025-12-16 17:36:53,448 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-STSE01 1.0.0
+2025-12-16 17:36:53,448 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 10.2.0
+2025-12-16 17:36:53,448 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FP-SNS-STAIOTCFT 1.0.0
+2025-12-16 17:36:53,448 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics ThreadX 1.0.0
+2025-12-16 17:36:53,448 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FP-SNS-SMARTAG2 1.2.0
+2025-12-16 17:36:53,449 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics FP-SNS-FLIGHT1 5.1.0
+2025-12-16 17:36:53,449 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WL 2.0.0
+2025-12-16 17:36:53,449 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :SEGGER I-CUBE-embOS 1.3.1
+2025-12-16 17:36:53,449 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALGOBUILD 1.4.0
+2025-12-16 17:36:53,449 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-DPower 1.3.0
+2025-12-16 17:36:53,449 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7RS 1.2.0
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L4 2.0.0
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics ThreadX 0.0.2
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SFXS2LP1 4.0.0
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.3.0
+2025-12-16 17:36:53,450 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :Avnet-IOTCONNECT X-CUBE-iotc-st67-sdk 1.0.0
+2025-12-16 17:36:53,451 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOF1 3.4.3
+2025-12-16 17:36:53,451 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :Infineon AIROC-Wi-Fi-Bluetooth-STM32 1.8.0
+2025-12-16 17:36:53,451 [INFO] ThirdParty:1030 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2025-12-16 17:36:53,451 [INFO] ThirdParty:841 - exiting critical section [change project]
+2025-12-16 17:36:54,391 [INFO] PinOutPanel:1589 - setPackage(No Configuration,No Configuration)
+2025-12-16 17:36:54,394 [INFO] PinOutPanel:1589 - setPackage(STM32H743IITx,LQFP176)
+2025-12-16 17:36:55,741 [INFO] UtilMem:75 - Before build in PCC Used Memory: 903361224 Bytes (1073741824)
+2025-12-16 17:36:56,323 [INFO] UtilMem:75 - After build in PCC Used Memory: 964704968 Bytes (1073741824)
+2025-12-16 17:36:56,423 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,424 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,424 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,424 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,424 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,425 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,425 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,425 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,426 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,426 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,427 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,427 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,427 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,428 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,428 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,429 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,429 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,429 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,429 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,429 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,430 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,430 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,431 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,431 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,431 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,432 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,432 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,432 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,433 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,433 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,433 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,434 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,434 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,435 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,437 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,437 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,438 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,438 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,439 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,439 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,439 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,440 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,440 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,440 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,441 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,441 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,441 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,442 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,442 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,442 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,443 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,443 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,444 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,445 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,445 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,446 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,446 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,447 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,447 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,448 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,449 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,449 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,450 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,450 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,451 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,451 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,452 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,452 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,453 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,453 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,454 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,454 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,454 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,455 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,455 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,456 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,457 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,457 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,458 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,458 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,459 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,459 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,460 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,460 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,461 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,461 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,462 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,463 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,465 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,466 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,467 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,467 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,468 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,469 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,470 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,470 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,472 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,473 [INFO] IPUIPlugin:80 - create IPUIPlugin
+2025-12-16 17:36:56,479 [INFO] ApiDbMcu:508 - Load IP Config File for PDM2PCM
+2025-12-16 17:36:56,482 [WARN] IP:2251 - ClockDivider not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:56,483 [WARN] IP:2251 - ClockDividerCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:56,483 [WARN] IP:2251 - MinOscClkPeriodsCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:56,483 [WARN] IP:2251 - TimeQuantaPerBitTimeCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:56,483 [WARN] IP:2251 - WatchdogStartValueCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:56,517 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] Nominal 
+2025-12-16 17:36:56,517 [INFO] Can:71 - Can Add PropertyChangeListener com.st.microxplorer.plugins.ip.can.Can@70f7cd43
+2025-12-16 17:36:56,673 [INFO] CADModel:165 - CPN selected for project levelSTM32H743IIT6
+2025-12-16 17:36:56,673 [INFO] CADModel:114 - Register for checkConnection events
+2025-12-16 17:36:56,760 [INFO] OpenFileManager:363 - Restore cursor
+2025-12-16 17:36:57,438 [WARN] IP:2251 - ClockDivider not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:57,439 [WARN] IP:2251 - ClockDividerCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:57,439 [WARN] IP:2251 - MinOscClkPeriodsCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:57,439 [WARN] IP:2251 - TimeQuantaPerBitTimeCCU not found: check if there is a RefParameter without a condition.
+2025-12-16 17:36:57,439 [WARN] IP:2251 - WatchdogStartValueCCU not found: check if there is a RefParameter without a condition.
