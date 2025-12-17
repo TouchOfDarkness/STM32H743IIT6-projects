@@ -41,13 +41,11 @@
 
 /* Private variables ---------------------------------------------------------*/
 
-DCMI_HandleTypeDef hdcmi;
-
 DMA2D_HandleTypeDef hdma2d;
 
 FDCAN_HandleTypeDef hfdcan1;
 
-I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c2;
 I2C_HandleTypeDef hi2c4;
 
 LTDC_HandleTypeDef hltdc;
@@ -83,12 +81,11 @@ static void MX_GPIO_Init(void);
 static void MX_FMC_Init(void);
 static void MX_QUADSPI_Init(void);
 static void MX_LTDC_Init(void);
-static void MX_DCMI_Init(void);
 static void MX_DMA2D_Init(void);
 static void MX_FDCAN1_Init(void);
 static void MX_I2C4_Init(void);
 static void MX_SDMMC2_SD_Init(void);
-static void MX_I2C1_Init(void);
+static void MX_I2C2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -133,12 +130,11 @@ int main(void)
   MX_FMC_Init();
   MX_QUADSPI_Init();
   MX_LTDC_Init();
-  MX_DCMI_Init();
   MX_DMA2D_Init();
   MX_FDCAN1_Init();
   MX_I2C4_Init();
   MX_SDMMC2_SD_Init();
-  MX_I2C1_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
   // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
     // VESC wysyła ramki z ID rozszerzonym (29-bit).
@@ -268,43 +264,6 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief DCMI Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_DCMI_Init(void)
-{
-
-  /* USER CODE BEGIN DCMI_Init 0 */
-
-  /* USER CODE END DCMI_Init 0 */
-
-  /* USER CODE BEGIN DCMI_Init 1 */
-
-  /* USER CODE END DCMI_Init 1 */
-  hdcmi.Instance = DCMI;
-  hdcmi.Init.SynchroMode = DCMI_SYNCHRO_HARDWARE;
-  hdcmi.Init.PCKPolarity = DCMI_PCKPOLARITY_FALLING;
-  hdcmi.Init.VSPolarity = DCMI_VSPOLARITY_LOW;
-  hdcmi.Init.HSPolarity = DCMI_HSPOLARITY_LOW;
-  hdcmi.Init.CaptureRate = DCMI_CR_ALL_FRAME;
-  hdcmi.Init.ExtendedDataMode = DCMI_EXTEND_DATA_8B;
-  hdcmi.Init.JPEGMode = DCMI_JPEG_DISABLE;
-  hdcmi.Init.ByteSelectMode = DCMI_BSM_ALL;
-  hdcmi.Init.ByteSelectStart = DCMI_OEBS_ODD;
-  hdcmi.Init.LineSelectMode = DCMI_LSM_ALL;
-  hdcmi.Init.LineSelectStart = DCMI_OELS_ODD;
-  if (HAL_DCMI_Init(&hdcmi) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN DCMI_Init 2 */
-
-  /* USER CODE END DCMI_Init 2 */
-
-}
-
-/**
   * @brief DMA2D Initialization Function
   * @param None
   * @retval None
@@ -365,10 +324,10 @@ static void MX_FDCAN1_Init(void)
   hfdcan1.Init.AutoRetransmission = DISABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
-  hfdcan1.Init.NominalPrescaler = 16;
+  hfdcan1.Init.NominalPrescaler = 5;
   hfdcan1.Init.NominalSyncJumpWidth = 1;
-  hfdcan1.Init.NominalTimeSeg1 = 1;
-  hfdcan1.Init.NominalTimeSeg2 = 1;
+  hfdcan1.Init.NominalTimeSeg1 = 7;
+  hfdcan1.Init.NominalTimeSeg2 = 2;
   hfdcan1.Init.DataPrescaler = 1;
   hfdcan1.Init.DataSyncJumpWidth = 1;
   hfdcan1.Init.DataTimeSeg1 = 1;
@@ -398,50 +357,50 @@ static void MX_FDCAN1_Init(void)
 }
 
 /**
-  * @brief I2C1 Initialization Function
+  * @brief I2C2 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_I2C1_Init(void)
+static void MX_I2C2_Init(void)
 {
 
-  /* USER CODE BEGIN I2C1_Init 0 */
+  /* USER CODE BEGIN I2C2_Init 0 */
 
-  /* USER CODE END I2C1_Init 0 */
+  /* USER CODE END I2C2_Init 0 */
 
-  /* USER CODE BEGIN I2C1_Init 1 */
+  /* USER CODE BEGIN I2C2_Init 1 */
 
-  /* USER CODE END I2C1_Init 1 */
-  hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x00000E14;
-  hi2c1.Init.OwnAddress1 = 0;
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c1.Init.OwnAddress2 = 0;
-  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.Timing = 0x00000E14;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
   {
     Error_Handler();
   }
 
   /** Configure Analogue filter
   */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
 
   /** Configure Digital filter
   */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN I2C1_Init 2 */
+  /* USER CODE BEGIN I2C2_Init 2 */
 
-  /* USER CODE END I2C1_Init 2 */
+  /* USER CODE END I2C2_Init 2 */
 
 }
 
@@ -700,15 +659,15 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOI_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
