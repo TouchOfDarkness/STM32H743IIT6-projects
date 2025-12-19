@@ -51,30 +51,17 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//FDCAN_RxHeaderTypeDef RxHeader;
-//uint8_t RxData[8]; // Bufor na dane odebrane z VESC
-//uint8_t TxData[8]; // Bufor na dane do wysłania
-//FDCAN_TxHeaderTypeDef TxHeader;
-
-// Zmienne do przechowywania odczytów z VESC
-//volatile int32_t vesc_rpmL = 0;
-//volatile int32_t vesc_rpmM = 0;
-//volatile int32_t vesc_rpmR = 0;
-//volatile float vesc_currentL = 0.0f;
-//volatile float vesc_currentM = 0.0f;
-//volatile float vesc_currentR = 0.0f;
-//volatile float vesc_dutyL = 0.0f;
-//volatile float vesc_dutyM = 0.0f;
-//volatile float vesc_dutyR = 0.0f;
-//uint16_t VESC1_ID = 0x05;
-//uint16_t VESC2_ID = 0x7A;
-
-
 FDCAN_RxHeaderTypeDef RxHeader;
-uint8_t RxData[8]; // Tu wylądują surowe dane z VESC
+uint8_t RxData[8];
 
+// Zmienne dla VESC 47 (Środkowy)
+int32_t vesc47_rpm = 0;
+float vesc47_current = 0.0f;
+float vesc47_duty = 0.0f;
 
-
+// Zmienne dla VESC 5 (Lewy) - opcjonalnie
+int32_t vesc5_rpm = 0;
+float vesc5_current = 0.0f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -127,106 +114,54 @@ int main(void)
   MX_DMA2D_Init();
   MX_FDCAN1_Init();
   MX_I2C4_Init();
-  MX_SDMMC2_SD_Init();
+  //MX_SDMMC2_SD_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  // 1. Ustawiamy Globalny Filtr na "ACCEPT" -> Wpuszczaj wszystko do FIFO0
-  // Dzięki temu nie musisz się bawić w FilterIndex ani ExtFiltersNbr
-//  HAL_FDCAN_ConfigGlobalFilter(&hfdcan1,
-//                               FDCAN_ACCEPT_IN_RX_FIFO0, // Standard ID -> Bierz
+  // 1. Konfiguracja "Bierz Wszystko" (najbezpieczniejsza dla Ciebie)
+    if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1,
+                                     FDCAN_ACCEPT_IN_RX_FIFO0, // STD -> FIFO0
+                                     FDCAN_ACCEPT_IN_RX_FIFO0, // EXT (VESC) -> FIFO0
+                                     FDCAN_REJECT,
+                                     FDCAN_REJECT) != HAL_OK)
+    {
+        Error_Handler();
+    }
 
-//                               FDCAN_ACCEPT_IN_RX_FIFO0, // Extended ID (VESC) -> Bierz!
-//                               FDCAN_REJECT,
-//                               FDCAN_REJECT);
-  HAL_FDCAN_ConfigGlobalFilter(&hfdcan1, FDCAN_ACCEPT_IN_RX_FIFO0, FDCAN_ACCEPT_IN_RX_FIFO0, FDCAN_REJECT, FDCAN_REJECT);
-  // 2. Odpalamy maszynę
-  HAL_FDCAN_Start(&hfdcan1);
-    // 3. Włączenie przerwań (chcemy wiedzieć, kiedy przyjdzie nowa wiadomość)
-   // if (HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
-  //  {
-     // Error_Handler();
-    //}
+    // 2. Start modułu CAN
+    if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
+    {
+        Error_Handler();
+    }
+
+    // 3. Włączamy powiadomienie (Przerwanie) o nowej wiadomości w FIFO0
+    // To jest klucz do działania bez pętli while!
+    if (HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
+    {
+        Error_Handler();
+    }
   /* USER CODE END 2 */
+    FDCAN_TxHeaderTypeDef TxHeader;
+      uint8_t TxData[8] = {0xAA, 0xBB, 0xCC, 0xDD, 1, 2, 3, 4};
 
+      TxHeader.Identifier = 0x11;
+      TxHeader.IdType = FDCAN_STANDARD_ID;
+      TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+      TxHeader.DataLength = FDCAN_DLC_BYTES_8;
+      TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+      TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+      TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+      TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+      TxHeader.MessageMarker = 0;
+
+      // Wyślij wiadomość
+      HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_Delay(100);
     /* USER CODE END WHILE */
-	  if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan1, FDCAN_RX_FIFO0) > 0)
-	    {
-	        // Wyciągnij wiadomość i zapisz do RxData
-	        HAL_FDCAN_GetRxMessage(&hfdcan1, FDCAN_RX_FIFO0, &RxHeader, RxData);
 
-	        // Tutaj możesz postawić Breakpoint, żeby zobaczyć, że weszło!
-	        // W RxData[0]...RxData[7] będą zmieniać się liczby.
-	    }
-
-	   //1. Sprawdzamy, czy w kolejce (FIFO 0) czeka chociaż jedna wiadomość
-//	      if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan1, FDCAN_RX_FIFO0) > 0)
-//	      {
-//	          // 2. Jeśli jest > 0, to ją pobieramy
-//	          if (HAL_FDCAN_GetRxMessage(&hfdcan1, FDCAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK)
-//	          {
-//	        	  int debug_marker = 1;
-//	              // 3. Analiza danych (To samo co miałeś w Callbacku)
-//	              uint32_t id = RxHeader.Identifier;
-//	              uint8_t cmd_id = (id >> 8) & 0xFF;
-//	              uint8_t controller_id = id & 0xFF;
-//
-//	              // Logika dla VESC nr 74 (lub zmień na 5, 47 itd.)
-//	              if (controller_id == 5 && cmd_id == 0x09) // 0x09 to CAN_PACKET_STATUS
-//	                  {
-//	                      // VESC wysyła dane w formacie Big Endian (MSB first)
-//	                      // Bajty 0-3: RPM (int32)
-//	                      // Bajty 4-5: Prąd (int16, skalowane x10)
-//	                      // Bajty 6-7: Duty Cycle (int16, skalowane x1000)
-//
-//	                      vesc_rpmL = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-//
-//	                      int16_t current_x10 = (int16_t)((RxData[4] << 8) | RxData[5]);
-//	                      vesc_currentL = (float)current_x10 / 10.0f;
-//
-//	                      int16_t duty_x1000 = (int16_t)((RxData[6] << 8) | RxData[7]);
-//	                      vesc_dutyL = (float)duty_x1000 / 1000.0f;
-//	                  }
-//	                  if (controller_id == 47 && cmd_id == 0x09) // 0x09 to CAN_PACKET_STATUS
-//	                  {
-//	                      // VESC wysyła dane w formacie Big Endian (MSB first)
-//	                      // Bajty 0-3: RPM (int32)
-//	                      // Bajty 4-5: Prąd (int16, skalowane x10)
-//	                      // Bajty 6-7: Duty Cycle (int16, skalowane x1000)
-//
-//	                      vesc_rpmM = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-//
-//	                      int16_t current_x10 = (int16_t)((RxData[4] << 8) | RxData[5]);
-//	                      vesc_currentM = (float)current_x10 / 10.0f;
-//
-//	                      int16_t duty_x1000 = (int16_t)((RxData[6] << 8) | RxData[7]);
-//	                      vesc_dutyM = (float)duty_x1000 / 1000.0f;
-//	                   }
-//	                  if (controller_id == 122 && cmd_id == 0x09) // 0x09 to CAN_PACKET_STATUS
-//	                   {
-//	                      // VESC wysyła dane w formacie Big Endian (MSB first)
-//	                      // Bajty 0-3: RPM (int32)
-//	                      // Bajty 4-5: Prąd (int16, skalowane x10)
-//	                      // Bajty 6-7: Duty Cycle (int16, skalowane x1000)
-//
-//	                      vesc_rpmR = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-//
-//	                      int16_t current_x10 = (int16_t)((RxData[4] << 8) | RxData[5]);
-//	                      vesc_currentR = (float)current_x10 / 10.0f;
-//
-//	                      int16_t duty_x1000 = (int16_t)((RxData[6] << 8) | RxData[7]);
-//	                      vesc_dutyR
-//	              		= (float)duty_x1000 / 1000.0f;
-//	                   }
-//	          }
-//	      }
-
-	      // Opcjonalnie: małe opóźnienie, żeby nie katować procesora,
-	      // ale przy szybkim CAN lepiej tego nie dawać za dużego.
-	      //HAL_Delay(1);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -320,36 +255,43 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+// Callback - wywołuje się sam, gdy przyjdzie wiadomość
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
+{
+    // Czy powodem przerwania jest nowa wiadomość?
+    if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != 0)
+    {
+        // Pobierz wiadomość
+        if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK)
+        {
+            // --- DEKODOWANIE ---
+            uint8_t id_nadawcy = (RxHeader.Identifier & 0xFF);
+            uint8_t komenda = (RxHeader.Identifier >> 8) & 0xFF;
 
-//void VESC_SetDuty(float dutyCycle) // Zakres -1.0 do 1.0 (np. 0.5 to 50% mocy)
-//{
-//    // Zabezpieczenie zakresu
-//    if(dutyCycle > 1.0f) dutyCycle = 1.0f;
-//    if(dutyCycle < -1.0f) dutyCycle = -1.0f;
-//
-//    int32_t send_val = (int32_t)(dutyCycle * 100000.0f); // VESC oczekuje skali 100 000
-//
-//    // Konfiguracja nagłówka
-//    TxHeader.Identifier = 74 | (0x00 << 8); // ID 74 + Komenda 0 (SET_DUTY)
-//    TxHeader.IdType = FDCAN_EXTENDED_ID;
-//    TxHeader.TxFrameType = FDCAN_DATA_FRAME;
-//    TxHeader.DataLength = FDCAN_DLC_BYTES_4; // Wysyłamy 4 bajty
-//    TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-//    TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-//    TxHeader.FDFormat = FDCAN_CLASSIC_CAN; // VESC zazwyczaj używa klasycznego CAN, nie FD
-//    TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-//    TxHeader.MessageMarker = 0;
-//
-//    // Pakowanie danych (Big Endian)
-//    TxData[0] = (send_val >> 24) & 0xFF;
-//    TxData[1] = (send_val >> 16) & 0xFF;
-//    TxData[2] = (send_val >> 8) & 0xFF;
-//    TxData[3] = (send_val) & 0xFF;
-//
-//    // Wysłanie
-//    HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
-//}
+            // Sprawdzamy czy to pakiet STATUS 1 (0x09)
+            if (komenda == 0x09)
+            {
+                // VESC 47 (Twój główny)
+                if (id_nadawcy == 47)
+                {
+                    vesc47_rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                    vesc47_current = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                    vesc47_duty = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 1000.0f;
+                }
+                // VESC 5 (Inny silnik - przykład jak łatwo dodać kolejny)
+                else if (id_nadawcy == 5)
+                {
+                    vesc5_rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                    vesc5_current = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                }
+            }
+        }
 
+        // WAŻNE: Ponowne włączenie powiadomień (niektóre wersje bibliotek HAL tego wymagają,
+        // choć w FDCAN zazwyczaj jest to ciągłe, ale nie zaszkodzi dodać dla pewności)
+        HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+    }
+}
 
 
 /* USER CODE END 4 */
