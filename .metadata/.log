@@ -591,3 +591,9 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-12-19 09:51:12.574
 !MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-12-19 10:21:03.828
+!MESSAGE Indexed 'H750IBK6_LED' (47 sources, 106 headers) in 11 sec: 11,348 declarations; 94,670 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0019%)
+
+!ENTRY com.st.stm32cube.ide.mcu.build 1 1 2025-12-19 10:39:47.024
+!MESSAGE Converted project Rower elektryczny to C++ in 642 (ms)
