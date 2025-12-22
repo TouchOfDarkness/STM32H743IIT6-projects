@@ -45,7 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+FDCAN_RxHeaderTypeDef RxHeader;
+uint8_t RxData[8];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -90,7 +91,27 @@ int main(void)
   MX_GPIO_Init();
   MX_FDCAN1_Init();
   /* USER CODE BEGIN 2 */
+  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1,
+                                     FDCAN_ACCEPT_IN_RX_FIFO0, // Standard ID -> Bierz
+                                     FDCAN_ACCEPT_IN_RX_FIFO0, // Extended ID (VESC) -> Bierz
+                                     FDCAN_REJECT,             // Remote frames -> Kosz
+                                     FDCAN_REJECT) != HAL_OK)  // Remote frames -> Kosz
+    {
+        Error_Handler();
+    }
 
+    // KROK 2: Start FDCAN
+    if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
+    {
+        Error_Handler();
+    }
+
+    // KROK 3: Włącz powiadomienie (Przerwanie), że przyszła wiadomość
+    if (HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
+    {
+        Error_Handler();
+    }
+    /* USER CODE END 2 */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
@@ -153,7 +174,24 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
+{
+    // Czy to powiadomienie o nowej wiadomości?
+    if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != 0)
+    {
+        // Pobierz wiadomość do RxData
+        if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK)
+        {
+            // ---> TU POSTAW BREAKPOINT <---
+            // Jeśli tu wejdzie, w RxData[0]...RxData[7] masz dane z VESC.
+            // W RxHeader.Identifier masz ID (np. kto to wysłał).
+            // Kod nie sprawdza ID, po prostu bierze dane.
+        }
 
+        // Ponów nasłuchiwanie (niektóre wersje bibliotek tego wymagają)
+        HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+    }
+}
 
 /* USER CODE END 4 */
 

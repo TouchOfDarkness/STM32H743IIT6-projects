@@ -84,8 +84,8 @@ all: main-build
 main-build: Rower\ elektryczny.elf secondary-outputs
 
 # Tool invocations
-Rower\ elektryczny.elf Rower\ elektryczny.map: $(OBJS) $(USER_OBJS) C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower\ elektryczny\STM32H743IITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "Rower elektryczny.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower elektryczny\STM32H743IITX_FLASH.ld" -Wl,-Map="Rower elektryczny.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Rower\ elektryczny.elf Rower\ elektryczny.map: $(OBJS) $(USER_OBJS) C:\Users\kamil\STM32CubeIDE\workspace_1.17.0\STM32H743IIT6-projects\Rower\ elektryczny\STM32H743IITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "Rower elektryczny.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\kamil\STM32CubeIDE\workspace_1.17.0\STM32H743IIT6-projects\Rower elektryczny\STM32H743IITX_FLASH.ld" -Wl,-Map="Rower elektryczny.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

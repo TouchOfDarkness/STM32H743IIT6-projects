@@ -28,8 +28,7 @@
 #include "sdmmc.h"
 #include "gpio.h"
 #include "fmc.h"
-#include "app_touchgfx.h"
-
+#include <stdint.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -57,23 +56,51 @@ FDCAN_RxHeaderTypeDef RxHeader;
 uint8_t RxData[8]; // Bufor na dane odebrane z VESC
 uint8_t TxData[8]; // Bufor na dane do wysłania
 FDCAN_TxHeaderTypeDef TxHeader;
+uint32_t TxMailbox;
+// --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
+typedef struct {
+    // === STATUS 1 (Komenda 0x09) ===
+    volatile int32_t rpm;           // Prędkość obrotowa (ERPM)
+    volatile float current_motor;   // Prąd na silniku (A)
+    volatile float duty_cycle;      // Wypełnienie (0.00 - 1.00)
 
-// Zmienne do przechowywania odczytów z VESC
-volatile int32_t vesc_rpmL = 0;
-volatile int32_t vesc_rpmM = 0;
-volatile int32_t vesc_rpmR = 0;
-volatile float vesc_currentL = 0.0f;
-volatile float vesc_currentM = 0.0f;
-volatile float vesc_currentR = 0.0f;
-volatile float vesc_dutyL = 0.0f;
-volatile float vesc_dutyM = 0.0f;
-volatile float vesc_dutyR = 0.0f;
+    // === STATUS 2 (Komenda 0x0E) ===
+    volatile float amp_hours;       // Zużyte amperogodziny (Ah)
+    volatile float amp_hours_chg;   // Odzyskane amperogodziny (ładowanie)
+
+    // === STATUS 3 (Komenda 0x0F) ===
+    volatile float watt_hours;      // Zużyte watogodziny (Wh)
+    volatile float watt_hours_chg;  // Odzyskane watogodziny (ładowanie)
+
+    // === STATUS 4 (Komenda 0x10) ===
+    volatile float temp_fet;        // Temperatura MOSFET-ów (st. C)
+    volatile float temp_motor;      // Temperatura Silnika (st. C)
+    volatile float current_in;      // Prąd pobierany z baterii (A)
+    volatile float pid_pos;         // Pozycja PID (kąt 0-360)
+
+    // === STATUS 5 (Komenda 0x1B) ===
+    volatile int32_t tacho_value;   // Licznik obrotów (przebieg)
+    volatile float v_in;            // Napięcie baterii (V)
+
+} VescData_t;
+
+// --- 2. INSTANCJE DLA SILNIKÓW ---
+// Ustawiamy ID Twoich VESC-ów
+#define VESC_ID_L  5    // Lewy
+#define VESC_ID_M  47   // Środkowy
+#define VESC_ID_R  10   // Prawy (przykładowo)
+
+VescData_t vescL; // Zmienna dla lewego
+VescData_t vescM; // Zmienna dla środkowego
+VescData_t vescR; // Zmienna dla prawego
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
+
 
 /* USER CODE END PFP */
 
@@ -120,10 +147,9 @@ int main(void)
   MX_DMA2D_Init();
   MX_FDCAN1_Init();
   MX_I2C4_Init();
-  MX_SDMMC2_SD_Init();
+  //MX_SDMMC2_SD_Init();
   MX_I2C2_Init();
   MX_CRC_Init();
-  MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
   // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
     // VESC wysyła ramki z ID rozszerzonym (29-bit).
@@ -160,7 +186,6 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-  MX_TouchGFX_Process();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -256,75 +281,78 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 {
-  if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
-  {
-    // Pobierz wiadomość z kolejki
-    if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK)
+    // Czy przyszła nowa wiadomość?
+    if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != 0)
     {
-      return;
+        // Pobierz wiadomość
+        if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK)
+        {
+            // 1. Rozpoznanie KTO wysłał (ID VESC)
+            uint8_t id_nadawcy = (RxHeader.Identifier & 0xFF);
+
+            // 2. Rozpoznanie CO wysłał (Komenda)
+            uint8_t komenda = (RxHeader.Identifier >> 8) & 0xFF;
+
+            // 3. Wybór odpowiedniej struktury (Wskaźnik)
+            VescData_t *target = NULL;
+
+            if      (id_nadawcy == VESC_ID_M) target = &vescM; // Środkowy
+            else if (id_nadawcy == VESC_ID_L) target = &vescL; // Lewy
+            else if (id_nadawcy == VESC_ID_R) target = &vescR; // Prawy
+
+            // Jeśli znaleźliśmy pasujący silnik, dekodujemy dane
+            if (target != NULL)
+            {
+                switch (komenda)
+                {
+                    // --- STATUS 1: RPM, Prąd Silnika, Duty ---
+                    case 0x09:
+                        target->rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                        target->current_motor = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        target->duty_cycle = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 1000.0f;
+                        break;
+
+                    // --- STATUS 2: Ah zużyte, Ah odzyskane ---
+                    case 0x0E:
+                        target->amp_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                        target->amp_hours_chg = (float)((int32_t)((RxData[4] << 8) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                        // Uwaga: VESC wysyła AhChg też jako 4 bajty w drugiej połówce ramki
+                        break;
+
+                    // --- STATUS 3: Wh zużyte, Wh odzyskane ---
+                    case 0x0F:
+                         target->watt_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                         target->watt_hours_chg = (float)((int32_t)((RxData[4] << 8) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                        break;
+
+                    // --- STATUS 4: Temperatury, Prąd Baterii ---
+                    case 0x10:
+                        target->temp_fet = (float)((int16_t)((RxData[0] << 8) | RxData[1])) / 10.0f;
+                        target->temp_motor = (float)((int16_t)((RxData[2] << 8) | RxData[3])) / 10.0f;
+                        target->current_in = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        target->pid_pos = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 50.0f;
+                        break;
+
+                    // --- STATUS 5: Tachometr, Napięcie Baterii ---
+                    case 0x1B:
+                        target->tacho_value = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                        target->v_in = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+        // Ponowne włączenie nasłuchiwania
+        HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
     }
-
-    // Analiza danych z VESC
-    // VESC ID mamy w dolnych 8 bitach Identifiera.
-    // Ramka STATUS 1 ma Command ID = 9 (w bitach 8-15).
-    // Pełne ID dla Status 1 od VESC 74 to: (9 << 8) | 74 = 0x94A
-
-    // Sprawdzamy czy to ramka od naszego VESC (ID 74 = 0x4A)
-    // Oraz czy to komenda STATUS 1 (0x09)
-    uint32_t id = RxHeader.Identifier;
-    uint8_t cmd_id = (id >> 8) & 0xFF;
-    uint8_t controller_id = id & 0xFF;
-
-    if (controller_id == 5 && cmd_id == 0x09) // 0x09 to CAN_PACKET_STATUS
-    {
-        // VESC wysyła dane w formacie Big Endian (MSB first)
-        // Bajty 0-3: RPM (int32)
-        // Bajty 4-5: Prąd (int16, skalowane x10)
-        // Bajty 6-7: Duty Cycle (int16, skalowane x1000)
-
-        vesc_rpmL = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-
-        int16_t current_x10 = (int16_t)((RxData[4] << 8) | RxData[5]);
-        vesc_currentL = (float)current_x10 / 10.0f;
-
-        int16_t duty_x1000 = (int16_t)((RxData[6] << 8) | RxData[7]);
-        vesc_dutyL = (float)duty_x1000 / 1000.0f;
-    }
-    if (controller_id == 47 && cmd_id == 0x09) // 0x09 to CAN_PACKET_STATUS
-    {
-        // VESC wysyła dane w formacie Big Endian (MSB first)
-        // Bajty 0-3: RPM (int32)
-        // Bajty 4-5: Prąd (int16, skalowane x10)
-        // Bajty 6-7: Duty Cycle (int16, skalowane x1000)
-
-        vesc_rpmM = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-
-        int16_t current_x10 = (int16_t)((RxData[4] << 8) | RxData[5]);
-        vesc_currentM = (float)current_x10 / 10.0f;
-
-        int16_t duty_x1000 = (int16_t)((RxData[6] << 8) | RxData[7]);
-        vesc_dutyM = (float)duty_x1000 / 1000.0f;
-     }
-    if (controller_id == 122 && cmd_id == 0x09) // 0x09 to CAN_PACKET_STATUS
-     {
-        // VESC wysyła dane w formacie Big Endian (MSB first)
-        // Bajty 0-3: RPM (int32)
-        // Bajty 4-5: Prąd (int16, skalowane x10)
-        // Bajty 6-7: Duty Cycle (int16, skalowane x1000)
-
-        vesc_rpmR = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-
-        int16_t current_x10 = (int16_t)((RxData[4] << 8) | RxData[5]);
-        vesc_currentR = (float)current_x10 / 10.0f;
-
-        int16_t duty_x1000 = (int16_t)((RxData[6] << 8) | RxData[7]);
-        vesc_dutyR
-		= (float)duty_x1000 / 1000.0f;
-     }
-
-
-  }
 }
+
+
+
+
+
 
 //void VESC_SetDuty(float dutyCycle) // Zakres -1.0 do 1.0 (np. 0.5 to 50% mocy)
 //{
