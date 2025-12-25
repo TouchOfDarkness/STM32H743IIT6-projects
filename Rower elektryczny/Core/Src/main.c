@@ -25,10 +25,9 @@
 #include "ltdc.h"
 #include "memorymap.h"
 #include "quadspi.h"
-#include "sdmmc.h"
 #include "gpio.h"
 #include "fmc.h"
-#include <stdint.h>
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -100,8 +99,8 @@ VescData_t vescR; // Zmienna dla prawego
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-
-
+void VESC_SetDuty(uint8_t controller_id, float dutyCycle);
+void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -147,7 +146,6 @@ int main(void)
   MX_DMA2D_Init();
   MX_FDCAN1_Init();
   MX_I2C4_Init();
-  //MX_SDMMC2_SD_Init();
   MX_I2C2_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
@@ -185,7 +183,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  VESC_SetAllDuty(0.10f, 0.10f, 0.0f); // (LEWY, PRAWY, GENERATOR)
+	  HAL_Delay(50);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -216,6 +215,10 @@ void SystemClock_Config(void)
   HAL_PWR_EnableBkUpAccess();
   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
+  /** Macro to configure the PLL clock source
+  */
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -229,16 +232,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.CSIState = RCC_CSI_ON;
   RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 10;
-  RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 3;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
-  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOMEDIUM;
-  RCC_OscInitStruct.PLL.PLLFRACN = 0;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -349,39 +343,58 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
     }
 }
 
+// --- Funkcja podstawowa (Wysyła ramkę do jednego VESC) ---
+void VESC_SetDuty(uint8_t controller_id, float dutyCycle)
+{
+    // Zabezpieczenie zakresu (-1.0 do 1.0)
+    if(dutyCycle > 1.0f) dutyCycle = 1.0f;
+    if(dutyCycle < -1.0f) dutyCycle = -1.0f;
 
+    int32_t send_val = (int32_t)(dutyCycle * 100000.0f);
 
+    FDCAN_TxHeaderTypeDef TxHeader;
+    uint8_t TxData[4];
 
+    // Budowa ID ramki (0x00 to komenda SET_DUTY)
+    TxHeader.Identifier = controller_id | ((uint32_t)0x00 << 8);
+    TxHeader.IdType = FDCAN_EXTENDED_ID;
+    TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+    TxHeader.DataLength = FDCAN_DLC_BYTES_4;
+    TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+    TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    TxHeader.MessageMarker = 0;
 
+    TxData[0] = (uint8_t)((send_val >> 24) & 0xFF);
+    TxData[1] = (uint8_t)((send_val >> 16) & 0xFF);
+    TxData[2] = (uint8_t)((send_val >> 8)  & 0xFF);
+    TxData[3] = (uint8_t)(send_val & 0xFF);
 
-//void VESC_SetDuty(float dutyCycle) // Zakres -1.0 do 1.0 (np. 0.5 to 50% mocy)
-//{
-//    // Zabezpieczenie zakresu
-//    if(dutyCycle > 1.0f) dutyCycle = 1.0f;
-//    if(dutyCycle < -1.0f) dutyCycle = -1.0f;
-//
-//    int32_t send_val = (int32_t)(dutyCycle * 100000.0f); // VESC oczekuje skali 100 000
-//
-//    // Konfiguracja nagłówka
-//    TxHeader.Identifier = 74 | (0x00 << 8); // ID 74 + Komenda 0 (SET_DUTY)
-//    TxHeader.IdType = FDCAN_EXTENDED_ID;
-//    TxHeader.TxFrameType = FDCAN_DATA_FRAME;
-//    TxHeader.DataLength = FDCAN_DLC_BYTES_4; // Wysyłamy 4 bajty
-//    TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-//    TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-//    TxHeader.FDFormat = FDCAN_CLASSIC_CAN; // VESC zazwyczaj używa klasycznego CAN, nie FD
-//    TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-//    TxHeader.MessageMarker = 0;
-//
-//    // Pakowanie danych (Big Endian)
-//    TxData[0] = (send_val >> 24) & 0xFF;
-//    TxData[1] = (send_val >> 16) & 0xFF;
-//    TxData[2] = (send_val >> 8) & 0xFF;
-//    TxData[3] = (send_val) & 0xFF;
-//
-//    // Wysłanie
-//    HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
-//}
+    // Wysłanie tylko jeśli jest miejsce w buforze
+    if (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) > 0)
+    {
+        HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
+    }
+}
+
+// --- Funkcja ZBIORCZA (To o nią pytałeś) ---
+// Pozwala ustawić różne wypełnienia dla każdego silnika w jednej linijce
+void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen)
+{
+    // 1. Lewe koło
+    VESC_SetDuty(VESC_ID_L, duty_Left);
+
+    // Krótkie opóźnienie jest ZALECANE, aby nie "zalać" magistrali CAN
+    // i dać czas VESC na przetworzenie ramki (szczególnie przy 3 odbiornikach)
+    HAL_Delay(1);
+
+    // 2. Prawe koło
+    VESC_SetDuty(VESC_ID_R, duty_Right);
+    HAL_Delay(1);
+
+    // 3. Generator
+    VESC_SetDuty(VESC_ID_M, duty_Gen);
+
+}
 
 
 
