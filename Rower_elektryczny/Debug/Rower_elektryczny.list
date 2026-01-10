@@ -1179,9 +1179,9 @@ void MX_I2C2_Init(void)
  80009c8:	4b1b      	ldr	r3, [pc, #108]	@ (8000a38 <MX_I2C2_Init+0x74>)
  80009ca:	4a1c      	ldr	r2, [pc, #112]	@ (8000a3c <MX_I2C2_Init+0x78>)
  80009cc:	601a      	str	r2, [r3, #0]
-  hi2c2.Init.Timing = 0x00000F3B;
+  hi2c2.Init.Timing = 0x00000E50;
  80009ce:	4b1a      	ldr	r3, [pc, #104]	@ (8000a38 <MX_I2C2_Init+0x74>)
- 80009d0:	f640 723b 	movw	r2, #3899	@ 0xf3b
+ 80009d0:	f44f 6265 	mov.w	r2, #3664	@ 0xe50
  80009d4:	605a      	str	r2, [r3, #4]
   hi2c2.Init.OwnAddress1 = 0;
  80009d6:	4b18      	ldr	r3, [pc, #96]	@ (8000a38 <MX_I2C2_Init+0x74>)
