@@ -131,7 +131,6 @@ MPU6050_t MPU6050; // Globalna instancja struktury
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
-
 /* USER CODE BEGIN PFP */
 void VESC_SetDuty(uint8_t controller_id, float dutyCycle);
 void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen);
@@ -474,7 +473,69 @@ void VESC_SetCurrent(uint8_t controller_id, float current_amps)
     }
 }
 
+// --- Funkcja Inicjalizacji MPU6050 ---
+uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx) {
+    uint8_t check;
+    uint8_t data;
 
+    // 1. Sprawdzenie czy urządzenie jest podłączone (WHO_AM_I)
+    HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
+
+    if (check == 0x68) // 0x68 to domyślna wartość rejestru WHO_AM_I
+    {
+        // 2. Wybudzenie czujnika (Power Management 1)
+        // Zapisujemy 0 do rejestru 0x6B, aby wyłączyć tryb sleep
+        data = 0;
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &data, 1, 1000);
+
+        // 3. Konfiguracja Akcelerometru (+/- 2g)
+        // Rejestr 0x1C = 0x00
+        data = 0x00;
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, ACCEL_CONFIG_REG, 1, &data, 1, 1000);
+
+        // 4. Konfiguracja Żyroskopu (+/- 250 dps)
+        // Rejestr 0x1B = 0x00
+        data = 0x00;
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, GYRO_CONFIG_REG, 1, &data, 1, 1000);
+
+        return 0; // Sukces
+    }
+    return 1; // Błąd (nie znaleziono urządzenia)
+}
+
+// --- Funkcja Odczytu Danych (Burst Read) ---
+void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
+    uint8_t Rec_Data[14];
+    int16_t temp;
+
+    // Czytamy 14 bajtów na raz zaczynając od ACCEL_XOUT_H (0x3B)
+    // Kolejność w pamięci MPU: Accel(6) -> Temp(2) -> Gyro(6)
+    HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 14, 1000);
+
+    // --- AKCELEROMETR ---
+    DataStruct->Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
+    DataStruct->Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
+    DataStruct->Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
+
+    // Konwersja na g (dla zakresu +/- 2g dzielimy przez 16384.0)
+    DataStruct->Ax = DataStruct->Accel_X_RAW / 16384.0;
+    DataStruct->Ay = DataStruct->Accel_Y_RAW / 16384.0;
+    DataStruct->Az = DataStruct->Accel_Z_RAW / 16384.0;
+
+    // --- TEMPERATURA ---
+    temp = (int16_t)(Rec_Data[6] << 8 | Rec_Data[7]);
+    DataStruct->Temperature = (float)((temp / 340.0) + 36.53);
+
+    // --- ŻYROSKOP ---
+    DataStruct->Gyro_X_RAW = (int16_t)(Rec_Data[8] << 8 | Rec_Data[9]);
+    DataStruct->Gyro_Y_RAW = (int16_t)(Rec_Data[10] << 8 | Rec_Data[11]);
+    DataStruct->Gyro_Z_RAW = (int16_t)(Rec_Data[12] << 8 | Rec_Data[13]);
+
+    // Konwersja na deg/s (dla zakresu +/- 250dps dzielimy przez 131.0)
+    DataStruct->Gx = DataStruct->Gyro_X_RAW / 131.0;
+    DataStruct->Gy = DataStruct->Gyro_Y_RAW / 131.0;
+    DataStruct->Gz = DataStruct->Gyro_Z_RAW / 131.0;
+}
 
 
 /* USER CODE END 4 */
