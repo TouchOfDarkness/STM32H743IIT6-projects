@@ -92,14 +92,52 @@ VescData_t vescL; // Zmienna dla lewego
 VescData_t vescM; // Zmienna dla środkowego
 VescData_t vescR; // Zmienna dla prawego
 
+
+// --- MPU6050 DEFINICJE ---
+#define MPU6050_ADDR 0xD0 // Adres urządzenia (0x68 << 1)
+#define SMPLRT_DIV_REG 0x19
+#define GYRO_CONFIG_REG 0x1B
+#define ACCEL_CONFIG_REG 0x1C
+#define ACCEL_XOUT_H_REG 0x3B
+#define TEMP_OUT_H_REG 0x41
+#define GYRO_XOUT_H_REG 0x43
+#define PWR_MGMT_1_REG 0x6B
+#define WHO_AM_I_REG 0x75
+
+// Struktura przechowująca dane z czujnika
+typedef struct {
+    int16_t Accel_X_RAW;
+    int16_t Accel_Y_RAW;
+    int16_t Accel_Z_RAW;
+    double Ax; // Przyspieszenie w g
+    double Ay;
+    double Az;
+
+    int16_t Gyro_X_RAW;
+    int16_t Gyro_Y_RAW;
+    int16_t Gyro_Z_RAW;
+    double Gx; // Prędkość kątowa w deg/s
+    double Gy;
+    double Gz;
+
+    float Temperature;
+} MPU6050_t;
+
+MPU6050_t MPU6050; // Globalna instancja struktury
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
+
 /* USER CODE BEGIN PFP */
 void VESC_SetDuty(uint8_t controller_id, float dutyCycle);
 void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen);
+
+uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx);
+void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -175,6 +213,9 @@ int main(void)
     {
       Error_Handler();
     }
+    if (MPU6050_Init(&hi2c2) == 0) {
+          // Opcjonalnie: mignij diodą, że MPU OK
+      }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -193,6 +234,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  MPU6050_Read_All(&hi2c2, &MPU6050);
 	  // 1. Pobierz obroty
 	      int32_t rpm_raw = vescM.rpm;
 	      if (rpm_raw < 0) rpm_raw = 0; // Zabezpieczenie przed ujemnymi
