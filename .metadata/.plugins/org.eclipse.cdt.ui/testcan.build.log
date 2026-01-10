@@ -1,0 +1,10 @@
+17:55:20 **** Incremental Build of configuration Debug for project testcan ****
+make -j12 all 
+arm-none-eabi-size  testcan.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18536	     16	   1776	  20328	   4f68	testcan.elf
+Finished building: default.size.stdout
+ 
+
+17:55:20 Build Finished. 0 errors, 0 warnings. (took 198ms)
+
