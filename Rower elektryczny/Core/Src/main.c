@@ -54,9 +54,8 @@
 FDCAN_RxHeaderTypeDef RxHeader;
 uint8_t RxData[8]; // Bufor na dane odebrane z VESC
 uint8_t TxData[8]; // Bufor na dane do wysłania
-FDCAN_TxHeaderTypeDef TxHeader;
-uint32_t TxMailbox;
 // --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
+FDCAN_TxHeaderTypeDef TxHeader;
 typedef struct {
     // === STATUS 1 (Komenda 0x09) ===
     volatile int32_t rpm;           // Prędkość obrotowa (ERPM)
@@ -85,9 +84,9 @@ typedef struct {
 
 // --- 2. INSTANCJE DLA SILNIKÓW ---
 // Ustawiamy ID Twoich VESC-ów
-#define VESC_ID_L  5    // Lewy
-#define VESC_ID_M  47   // Środkowy
-#define VESC_ID_R  10   // Prawy (przykładowo)
+#define VESC_ID_L  1   // Lewy
+#define VESC_ID_M  2   // Środkowy
+#define VESC_ID_R  3   // Prawy (przykładowo)
 
 VescData_t vescL; // Zmienna dla lewego
 VescData_t vescM; // Zmienna dla środkowego
@@ -180,12 +179,57 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+    // Zmienna do filtra (musi być static, żeby pamiętała wartość z poprzedniego obiegu)
+      static float current_filtered = 0.0f;
+
+      // Konfiguracja Twojej krzywej
+      const float MAX_GEN_RPM = 10000.0f; // Przy jakich obrotach chcesz miec PEŁNĄ MOC (zwiększ jeśli 8000 to za mało)
+      const float MAX_CURRENT = 20.0f;    // Maksymalny prąd w Amperach
+      const float RAMP_FACTOR = 0.05f;    // Jak szybko prąd ma gonić cel (0.01 = bardzo wolno/płynnie, 0.1 = szybko)
+
+
   while (1)
   {
     /* USER CODE END WHILE */
-	  VESC_SetAllDuty(0.10f, 0.10f, 0.0f); // (LEWY, PRAWY, GENERATOR)
-	  HAL_Delay(50);
+
     /* USER CODE BEGIN 3 */
+	  // 1. Pobierz obroty
+	      int32_t rpm_raw = vescM.rpm;
+	      if (rpm_raw < 0) rpm_raw = 0; // Zabezpieczenie przed ujemnymi
+
+	      // 2. Martwa strefa (np. do 200 erpm nic nie rób, żeby silnik nie buczał na postoju)
+	      if (rpm_raw < 200) rpm_raw = 0;
+
+	      // --- MAGIA MATEMATYKI (Krzywa Kwadratowa) ---
+
+	      // A. Obliczamy w jakim % drogi do maksa jesteśmy (0.0 do 1.0)
+	      float throttle_pos = (float)rpm_raw / MAX_GEN_RPM;
+	      if (throttle_pos > 1.0f) throttle_pos = 1.0f; // Nie przekraczaj 100%
+
+	      // B. Podnosimy do kwadratu -> To daje łagodny start!
+	      // Przykład:
+	      // Liniowo: 50% RPM = 50% Prądu
+	      // Kwadratowo: 0.5 * 0.5 = 0.25 (czyli przy połowie obrotów masz tylko 25% mocy!)
+	      float current_target = throttle_pos * throttle_pos * MAX_CURRENT;
+
+	      // --- FILTROWANIE (RAMPING) ---
+	      // To realizuje Twoją prośbę o "mniejsze przyrosty".
+	      // Prąd nie skacze od razu do celu, tylko zbliża się o 5% różnicy w każdym kroku pętli.
+	      current_filtered = (current_filtered * (1.0f - RAMP_FACTOR)) + (current_target * RAMP_FACTOR);
+
+	      // Zabezpieczenie "na wszelki wypadek"
+	      if (current_filtered < 0.1f) current_filtered = 0.0f; // Zeruj małe śmieci
+
+	      // 3. Wyślij wygładzony, "miękki" prąd na silniki
+	      VESC_SetCurrent(VESC_ID_L, current_filtered);
+
+	      // Krótkie opóźnienie dla stabilności CAN (ważne przy 3 VESC)
+	      HAL_Delay(1);
+
+	      VESC_SetCurrent(VESC_ID_R, current_filtered);
+
+	      // Częstotliwość pętli (ok 50Hz)
+	      HAL_Delay(20);
   }
   /* USER CODE END 3 */
 }
@@ -306,18 +350,19 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
                         target->duty_cycle = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 1000.0f;
                         break;
 
-                    // --- STATUS 2: Ah zużyte, Ah odzyskane ---
-                    case 0x0E:
-                        target->amp_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
-                        target->amp_hours_chg = (float)((int32_t)((RxData[4] << 8) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
-                        // Uwaga: VESC wysyła AhChg też jako 4 bajty w drugiej połówce ramki
-                        break;
+                        // --- STATUS 2: Ah zużyte, Ah odzyskane ---
+                        case 0x0E:
+                            target->amp_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                            // POPRAWKA PONIŻEJ: 24, 16, 8, 0
+                            target->amp_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                            break;
 
-                    // --- STATUS 3: Wh zużyte, Wh odzyskane ---
-                    case 0x0F:
-                         target->watt_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
-                         target->watt_hours_chg = (float)((int32_t)((RxData[4] << 8) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
-                        break;
+                        // --- STATUS 3: Wh zużyte, Wh odzyskane ---
+                        case 0x0F:
+                             target->watt_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                             // POPRAWKA PONIŻEJ: 24, 16, 8, 0
+                             target->watt_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                            break;
 
                     // --- STATUS 4: Temperatury, Prąd Baterii ---
                     case 0x10:
@@ -343,58 +388,50 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
     }
 }
 
-// --- Funkcja podstawowa (Wysyła ramkę do jednego VESC) ---
-void VESC_SetDuty(uint8_t controller_id, float dutyCycle)
+// --- Funkcja ustawiania PRĄDU (Momentu) ---
+// Komenda 0x01 w VESC to Set Current
+void VESC_SetCurrent(uint8_t controller_id, float current_amps)
 {
-    // Zabezpieczenie zakresu (-1.0 do 1.0)
-    if(dutyCycle > 1.0f) dutyCycle = 1.0f;
-    if(dutyCycle < -1.0f) dutyCycle = -1.0f;
+    // 1. Zabezpieczenie przed ujemnym prądem (chyba że chcesz hamować/wsteczny)
+    // Zakładamy, że rower jedzie tylko do przodu.
+    if (current_amps < 0.0f) current_amps = 0.0f;
 
-    int32_t send_val = (int32_t)(dutyCycle * 100000.0f);
+    // 2. Zabezpieczenie maksymalnego prądu (bezpiecznik programowy)
+    // Z tabelki wynika max 20A, ale dajmy bezpiecznik np. 30A
+    if (current_amps > 30.0f) current_amps = 30.0f;
+
+    // 3. Skalowanie: VESC oczekuje prądu * 1000 (miliampery)
+    int32_t send_val = (int32_t)(current_amps * 1000.0f);
 
     FDCAN_TxHeaderTypeDef TxHeader;
     uint8_t TxData[4];
 
-    // Budowa ID ramki (0x00 to komenda SET_DUTY)
-    TxHeader.Identifier = controller_id | ((uint32_t)0x00 << 8);
+    // Budowa ID ramki: [KOMENDA 0x01] [ID_STEROWNIKA]
+    TxHeader.Identifier = (uint32_t)controller_id | ((uint32_t)0x01 << 8);
+
+    // Konfiguracja FDCAN (identyczna jak w działającym SetDuty)
     TxHeader.IdType = FDCAN_EXTENDED_ID;
     TxHeader.TxFrameType = FDCAN_DATA_FRAME;
     TxHeader.DataLength = FDCAN_DLC_BYTES_4;
+    TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
     TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
     TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
     TxHeader.MessageMarker = 0;
 
+    // Pakowanie danych (Big Endian)
     TxData[0] = (uint8_t)((send_val >> 24) & 0xFF);
     TxData[1] = (uint8_t)((send_val >> 16) & 0xFF);
     TxData[2] = (uint8_t)((send_val >> 8)  & 0xFF);
     TxData[3] = (uint8_t)(send_val & 0xFF);
 
-    // Wysłanie tylko jeśli jest miejsce w buforze
+    // Wysłanie do kolejki
     if (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) > 0)
     {
         HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
     }
 }
 
-// --- Funkcja ZBIORCZA (To o nią pytałeś) ---
-// Pozwala ustawić różne wypełnienia dla każdego silnika w jednej linijce
-void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen)
-{
-    // 1. Lewe koło
-    VESC_SetDuty(VESC_ID_L, duty_Left);
-
-    // Krótkie opóźnienie jest ZALECANE, aby nie "zalać" magistrali CAN
-    // i dać czas VESC na przetworzenie ramki (szczególnie przy 3 odbiornikach)
-    HAL_Delay(1);
-
-    // 2. Prawe koło
-    VESC_SetDuty(VESC_ID_R, duty_Right);
-    HAL_Delay(1);
-
-    // 3. Generator
-    VESC_SetDuty(VESC_ID_M, duty_Gen);
-
-}
 
 
 
