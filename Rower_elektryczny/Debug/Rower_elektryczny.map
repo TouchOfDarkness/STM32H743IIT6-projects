@@ -12409,6 +12409,7 @@ RAM_D1           0x24000000         0x00080000         xrw
 RAM_D2           0x30000000         0x00048000         xrw
 RAM_D3           0x38000000         0x00010000         xrw
 ITCMRAM          0x00000000         0x00010000         xrw
+SDRAM            0xc0000000         0x02000000         xrw
 *default*        0x00000000         0xffffffff
 
 Linker script and memory map
@@ -15406,257 +15407,261 @@ TextFlashSection
 .igot.plt       0x24000078        0x0 load address 0x08029f1c
  .igot.plt      0x24000078        0x0 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+dp/hard/crtbegin.o
 
-TouchGFX_Framebuffer
-                0x24000078   0x12c000 load address 0x08029f1c
- TouchGFX_Framebuffer
-                0x24000078   0x12c000 ./TouchGFX/target/generated/TouchGFXGeneratedHAL.o
-
 TouchGFX_ScratchbufferB
-                0x2412c080      0x100 load address 0x08155f1c
+                0x24000080      0x100 load address 0x08029f1c
  TouchGFX_ScratchbufferB
-                0x2412c080      0x100 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(LCD16bpp.o)
+                0x24000080      0x100 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(LCD16bpp.o)
 
 TouchGFX_ScratchbufferA
-                0x2412c180      0x100 load address 0x0815601c
+                0x24000180      0x100 load address 0x0802a01c
  TouchGFX_ScratchbufferA
-                0x2412c180      0x100 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(LCD16bpp.o)
-                0x2412c280                        . = ALIGN (0x4)
+                0x24000180      0x100 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(LCD16bpp.o)
+                0x24000280                        . = ALIGN (0x4)
 
-.bss            0x2412c280     0x1924 load address 0x0815611c
-                0x2412c280                        _sbss = .
-                0x2412c280                        __bss_start__ = _sbss
+.bss            0x24000280     0x1924 load address 0x0802a11c
+                0x24000280                        _sbss = .
+                0x24000280                        __bss_start__ = _sbss
  *(.bss)
- .bss           0x2412c280       0x1c C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+dp/hard/crtbegin.o
+ .bss           0x24000280       0x1c C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+dp/hard/crtbegin.o
  *(.bss*)
- .bss.hcrc      0x2412c29c       0x24 ./Core/Src/crc.o
-                0x2412c29c                hcrc
- .bss.hdma2d    0x2412c2c0       0x68 ./Core/Src/dma2d.o
-                0x2412c2c0                hdma2d
- .bss.hfdcan1   0x2412c328       0xa0 ./Core/Src/fdcan.o
-                0x2412c328                hfdcan1
- .bss.hsdram1   0x2412c3c8       0x34 ./Core/Src/fmc.o
-                0x2412c3c8                hsdram1
+ .bss.hcrc      0x2400029c       0x24 ./Core/Src/crc.o
+                0x2400029c                hcrc
+ .bss.hdma2d    0x240002c0       0x68 ./Core/Src/dma2d.o
+                0x240002c0                hdma2d
+ .bss.hfdcan1   0x24000328       0xa0 ./Core/Src/fdcan.o
+                0x24000328                hfdcan1
+ .bss.hsdram1   0x240003c8       0x34 ./Core/Src/fmc.o
+                0x240003c8                hsdram1
  .bss.FMC_Initialized
-                0x2412c3fc        0x4 ./Core/Src/fmc.o
- .bss.hi2c2     0x2412c400       0x54 ./Core/Src/i2c.o
-                0x2412c400                hi2c2
- .bss.hi2c4     0x2412c454       0x54 ./Core/Src/i2c.o
-                0x2412c454                hi2c4
- .bss.hltdc     0x2412c4a8       0xa8 ./Core/Src/ltdc.o
-                0x2412c4a8                hltdc
- .bss.RxHeader  0x2412c550       0x28 ./Core/Src/main.o
-                0x2412c550                RxHeader
- .bss.RxData    0x2412c578        0x8 ./Core/Src/main.o
-                0x2412c578                RxData
- .bss.vescL     0x2412c580       0x34 ./Core/Src/main.o
-                0x2412c580                vescL
- .bss.vescM     0x2412c5b4       0x34 ./Core/Src/main.o
-                0x2412c5b4                vescM
- .bss.vescR     0x2412c5e8       0x34 ./Core/Src/main.o
-                0x2412c5e8                vescR
- *fill*         0x2412c61c        0x4 
- .bss.MPU6050   0x2412c620       0x48 ./Core/Src/main.o
-                0x2412c620                MPU6050
+                0x240003fc        0x4 ./Core/Src/fmc.o
+ .bss.hi2c2     0x24000400       0x54 ./Core/Src/i2c.o
+                0x24000400                hi2c2
+ .bss.hi2c4     0x24000454       0x54 ./Core/Src/i2c.o
+                0x24000454                hi2c4
+ .bss.hltdc     0x240004a8       0xa8 ./Core/Src/ltdc.o
+                0x240004a8                hltdc
+ .bss.RxHeader  0x24000550       0x28 ./Core/Src/main.o
+                0x24000550                RxHeader
+ .bss.RxData    0x24000578        0x8 ./Core/Src/main.o
+                0x24000578                RxData
+ .bss.vescL     0x24000580       0x34 ./Core/Src/main.o
+                0x24000580                vescL
+ .bss.vescM     0x240005b4       0x34 ./Core/Src/main.o
+                0x240005b4                vescM
+ .bss.vescR     0x240005e8       0x34 ./Core/Src/main.o
+                0x240005e8                vescR
+ *fill*         0x2400061c        0x4 
+ .bss.MPU6050   0x24000620       0x48 ./Core/Src/main.o
+                0x24000620                MPU6050
  .bss.current_filtered.0
-                0x2412c668        0x4 ./Core/Src/main.o
+                0x24000668        0x4 ./Core/Src/main.o
  .bss.__sbrk_heap_end
-                0x2412c66c        0x4 ./Core/Src/sysmem.o
- .bss.uwTick    0x2412c670        0x4 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
-                0x2412c670                uwTick
+                0x2400066c        0x4 ./Core/Src/sysmem.o
+ .bss.uwTick    0x24000670        0x4 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
+                0x24000670                uwTick
  .bss._ZZ23getFont_verdana_10_4bppvE15verdana_10_4bpp
-                0x2412c674       0x2c ./TouchGFX/generated/fonts/src/Table_verdana_10_4bpp.o
+                0x24000674       0x2c ./TouchGFX/generated/fonts/src/Table_verdana_10_4bpp.o
  .bss._ZGVZ23getFont_verdana_10_4bppvE15verdana_10_4bpp
-                0x2412c6a0        0x4 ./TouchGFX/generated/fonts/src/Table_verdana_10_4bpp.o
+                0x240006a0        0x4 ./TouchGFX/generated/fonts/src/Table_verdana_10_4bpp.o
  .bss._ZZ23getFont_verdana_20_4bppvE15verdana_20_4bpp
-                0x2412c6a4       0x2c ./TouchGFX/generated/fonts/src/Table_verdana_20_4bpp.o
+                0x240006a4       0x2c ./TouchGFX/generated/fonts/src/Table_verdana_20_4bpp.o
  .bss._ZGVZ23getFont_verdana_20_4bppvE15verdana_20_4bpp
-                0x2412c6d0        0x4 ./TouchGFX/generated/fonts/src/Table_verdana_20_4bpp.o
+                0x240006d0        0x4 ./TouchGFX/generated/fonts/src/Table_verdana_20_4bpp.o
  .bss._ZZ23getFont_verdana_40_4bppvE15verdana_40_4bpp
-                0x2412c6d4       0x2c ./TouchGFX/generated/fonts/src/Table_verdana_40_4bpp.o
+                0x240006d4       0x2c ./TouchGFX/generated/fonts/src/Table_verdana_40_4bpp.o
  .bss._ZGVZ23getFont_verdana_40_4bppvE15verdana_40_4bpp
-                0x2412c700        0x4 ./TouchGFX/generated/fonts/src/Table_verdana_40_4bpp.o
+                0x24000700        0x4 ./TouchGFX/generated/fonts/src/Table_verdana_40_4bpp.o
  .bss._ZL14languagesArray
-                0x2412c704        0x4 ./TouchGFX/generated/texts/src/Texts.o
+                0x24000704        0x4 ./TouchGFX/generated/texts/src/Texts.o
  .bss._ZN8touchgfx5Texts15currentLanguageE
-                0x2412c708        0x2 ./TouchGFX/generated/texts/src/Texts.o
-                0x2412c708                touchgfx::Texts::currentLanguage
- *fill*         0x2412c70a        0x2 
+                0x24000708        0x2 ./TouchGFX/generated/texts/src/Texts.o
+                0x24000708                touchgfx::Texts::currentLanguage
+ *fill*         0x2400070a        0x2 
  .bss._ZL18currentLanguagePtr
-                0x2412c70c        0x4 ./TouchGFX/generated/texts/src/Texts.o
+                0x2400070c        0x4 ./TouchGFX/generated/texts/src/Texts.o
  .bss._ZL22currentLanguageIndices
-                0x2412c710        0x4 ./TouchGFX/generated/texts/src/Texts.o
+                0x24000710        0x4 ./TouchGFX/generated/texts/src/Texts.o
  .bss.touchgfx_fonts
-                0x2412c714        0xc ./TouchGFX/generated/texts/src/TypedTextDatabase.o
-                0x2412c714                touchgfx_fonts
+                0x24000714        0xc ./TouchGFX/generated/texts/src/TypedTextDatabase.o
+                0x24000714                touchgfx_fonts
  .bss._ZL6fb_sem
-                0x2412c720        0x4 ./TouchGFX/target/generated/OSWrappers.o
+                0x24000720        0x4 ./TouchGFX/target/generated/OSWrappers.o
  .bss._ZL9vsync_sem
-                0x2412c724        0x4 ./TouchGFX/target/generated/OSWrappers.o
+                0x24000724        0x4 ./TouchGFX/target/generated/OSWrappers.o
  .bss._ZZN12FrontendHeap11getInstanceEvE8instance
-                0x2412c728      0x240 ./TouchGFX/target/generated/TouchGFXConfiguration.o
-                0x2412c728                FrontendHeap::getInstance()::instance
+                0x24000728      0x240 ./TouchGFX/target/generated/TouchGFXConfiguration.o
+                0x24000728                FrontendHeap::getInstance()::instance
  .bss._ZGVZN12FrontendHeap11getInstanceEvE8instance
-                0x2412c968        0x4 ./TouchGFX/target/generated/TouchGFXConfiguration.o
-                0x2412c968                guard variable for FrontendHeap::getInstance()::instance
- .bss._ZL2tc    0x2412c96c        0x4 ./TouchGFX/target/generated/TouchGFXConfiguration.o
- .bss._ZL3dma   0x2412c970      0xda0 ./TouchGFX/target/generated/TouchGFXConfiguration.o
+                0x24000968        0x4 ./TouchGFX/target/generated/TouchGFXConfiguration.o
+                0x24000968                guard variable for FrontendHeap::getInstance()::instance
+ .bss._ZL2tc    0x2400096c        0x4 ./TouchGFX/target/generated/TouchGFXConfiguration.o
+ .bss._ZL3dma   0x24000970      0xda0 ./TouchGFX/target/generated/TouchGFXConfiguration.o
  .bss._ZL7display
-                0x2412d710       0x8c ./TouchGFX/target/generated/TouchGFXConfiguration.o
+                0x24001710       0x8c ./TouchGFX/target/generated/TouchGFXConfiguration.o
  .bss._ZL5texts
-                0x2412d79c        0x1 ./TouchGFX/target/generated/TouchGFXConfiguration.o
- *fill*         0x2412d79d        0x3 
- .bss._ZL3hal   0x2412d7a0       0x88 ./TouchGFX/target/generated/TouchGFXConfiguration.o
+                0x2400179c        0x1 ./TouchGFX/target/generated/TouchGFXConfiguration.o
+ *fill*         0x2400179d        0x3 
+ .bss._ZL3hal   0x240017a0       0x88 ./TouchGFX/target/generated/TouchGFXConfiguration.o
  .bss._ZN12_GLOBAL__N_1L19lcd_int_active_lineE
-                0x2412d828        0x2 ./TouchGFX/target/generated/TouchGFXGeneratedHAL.o
+                0x24001828        0x2 ./TouchGFX/target/generated/TouchGFXGeneratedHAL.o
  .bss._ZN12_GLOBAL__N_1L18lcd_int_porch_lineE
-                0x2412d82a        0x2 ./TouchGFX/target/generated/TouchGFXGeneratedHAL.o
+                0x2400182a        0x2 ./TouchGFX/target/generated/TouchGFXGeneratedHAL.o
  .bss._ZZN8touchgfx3HAL4tickEvE12touchTickCnt
-                0x2412d82c        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x2400182c        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
  .bss._ZN8touchgfx3HAL9isDrawingE
-                0x2412d82d        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d82d                touchgfx::HAL::isDrawing
+                0x2400182d        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x2400182d                touchgfx::HAL::isDrawing
  .bss._ZN8touchgfx3HAL16DISPLAY_ROTATIONE
-                0x2412d82e        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d82e                touchgfx::HAL::DISPLAY_ROTATION
+                0x2400182e        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x2400182e                touchgfx::HAL::DISPLAY_ROTATION
  .bss._ZN8touchgfx3HAL21USE_ANIMATION_STORAGEE
-                0x2412d82f        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d82f                touchgfx::HAL::USE_ANIMATION_STORAGE
+                0x2400182f        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x2400182f                touchgfx::HAL::USE_ANIMATION_STORAGE
  .bss._ZN8touchgfx3HAL20USE_DOUBLE_BUFFERINGE
-                0x2412d830        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d830                touchgfx::HAL::USE_DOUBLE_BUFFERING
- *fill*         0x2412d831        0x1 
+                0x24001830        0x1 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x24001830                touchgfx::HAL::USE_DOUBLE_BUFFERING
+ *fill*         0x24001831        0x1 
  .bss._ZN8touchgfx3HAL19FRAME_BUFFER_HEIGHTE
-                0x2412d832        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d832                touchgfx::HAL::FRAME_BUFFER_HEIGHT
+                0x24001832        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x24001832                touchgfx::HAL::FRAME_BUFFER_HEIGHT
  .bss._ZN8touchgfx3HAL18FRAME_BUFFER_WIDTHE
-                0x2412d834        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d834                touchgfx::HAL::FRAME_BUFFER_WIDTH
+                0x24001834        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x24001834                touchgfx::HAL::FRAME_BUFFER_WIDTH
  .bss._ZN8touchgfx3HAL14DISPLAY_HEIGHTE
-                0x2412d836        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d836                touchgfx::HAL::DISPLAY_HEIGHT
+                0x24001836        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x24001836                touchgfx::HAL::DISPLAY_HEIGHT
  .bss._ZN8touchgfx3HAL13DISPLAY_WIDTHE
-                0x2412d838        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d838                touchgfx::HAL::DISPLAY_WIDTH
- *fill*         0x2412d83a        0x2 
+                0x24001838        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x24001838                touchgfx::HAL::DISPLAY_WIDTH
+ *fill*         0x2400183a        0x2 
  .bss._ZN8touchgfx3HAL8instanceE
-                0x2412d83c        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
-                0x2412d83c                touchgfx::HAL::instance
+                0x2400183c        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(HAL.o)
+                0x2400183c                touchgfx::HAL::instance
  .bss._ZN8touchgfx3LCD12defaultColorE
-                0x2412d840        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(LCD.o)
-                0x2412d840                touchgfx::LCD::defaultColor
+                0x24001840        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(LCD.o)
+                0x24001840                touchgfx::LCD::defaultColor
  .bss._ZN8touchgfx16TouchCalibration6matrixE
-                0x2412d844       0x2c C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TouchCalibration.o)
-                0x2412d844                touchgfx::TouchCalibration::matrix
+                0x24001844       0x2c C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TouchCalibration.o)
+                0x24001844                touchgfx::TouchCalibration::matrix
  .bss._ZN8touchgfx11Application22debugRegionInvalidRectE
-                0x2412d870        0x8 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
-                0x2412d870                touchgfx::Application::debugRegionInvalidRect
+                0x24001870        0x8 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
+                0x24001870                touchgfx::Application::debugRegionInvalidRect
  .bss._ZN8touchgfx11Application12debugPrinterE
-                0x2412d878        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
-                0x2412d878                touchgfx::Application::debugPrinter
+                0x24001878        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
+                0x24001878                touchgfx::Application::debugPrinter
  .bss._ZN8touchgfx11Application17currentTransitionE
-                0x2412d87c        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
-                0x2412d87c                touchgfx::Application::currentTransition
+                0x2400187c        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
+                0x2400187c                touchgfx::Application::currentTransition
  .bss._ZN8touchgfx11Application13currentScreenE
-                0x2412d880        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
-                0x2412d880                touchgfx::Application::currentScreen
+                0x24001880        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
+                0x24001880                touchgfx::Application::currentScreen
  .bss._ZN8touchgfx11Application8instanceE
-                0x2412d884        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
-                0x2412d884                touchgfx::Application::instance
+                0x24001884        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Application.o)
+                0x24001884                touchgfx::Application::instance
  .bss._ZN8touchgfx9TypedText18numberOfTypedTextsE
-                0x2412d888        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
-                0x2412d888                touchgfx::TypedText::numberOfTypedTexts
- *fill*         0x2412d88a        0x2 
+                0x24001888        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
+                0x24001888                touchgfx::TypedText::numberOfTypedTexts
+ *fill*         0x2400188a        0x2 
  .bss._ZN8touchgfx9TypedText5fontsE
-                0x2412d88c        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
-                0x2412d88c                touchgfx::TypedText::fonts
+                0x2400188c        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
+                0x2400188c                touchgfx::TypedText::fonts
  .bss._ZN8touchgfx9TypedText5textsE
-                0x2412d890        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
-                0x2412d890                touchgfx::TypedText::texts
+                0x24001890        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
+                0x24001890                touchgfx::TypedText::texts
  .bss._ZN8touchgfx9TypedText10typedTextsE
-                0x2412d894        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
-                0x2412d894                touchgfx::TypedText::typedTexts
+                0x24001894        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(TypedText.o)
+                0x24001894                touchgfx::TypedText::typedTexts
  .bss._ZN8touchgfx11FontManager8providerE
-                0x2412d898        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(FontManager.o)
-                0x2412d898                touchgfx::FontManager::provider
+                0x24001898        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(FontManager.o)
+                0x24001898                touchgfx::FontManager::provider
  .bss._ZN8touchgfx6Bitmap13uncachedCountE
-                0x2412d89c        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d89c                touchgfx::Bitmap::uncachedCount
+                0x2400189c        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x2400189c                touchgfx::Bitmap::uncachedCount
  .bss._ZN8touchgfx6Bitmap22numberOfDynamicBitmapsE
-                0x2412d89e        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d89e                touchgfx::Bitmap::numberOfDynamicBitmaps
+                0x2400189e        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x2400189e                touchgfx::Bitmap::numberOfDynamicBitmaps
  .bss._ZN8touchgfx6Bitmap15numberOfBitmapsE
-                0x2412d8a0        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8a0                touchgfx::Bitmap::numberOfBitmaps
+                0x240018a0        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018a0                touchgfx::Bitmap::numberOfBitmaps
  .bss._ZN8touchgfx6Bitmap19nextAllocationIndexE
-                0x2412d8a2        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8a2                touchgfx::Bitmap::nextAllocationIndex
+                0x240018a2        0x2 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018a2                touchgfx::Bitmap::nextAllocationIndex
  .bss._ZN8touchgfx6Bitmap11totalMemoryE
-                0x2412d8a4        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8a4                touchgfx::Bitmap::totalMemory
+                0x240018a4        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018a4                touchgfx::Bitmap::totalMemory
  .bss._ZN8touchgfx6Bitmap15memoryRemainingE
-                0x2412d8a8        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8a8                touchgfx::Bitmap::memoryRemaining
+                0x240018a8        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018a8                touchgfx::Bitmap::memoryRemaining
  .bss._ZN8touchgfx6Bitmap12nextFreeDataE
-                0x2412d8ac        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8ac                touchgfx::Bitmap::nextFreeData
+                0x240018ac        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018ac                touchgfx::Bitmap::nextFreeData
  .bss._ZN8touchgfx6Bitmap15allocationTableE
-                0x2412d8b0        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8b0                touchgfx::Bitmap::allocationTable
+                0x240018b0        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018b0                touchgfx::Bitmap::allocationTable
  .bss._ZN8touchgfx6Bitmap10cacheTableE
-                0x2412d8b4        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8b4                touchgfx::Bitmap::cacheTable
+                0x240018b4        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018b4                touchgfx::Bitmap::cacheTable
  .bss._ZN8touchgfx6Bitmap10dynBitmapsE
-                0x2412d8b8        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8b8                touchgfx::Bitmap::dynBitmaps
+                0x240018b8        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018b8                touchgfx::Bitmap::dynBitmaps
  .bss._ZN8touchgfx6Bitmap7bitmapsE
-                0x2412d8bc        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
-                0x2412d8bc                touchgfx::Bitmap::bitmaps
+                0x240018bc        0x4 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc\libtouchgfx-float-abi-hard.a(Bitmap.o)
+                0x240018bc                touchgfx::Bitmap::bitmaps
  .bss.__malloc_sbrk_start
-                0x2412d8c0        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-mallocr.o)
-                0x2412d8c0                __malloc_sbrk_start
+                0x240018c0        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-mallocr.o)
+                0x240018c0                __malloc_sbrk_start
  .bss.__malloc_free_list
-                0x2412d8c4        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-mallocr.o)
-                0x2412d8c4                __malloc_free_list
- .bss.__sf      0x2412d8c8      0x138 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-findfp.o)
-                0x2412d8c8                __sf
+                0x240018c4        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-mallocr.o)
+                0x240018c4                __malloc_free_list
+ .bss.__sf      0x240018c8      0x138 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-findfp.o)
+                0x240018c8                __sf
  .bss.__stdio_exit_handler
-                0x2412da00        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-findfp.o)
-                0x2412da00                __stdio_exit_handler
- .bss.errno     0x2412da04        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-reent.o)
-                0x2412da04                errno
+                0x24001a00        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-findfp.o)
+                0x24001a00                __stdio_exit_handler
+ .bss.errno     0x24001a04        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-reent.o)
+                0x24001a04                errno
  .bss.__lock___malloc_recursive_mutex
-                0x2412da08        0x1 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-lock.o)
-                0x2412da08                __lock___malloc_recursive_mutex
+                0x24001a08        0x1 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-lock.o)
+                0x24001a08                __lock___malloc_recursive_mutex
  .bss.__lock___atexit_recursive_mutex
-                0x2412da09        0x1 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-lock.o)
-                0x2412da09                __lock___atexit_recursive_mutex
+                0x24001a09        0x1 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-lock.o)
+                0x24001a09                __lock___atexit_recursive_mutex
  .bss.__lock___sfp_recursive_mutex
-                0x2412da0a        0x1 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-lock.o)
-                0x2412da0a                __lock___sfp_recursive_mutex
- *fill*         0x2412da0b        0x1 
+                0x24001a0a        0x1 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-lock.o)
+                0x24001a0a                __lock___sfp_recursive_mutex
+ *fill*         0x24001a0b        0x1 
  .bss.__atexit0
-                0x2412da0c       0x8c C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-__atexit.o)
-                0x2412da0c                __atexit0
- .bss.__atexit  0x2412da98        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-__call_atexit.o)
-                0x2412da98                __atexit
+                0x24001a0c       0x8c C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-__atexit.o)
+                0x24001a0c                __atexit0
+ .bss.__atexit  0x24001a98        0x4 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-__call_atexit.o)
+                0x24001a98                __atexit
  .bss._on_exit_args_instance
-                0x2412da9c      0x108 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-on_exit_args.o)
+                0x24001a9c      0x108 C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(libc_a-on_exit_args.o)
  *(COMMON)
-                0x2412dba4                        . = ALIGN (0x4)
-                0x2412dba4                        _ebss = .
-                0x2412dba4                        __bss_end__ = _ebss
+                0x24001ba4                        . = ALIGN (0x4)
+                0x24001ba4                        _ebss = .
+                0x24001ba4                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x2412dba4      0x604 load address 0x0815611c
-                0x2412dba8                        . = ALIGN (0x8)
- *fill*         0x2412dba4        0x4 
+                0x24001ba4      0x604 load address 0x0802a11c
+                0x24001ba8                        . = ALIGN (0x8)
+ *fill*         0x24001ba4        0x4 
                 [!provide]                        PROVIDE (end = .)
-                0x2412dba8                        PROVIDE (_end = .)
-                0x2412dda8                        . = (. + _Min_Heap_Size)
- *fill*         0x2412dba8      0x200 
-                0x2412e1a8                        . = (. + _Min_Stack_Size)
- *fill*         0x2412dda8      0x400 
-                0x2412e1a8                        . = ALIGN (0x8)
+                0x24001ba8                        PROVIDE (_end = .)
+                0x24001da8                        . = (. + _Min_Heap_Size)
+ *fill*         0x24001ba8      0x200 
+                0x240021a8                        . = (. + _Min_Stack_Size)
+ *fill*         0x24001da8      0x400 
+                0x240021a8                        . = ALIGN (0x8)
+
+.TouchGFX_Framebuffer
+                0xc0000000   0x12c000
+                0xc0000000                        . = ALIGN (0x20)
+ *(.TouchGFX_Framebuffer)
+ *(TouchGFX_Framebuffer)
+ TouchGFX_Framebuffer
+                0xc0000000   0x12c000 ./TouchGFX/target/generated/TouchGFXGeneratedHAL.o
+                0xc012c000                        . = ALIGN (0x20)
 
 /DISCARD/
  libc.a(*)
