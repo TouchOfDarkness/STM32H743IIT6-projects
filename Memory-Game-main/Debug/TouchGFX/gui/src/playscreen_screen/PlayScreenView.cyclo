@@ -1,0 +1,23 @@
+../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp:91:5:touchgfx::colortype::colortype(uint32_t)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Bitmap.hpp:136:5:touchgfx::Bitmap::Bitmap(touchgfx::BitmapId)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp:62:10:void touchgfx::Box::setColor(touchgfx::colortype)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp:82:10:void touchgfx::Box::setAlpha(uint8_t)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Image.hpp:76:10:void touchgfx::Image::setAlpha(uint8_t)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:89:18:virtual void touchgfx::TextArea::setAlpha(uint8_t)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:79:10:void touchgfx::TextAreaWithOneWildcard::setWildcard1(const touchgfx::Unicode::UnicodeChar*)	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:98:10:void touchgfx::TextAreaWithOneWildcard::setWildcard(const touchgfx::Unicode::UnicodeChar*)	1
+../TouchGFX/gui/include/gui/playscreen_screen/PlayScreenView.hpp:32:13:PlayScreenView::~PlayScreenView()	1
+../TouchGFX/gui/include/gui/playscreen_screen/PlayScreenView.hpp:32:13:virtual PlayScreenView::~PlayScreenView()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:23:1:PlayScreenView::PlayScreenView()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:28:6:virtual void PlayScreenView::setupScreen()	2
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:84:6:virtual void PlayScreenView::tearDownScreen()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:89:6:virtual void PlayScreenView::handleTickEvent()	21
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:281:10:uint32_t PlayScreenView::UniqueRand_Get(uint32_t, uint32_t)	4
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:320:6:void PlayScreenView::SetTimer(uint16_t)	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:329:6:virtual void PlayScreenView::ColorButton1CallBack()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:334:6:virtual void PlayScreenView::ColorButton2CallBack()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:339:6:virtual void PlayScreenView::ColorButton3CallBack()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:344:6:virtual void PlayScreenView::ColorButton4CallBack()	1
+../TouchGFX/gui/src/playscreen_screen/PlayScreenView.cpp:349:6:void PlayScreenView::EnterColor(uint8_t)	9
