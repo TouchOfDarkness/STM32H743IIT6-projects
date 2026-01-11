@@ -13,49 +13,49 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   4 FontSearchFlashSection 00000018  080168dc  080168dc  000178dc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 TextFlashSection 0000000a  080168f4  080168f4  000178f4  2**2
+  5 ExtFlashSection 00013880  080168f4  080168f4  000178f4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  6 .ARM          00000008  08016900  08016900  00017900  2**2
+  6 TextFlashSection 0000000a  0802a174  0802a174  0002b174  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .init_array   00000014  08016908  08016908  00017908  2**2
+  7 .ARM          00000008  0802a180  0802a180  0002b180  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .fini_array   00000008  0801691c  0801691c  0001791c  2**2
+  8 .init_array   00000014  0802a188  0802a188  0002b188  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  9 .data         00000078  24000000  08016924  00018000  2**2
+  9 .fini_array   00000008  0802a19c  0802a19c  0002b19c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 10 .data         00000078  24000000  0802a1a4  0002c000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
- 10 TouchGFX_ScratchbufferB 00000100  24000080  0801699c  00018080  2**5
+ 11 TouchGFX_ScratchbufferB 00000100  24000080  0802a21c  0002c080  2**5
                   CONTENTS, ALLOC, LOAD, DATA
- 11 TouchGFX_ScratchbufferA 00000100  24000180  08016a9c  00018180  2**5
+ 12 TouchGFX_ScratchbufferA 00000100  24000180  0802a31c  0002c180  2**5
                   CONTENTS, ALLOC, LOAD, DATA
- 12 .bss          00001970  24000280  08016b9c  00018280  2**3
+ 13 .bss          00001970  24000280  0802a41c  0002c280  2**3
                   ALLOC
- 13 ._user_heap_stack 00000600  24001bf0  08016b9c  00018bf0  2**0
+ 14 ._user_heap_stack 00000600  24001bf0  0802a41c  0002cbf0  2**0
                   ALLOC
- 14 ExtFlashSection 00013880  90000000  90000000  00019000  2**2
-                  CONTENTS, ALLOC, LOAD, READONLY, DATA
  15 TouchGFX_Framebuffer 0012c000  c0000000  c0000000  0002d000  2**2
                   ALLOC
- 16 .ARM.attributes 0000002e  00000000  00000000  0002c880  2**0
+ 16 .ARM.attributes 0000002e  00000000  00000000  0002c280  2**0
                   CONTENTS, READONLY
- 17 .debug_info   00084ed6  00000000  00000000  0002c8ae  2**0
+ 17 .debug_info   00084ed6  00000000  00000000  0002c2ae  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_abbrev 0000f575  00000000  00000000  000b1784  2**0
+ 18 .debug_abbrev 0000f575  00000000  00000000  000b1184  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_aranges 00002a58  00000000  00000000  000c0d00  2**3
+ 19 .debug_aranges 00002a58  00000000  00000000  000c0700  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_rnglists 00001f2e  00000000  00000000  000c3758  2**0
+ 20 .debug_rnglists 00001f2e  00000000  00000000  000c3158  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_macro  00043068  00000000  00000000  000c5686  2**0
+ 21 .debug_macro  00043068  00000000  00000000  000c5086  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line   00037e1b  00000000  00000000  001086ee  2**0
+ 22 .debug_line   00037e1b  00000000  00000000  001080ee  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_str    0017fa48  00000000  00000000  00140509  2**0
+ 23 .debug_str    0017fa48  00000000  00000000  0013ff09  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .comment      00000088  00000000  00000000  002bff51  2**0
+ 24 .comment      00000088  00000000  00000000  002bf951  2**0
                   CONTENTS, READONLY
- 25 .debug_frame  0000b7b4  00000000  00000000  002bffdc  2**2
+ 25 .debug_frame  0000b7b4  00000000  00000000  002bf9dc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 26 .debug_line_str 0000006d  00000000  00000000  002cb790  2**0
+ 26 .debug_line_str 0000006d  00000000  00000000  002cb190  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -4870,7 +4870,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  80020d0:	24000078 	.word	0x24000078
   ldr r2, =_sidata
- 80020d4:	08016924 	.word	0x08016924
+ 80020d4:	0802a1a4 	.word	0x0802a1a4
   ldr r2, =_sbss
  80020d8:	24000280 	.word	0x24000280
   ldr r4, =_ebss
@@ -25960,8 +25960,8 @@ void touchgfx::Texts::setLanguage(touchgfx::LanguageId id)
  8009cac:	24000750 	.word	0x24000750
  8009cb0:	24000758 	.word	0x24000758
  8009cb4:	2400075c 	.word	0x2400075c
- 8009cb8:	080168f8 	.word	0x080168f8
- 8009cbc:	080168f4 	.word	0x080168f4
+ 8009cb8:	0802a178 	.word	0x0802a178
+ 8009cbc:	0802a174 	.word	0x0802a174
  8009cc0:	08015d44 	.word	0x08015d44
  8009cc4:	24000754 	.word	0x24000754
 
@@ -45461,10 +45461,10 @@ extern "C"
  80145d6:	4798      	blx	r3
  80145d8:	3601      	adds	r6, #1
  80145da:	e7f2      	b.n	80145c2 <__libc_init_array+0x1e>
- 80145dc:	08016908 	.word	0x08016908
- 80145e0:	08016908 	.word	0x08016908
- 80145e4:	08016908 	.word	0x08016908
- 80145e8:	0801691c 	.word	0x0801691c
+ 80145dc:	0802a188 	.word	0x0802a188
+ 80145e0:	0802a188 	.word	0x0802a188
+ 80145e4:	0802a188 	.word	0x0802a188
+ 80145e8:	0802a19c 	.word	0x0802a19c
 
 080145ec <__retarget_lock_init_recursive>:
  80145ec:	4770      	bx	lr

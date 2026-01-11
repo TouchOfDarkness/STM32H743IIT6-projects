@@ -109,7 +109,7 @@ main-build: Rower_elektryczny.elf secondary-outputs
 
 # Tool invocations
 Rower_elektryczny.elf Rower_elektryczny.map: $(OBJS) $(USER_OBJS) C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "Rower_elektryczny.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static -L"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+	arm-none-eabi-g++ -o "Rower_elektryczny.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static -L"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

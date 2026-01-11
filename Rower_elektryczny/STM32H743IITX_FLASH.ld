@@ -176,13 +176,6 @@ SECTIONS
     libm.a ( * )
     libgcc.a ( * )
   }
-
-	ExtFlashSection :
-	{
-		*(ExtFlashSection ExtFlashSection.*)
-		*(.gnu.linkonce.r.*)
-        . = ALIGN(0x4);
-	} >QUADSPI
 	
 	TouchGFX_Framebuffer (NOLOAD) :
   {
