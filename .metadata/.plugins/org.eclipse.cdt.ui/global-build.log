@@ -1,17 +1,11 @@
-17:07:42 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+18:35:48 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
-arm-none-eabi-g++ -o "Rower_elektryczny.elf" @"objects.list"  -l:libtouchgfx-float-abi-hard.a -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static -L"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
-Finished building target: Rower_elektryczny.elf
- 
 arm-none-eabi-size  Rower_elektryczny.elf 
-arm-none-eabi-objdump -h -S Rower_elektryczny.elf  > "Rower_elektryczny.list"
    text	   data	    bss	    dec	    hex	filename
  171672	    632	1236776	1409080	 158038	Rower_elektryczny.elf
 Finished building: default.size.stdout
  
-Finished building: Rower_elektryczny.list
- 
-17:08:07 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+18:36:39 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
 arm-none-eabi-size  Rower_elektryczny.elf 
    text	   data	    bss	    dec	    hex	filename
