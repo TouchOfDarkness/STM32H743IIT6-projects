@@ -42,7 +42,8 @@ void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef* hsdram);
 void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram);
 
 /* USER CODE BEGIN Prototypes */
-
+#define FMC_SDRAM_TIMEOUT           ((uint32_t)0xFFFF)
+void MX_SDRAM_Initialization_Sequence(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

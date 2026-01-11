@@ -24,7 +24,6 @@
 #include "i2c.h"
 #include "ltdc.h"
 #include "memorymap.h"
-#include "quadspi.h"
 #include "gpio.h"
 #include "fmc.h"
 #include "app_touchgfx.h"
@@ -178,7 +177,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_FMC_Init();
-  MX_QUADSPI_Init();
   MX_LTDC_Init();
   MX_DMA2D_Init();
   MX_FDCAN1_Init();

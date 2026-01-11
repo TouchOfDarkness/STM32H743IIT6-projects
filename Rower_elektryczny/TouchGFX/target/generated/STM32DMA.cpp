@@ -33,22 +33,21 @@ typedef struct
     const uint32_t* const data;
 } clutData_t;
 
-extern "C" void DMA2D_IRQHandler()
-{
-    /* Transfer Complete Interrupt management */
-    if ((READ_REG(DMA2D->ISR) & DMA2D_FLAG_TC) != RESET)
+extern "C" DMA2D_HandleTypeDef hdma2d;
+
+extern "C" {
+    static void DMA2D_XferCpltCallback(DMA2D_HandleTypeDef* handle)
     {
-        /* Verify Transfer Complete Interrupt */
-        if ((READ_REG(DMA2D->CR) & DMA2D_IT_TC) != RESET)
+        (void)handle; // Unused argument
+        HAL::getInstance()->signalDMAInterrupt();
+    }
+
+    static void DMA2D_XferErrorCallback(DMA2D_HandleTypeDef* handle)
+    {
+        (void)handle; // Unused argument
+        while (1)
         {
-            /* Disable the transfer complete interrupt */
-            DMA2D->CR &= ~(DMA2D_IT_TC);
 
-            /* Clear the transfer complete flag */
-            DMA2D->IFCR = (DMA2D_FLAG_TC);
-
-            /* Signal DMA queue of execution complete */
-            touchgfx::HAL::getInstance()->signalDMAInterrupt();
         }
     }
 }
@@ -71,9 +70,14 @@ void STM32DMA::initialize()
     __HAL_RCC_DMA2D_FORCE_RESET();
     __HAL_RCC_DMA2D_RELEASE_RESET();
 
+    /* Add transfer error callback function */
+    hdma2d.XferErrorCallback = DMA2D_XferErrorCallback;
+
+    /* Add transfer complete callback function */
+    hdma2d.XferCpltCallback = DMA2D_XferCpltCallback;
+
     /* Enable DMA2D global Interrupt */
-    HAL_NVIC_SetPriority(DMA2D_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(DMA2D_IRQn);
+    NVIC_EnableIRQ(DMA2D_IRQn);
 }
 
 inline uint32_t STM32DMA::getChromARTInputFormat(Bitmap::BitmapFormat format)
