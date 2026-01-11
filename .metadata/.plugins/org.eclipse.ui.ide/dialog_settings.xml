@@ -16,6 +16,8 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\romel\STM32CubeIDE\workspace_1.17.0"/>
+			<item value="C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Memory-Game-main"/>
 			<item value="C:\Users\kamil\STM32CubeIDE\workspace_1.17.0\Rower elektryczny"/>
 		</list>
 	</section>
@@ -34,5 +36,9 @@
 		<item key="DIALOG_WIDTH" value="662"/>
 		<item key="DIALOG_HEIGHT" value="529"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+	<section name="BasicNewProjectResourceWizard">
 	</section>
 </section>
