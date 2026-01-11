@@ -44,14 +44,14 @@ void MX_LTDC_Init(void)
   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
   hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
   hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
-  hltdc.Init.HorizontalSync = 19;
-  hltdc.Init.VerticalSync = 2;
-  hltdc.Init.AccumulatedHBP = 159;
+  hltdc.Init.HorizontalSync = 7;
+  hltdc.Init.VerticalSync = 5;
+  hltdc.Init.AccumulatedHBP = 147;
   hltdc.Init.AccumulatedVBP = 22;
-  hltdc.Init.AccumulatedActiveW = 1183;
+  hltdc.Init.AccumulatedActiveW = 1171;
   hltdc.Init.AccumulatedActiveH = 622;
-  hltdc.Init.TotalWidth = 1343;
-  hltdc.Init.TotalHeigh = 634;
+  hltdc.Init.TotalWidth = 1327;
+  hltdc.Init.TotalHeigh = 638;
   hltdc.Init.Backcolor.Blue = 0;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
@@ -71,9 +71,9 @@ void MX_LTDC_Init(void)
   pLayerCfg.FBStartAdress = 0xc0000000;
   pLayerCfg.ImageWidth = 1024;
   pLayerCfg.ImageHeight = 600;
-  pLayerCfg.Backcolor.Blue = 0;
-  pLayerCfg.Backcolor.Green = 0;
-  pLayerCfg.Backcolor.Red = 0;
+  pLayerCfg.Backcolor.Blue = 255;
+  pLayerCfg.Backcolor.Green = 255;
+  pLayerCfg.Backcolor.Red = 255;
   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
   {
     Error_Handler();

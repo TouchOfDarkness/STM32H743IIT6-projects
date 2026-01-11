@@ -50,7 +50,6 @@ MEMORY
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
   ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
   
-  SDRAM (xrw)   : ORIGIN = 0xC0000000, LENGTH = 32M
 }
 
 /* Define output sections */
@@ -168,13 +167,6 @@ SECTIONS
     . = ALIGN(8);
   } >RAM_D1
   
-  .TouchGFX_Framebuffer (NOLOAD) :
-  {
-  . = ALIGN(32);
-  *(.TouchGFX_Framebuffer)
-  *(TouchGFX_Framebuffer)
-  . = ALIGN(32);
-  } >SDRAM
   
   
   /* Remove information from the standard libraries */

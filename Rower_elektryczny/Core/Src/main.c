@@ -24,6 +24,7 @@
 #include "i2c.h"
 #include "ltdc.h"
 #include "memorymap.h"
+#include "quadspi.h"
 #include "gpio.h"
 #include "fmc.h"
 #include "app_touchgfx.h"
@@ -183,6 +184,7 @@ int main(void)
   MX_I2C4_Init();
   MX_I2C2_Init();
   MX_CRC_Init();
+  MX_QUADSPI_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
   // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)

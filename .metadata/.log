@@ -5633,3 +5633,28 @@ java.lang.Exception: Resource '/5-Memory-Game' does not exist.
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:651)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:588)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1459)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-01-11 21:19:43.468
+!MESSAGE Indexed '5-Memory-Game' (0 sources, 0 headers) in 0.001 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-01-11 21:19:57.297
+!MESSAGE Indexed '5-Memory-Game' (60 sources, 132 headers) in 9.66 sec: 14,334 declarations; 109,855 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0016%)
+!SESSION 2026-01-11 21:45:14.258 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pl_PL
+Framework arguments:  C:\Users\romel\STM32CubeIDE\workspace_1.17.0\5-Memory-Game\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\romel\STM32CubeIDE\workspace_1.17.0\5-Memory-Game\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-01-11 21:45:18.660
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-01-11 21:45:18.662
+!MESSAGE Log4j2 initialized with config file C:\Users\romel\STM32CubeIDE\workspace_1.17.0\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-01-11 21:45:24.663
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-01-11 21:45:46.215
+!MESSAGE Indexed '5-Memory-Game' (159 sources, 668 headers) in 21.3 sec: 73,200 declarations; 231,642 references; 12 unresolved inclusions; 769 syntax errors; 1,541 unresolved names (0.5%)
