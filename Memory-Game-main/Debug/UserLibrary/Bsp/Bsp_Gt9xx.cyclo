@@ -1,0 +1,8 @@
+../UserLibrary/Bsp/Bsp_Gt9xx.c:6:6:Touch_INT_Out	1
+../UserLibrary/Bsp/Bsp_Gt9xx.c:18:6:Touch_INT_In	1
+../UserLibrary/Bsp/Bsp_Gt9xx.c:30:6:GT9XX_Reset	1
+../UserLibrary/Bsp/Bsp_Gt9xx.c:44:9:GT9XX_WriteData	1
+../UserLibrary/Bsp/Bsp_Gt9xx.c:53:9:GT9XX_WriteReg	1
+../UserLibrary/Bsp/Bsp_Gt9xx.c:62:9:GT9XX_ReadReg	1
+../UserLibrary/Bsp/Bsp_Gt9xx.c:71:9:Touch_Init	2
+../UserLibrary/Bsp/Bsp_Gt9xx.c:96:6:Touch_Scan	4

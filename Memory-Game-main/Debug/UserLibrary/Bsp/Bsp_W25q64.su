@@ -1,0 +1,14 @@
+../UserLibrary/Bsp/Bsp_W25q64.c:4:8:QSPI_W25Qxx_Init	16	static
+../UserLibrary/Bsp/Bsp_W25q64.c:21:8:QSPI_W25Qxx_AutoPollingMemReady	88	static
+../UserLibrary/Bsp/Bsp_W25q64.c:51:8:QSPI_W25Qxx_Reset	64	static
+../UserLibrary/Bsp/Bsp_W25q64.c:89:10:QSPI_W25Qxx_ReadID	72	static
+../UserLibrary/Bsp/Bsp_W25q64.c:122:8:QSPI_W25Qxx_MemoryMappedMode	72	static
+../UserLibrary/Bsp/Bsp_W25q64.c:151:8:QSPI_W25Qxx_WriteEnable	88	static
+../UserLibrary/Bsp/Bsp_W25q64.c:189:8:QSPI_W25Qxx_SectorErase	72	static
+../UserLibrary/Bsp/Bsp_W25q64.c:222:8:QSPI_W25Qxx_BlockErase_32K	72	static
+../UserLibrary/Bsp/Bsp_W25q64.c:255:8:QSPI_W25Qxx_BlockErase_64K	72	static
+../UserLibrary/Bsp/Bsp_W25q64.c:288:8:QSPI_W25Qxx_ChipErase	88	static
+../UserLibrary/Bsp/Bsp_W25q64.c:333:8:QSPI_W25Qxx_WritePage	80	static
+../UserLibrary/Bsp/Bsp_W25q64.c:372:8:QSPI_W25Qxx_WriteBuffer	40	static
+../UserLibrary/Bsp/Bsp_W25q64.c:419:8:QSPI_W25Qxx_ReadBuffer	80	static
+../UserLibrary/Bsp/Bsp_W25q64.c:465:8:QSPI_W25Qxx_Test	16	static

@@ -164,7 +164,7 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >DTCMRAM
-
+  
   /* Remove information from the standard libraries */
   /DISCARD/ :
   {
@@ -174,4 +174,6 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+  
+  
 }

@@ -25,7 +25,6 @@
 #include "ltdc.h"
 #include "memorymap.h"
 #include "quadspi.h"
-#include "sdmmc.h"
 #include "gpio.h"
 #include "fmc.h"
 #include "app_touchgfx.h"
@@ -54,23 +53,91 @@
 
 /* USER CODE BEGIN PV */
 FDCAN_RxHeaderTypeDef RxHeader;
-uint8_t RxData[8];
+uint8_t RxData[8]; // Bufor na dane odebrane z VESC
+uint8_t TxData[8]; // Bufor na dane do wysłania
+// --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
+FDCAN_TxHeaderTypeDef TxHeader;
+typedef struct {
+    // === STATUS 1 (Komenda 0x09) ===
+    volatile int32_t rpm;           // Prędkość obrotowa (ERPM)
+    volatile float current_motor;   // Prąd na silniku (A)
+    volatile float duty_cycle;      // Wypełnienie (0.00 - 1.00)
 
-// Zmienne dla VESC 47 (Środkowy)
-int32_t vesc47_rpm = 0;
-float vesc47_current = 0.0f;
-float vesc47_duty = 0.0f;
+    // === STATUS 2 (Komenda 0x0E) ===
+    volatile float amp_hours;       // Zużyte amperogodziny (Ah)
+    volatile float amp_hours_chg;   // Odzyskane amperogodziny (ładowanie)
 
-// Zmienne dla VESC 5 (Lewy) - opcjonalnie
-int32_t vesc5_rpm = 0;
-float vesc5_current = 0.0f;
+    // === STATUS 3 (Komenda 0x0F) ===
+    volatile float watt_hours;      // Zużyte watogodziny (Wh)
+    volatile float watt_hours_chg;  // Odzyskane watogodziny (ładowanie)
+
+    // === STATUS 4 (Komenda 0x10) ===
+    volatile float temp_fet;        // Temperatura MOSFET-ów (st. C)
+    volatile float temp_motor;      // Temperatura Silnika (st. C)
+    volatile float current_in;      // Prąd pobierany z baterii (A)
+    volatile float pid_pos;         // Pozycja PID (kąt 0-360)
+
+    // === STATUS 5 (Komenda 0x1B) ===
+    volatile int32_t tacho_value;   // Licznik obrotów (przebieg)
+    volatile float v_in;            // Napięcie baterii (V)
+
+} VescData_t;
+
+// --- 2. INSTANCJE DLA SILNIKÓW ---
+// Ustawiamy ID Twoich VESC-ów
+#define VESC_ID_L  1   // Lewy
+#define VESC_ID_M  2   // Środkowy
+#define VESC_ID_R  3   // Prawy (przykładowo)
+
+VescData_t vescL; // Zmienna dla lewego
+VescData_t vescM; // Zmienna dla środkowego
+VescData_t vescR; // Zmienna dla prawego
+
+
+// --- MPU6050 DEFINICJE ---
+#define MPU6050_ADDR 0xD0 // Adres urządzenia (0x68 << 1)
+#define SMPLRT_DIV_REG 0x19
+#define GYRO_CONFIG_REG 0x1B
+#define ACCEL_CONFIG_REG 0x1C
+#define ACCEL_XOUT_H_REG 0x3B
+#define TEMP_OUT_H_REG 0x41
+#define GYRO_XOUT_H_REG 0x43
+#define PWR_MGMT_1_REG 0x6B
+#define WHO_AM_I_REG 0x75
+
+// Struktura przechowująca dane z czujnika
+typedef struct {
+    int16_t Accel_X_RAW;
+    int16_t Accel_Y_RAW;
+    int16_t Accel_Z_RAW;
+    double Ax; // Przyspieszenie w g
+    double Ay;
+    double Az;
+
+    int16_t Gyro_X_RAW;
+    int16_t Gyro_Y_RAW;
+    int16_t Gyro_Z_RAW;
+    double Gx; // Prędkość kątowa w deg/s
+    double Gy;
+    double Gz;
+
+    float Temperature;
+} MPU6050_t;
+
+MPU6050_t MPU6050; // Globalna instancja struktury
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
+void VESC_SetDuty(uint8_t controller_id, float dutyCycle);
+void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen);
 
+uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx);
+void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -111,49 +178,102 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_FMC_Init();
-  MX_QUADSPI_Init();
   MX_LTDC_Init();
   MX_DMA2D_Init();
   MX_FDCAN1_Init();
   MX_I2C4_Init();
-  MX_SDMMC2_SD_Init();
   MX_I2C2_Init();
   MX_CRC_Init();
+  MX_QUADSPI_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
-  // 1. Konfiguracja "Bierz Wszystko" (najbezpieczniejsza dla Ciebie)
-    if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1,
-                                     FDCAN_ACCEPT_IN_RX_FIFO0, // STD -> FIFO0
-                                     FDCAN_ACCEPT_IN_RX_FIFO0, // EXT (VESC) -> FIFO0
-                                     FDCAN_REJECT,
-                                     FDCAN_REJECT) != HAL_OK)
+  // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
+    // VESC wysyła ramki z ID rozszerzonym (29-bit).
+    FDCAN_FilterTypeDef sFilterConfig;
+
+    sFilterConfig.IdType = FDCAN_EXTENDED_ID;
+    sFilterConfig.FilterIndex = 0;
+    sFilterConfig.FilterType = FDCAN_FILTER_MASK;
+    sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+    sFilterConfig.FilterID1 = 0;     // Akceptuj wszystko
+    sFilterConfig.FilterID2 = 0;     // Maska 0 = ignoruj bity ID (bierz wszystko jak leci)
+
+    if (HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK)
     {
-        Error_Handler();
+      Error_Handler();
     }
 
-    // 2. Start modułu CAN
+    // 2. Start modułu FDCAN
     if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
     {
-        Error_Handler();
+      Error_Handler();
     }
 
-    // 3. Włączamy powiadomienie (Przerwanie) o nowej wiadomości w FIFO0
-    // To jest klucz do działania bez pętli while!
+    // 3. Włączenie przerwań (chcemy wiedzieć, kiedy przyjdzie nowa wiadomość)
     if (HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
     {
-        Error_Handler();
+      Error_Handler();
     }
+    if (MPU6050_Init(&hi2c2) == 0) {
+          // Opcjonalnie: mignij diodą, że MPU OK
+      }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+    // Zmienna do filtra (musi być static, żeby pamiętała wartość z poprzedniego obiegu)
+      static float current_filtered = 0.0f;
+
+      // Konfiguracja Twojej krzywej
+      const float MAX_GEN_RPM = 10000.0f; // Przy jakich obrotach chcesz miec PEŁNĄ MOC (zwiększ jeśli 8000 to za mało)
+      const float MAX_CURRENT = 20.0f;    // Maksymalny prąd w Amperach
+      const float RAMP_FACTOR = 0.05f;    // Jak szybko prąd ma gonić cel (0.01 = bardzo wolno/płynnie, 0.1 = szybko)
+
+
   while (1)
   {
-	  HAL_Delay(100);
     /* USER CODE END WHILE */
 
   MX_TouchGFX_Process();
     /* USER CODE BEGIN 3 */
+	  MPU6050_Read_All(&hi2c2, &MPU6050);
+	  // 1. Pobierz obroty
+	      int32_t rpm_raw = vescM.rpm;
+	      if (rpm_raw < 0) rpm_raw = 0; // Zabezpieczenie przed ujemnymi
+
+	      // 2. Martwa strefa (np. do 200 erpm nic nie rób, żeby silnik nie buczał na postoju)
+	      if (rpm_raw < 200) rpm_raw = 0;
+
+	      // --- MAGIA MATEMATYKI (Krzywa Kwadratowa) ---
+
+	      // A. Obliczamy w jakim % drogi do maksa jesteśmy (0.0 do 1.0)
+	      float throttle_pos = (float)rpm_raw / MAX_GEN_RPM;
+	      if (throttle_pos > 1.0f) throttle_pos = 1.0f; // Nie przekraczaj 100%
+
+	      // B. Podnosimy do kwadratu -> To daje łagodny start!
+	      // Przykład:
+	      // Liniowo: 50% RPM = 50% Prądu
+	      // Kwadratowo: 0.5 * 0.5 = 0.25 (czyli przy połowie obrotów masz tylko 25% mocy!)
+	      float current_target = throttle_pos * throttle_pos * MAX_CURRENT;
+
+	      // --- FILTROWANIE (RAMPING) ---
+	      // To realizuje Twoją prośbę o "mniejsze przyrosty".
+	      // Prąd nie skacze od razu do celu, tylko zbliża się o 5% różnicy w każdym kroku pętli.
+	      current_filtered = (current_filtered * (1.0f - RAMP_FACTOR)) + (current_target * RAMP_FACTOR);
+
+	      // Zabezpieczenie "na wszelki wypadek"
+	      if (current_filtered < 0.1f) current_filtered = 0.0f; // Zeruj małe śmieci
+
+	      // 3. Wyślij wygładzony, "miękki" prąd na silniki
+	      VESC_SetCurrent(VESC_ID_L, current_filtered);
+
+	      // Krótkie opóźnienie dla stabilności CAN (ważne przy 3 VESC)
+	      HAL_Delay(1);
+
+	      VESC_SetCurrent(VESC_ID_R, current_filtered);
+
+	      // Częstotliwość pętli (ok 50Hz)
+	      HAL_Delay(20);
   }
   /* USER CODE END 3 */
 }
@@ -183,6 +303,10 @@ void SystemClock_Config(void)
   HAL_PWR_EnableBkUpAccess();
   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
+  /** Macro to configure the PLL clock source
+  */
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -196,16 +320,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.CSIState = RCC_CSI_ON;
   RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 10;
-  RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 3;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
-  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOMEDIUM;
-  RCC_OscInitStruct.PLL.PLLFRACN = 0;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -246,41 +361,184 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-// Callback - wywołuje się sam, gdy przyjdzie wiadomość
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 {
-    // Czy powodem przerwania jest nowa wiadomość?
+    // Czy przyszła nowa wiadomość?
     if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != 0)
     {
         // Pobierz wiadomość
         if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK)
         {
-            // --- DEKODOWANIE ---
+            // 1. Rozpoznanie KTO wysłał (ID VESC)
             uint8_t id_nadawcy = (RxHeader.Identifier & 0xFF);
+
+            // 2. Rozpoznanie CO wysłał (Komenda)
             uint8_t komenda = (RxHeader.Identifier >> 8) & 0xFF;
 
-            // Sprawdzamy czy to pakiet STATUS 1 (0x09)
-            if (komenda == 0x09)
+            // 3. Wybór odpowiedniej struktury (Wskaźnik)
+            VescData_t *target = NULL;
+
+            if      (id_nadawcy == VESC_ID_M) target = &vescM; // Środkowy
+            else if (id_nadawcy == VESC_ID_L) target = &vescL; // Lewy
+            else if (id_nadawcy == VESC_ID_R) target = &vescR; // Prawy
+
+            // Jeśli znaleźliśmy pasujący silnik, dekodujemy dane
+            if (target != NULL)
             {
-                // VESC 47 (Twój główny)
-                if (id_nadawcy == 47)
+                switch (komenda)
                 {
-                    vesc47_rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-                    vesc47_current = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
-                    vesc47_duty = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 1000.0f;
-                }
-                // VESC 5 (Inny silnik - przykład jak łatwo dodać kolejny)
-                else if (id_nadawcy == 5)
-                {
-                    vesc5_rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
-                    vesc5_current = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                    // --- STATUS 1: RPM, Prąd Silnika, Duty ---
+                    case 0x09:
+                        target->rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                        target->current_motor = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        target->duty_cycle = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 1000.0f;
+                        break;
+
+                        // --- STATUS 2: Ah zużyte, Ah odzyskane ---
+                        case 0x0E:
+                            target->amp_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                            // POPRAWKA PONIŻEJ: 24, 16, 8, 0
+                            target->amp_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                            break;
+
+                        // --- STATUS 3: Wh zużyte, Wh odzyskane ---
+                        case 0x0F:
+                             target->watt_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                             // POPRAWKA PONIŻEJ: 24, 16, 8, 0
+                             target->watt_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                            break;
+
+                    // --- STATUS 4: Temperatury, Prąd Baterii ---
+                    case 0x10:
+                        target->temp_fet = (float)((int16_t)((RxData[0] << 8) | RxData[1])) / 10.0f;
+                        target->temp_motor = (float)((int16_t)((RxData[2] << 8) | RxData[3])) / 10.0f;
+                        target->current_in = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        target->pid_pos = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 50.0f;
+                        break;
+
+                    // --- STATUS 5: Tachometr, Napięcie Baterii ---
+                    case 0x1B:
+                        target->tacho_value = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                        target->v_in = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }
-
-        // WAŻNE: Ponowne włączenie powiadomień (niektóre wersje bibliotek HAL tego wymagają,
-        // choć w FDCAN zazwyczaj jest to ciągłe, ale nie zaszkodzi dodać dla pewności)
+        // Ponowne włączenie nasłuchiwania
         HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+    }
+}
+
+// --- Funkcja ustawiania PRĄDU (Momentu) ---
+// Komenda 0x01 w VESC to Set Current
+void VESC_SetCurrent(uint8_t controller_id, float current_amps)
+{
+    // 1. Zabezpieczenie przed ujemnym prądem (chyba że chcesz hamować/wsteczny)
+    // Zakładamy, że rower jedzie tylko do przodu.
+    if (current_amps < 0.0f) current_amps = 0.0f;
+
+    // 2. Zabezpieczenie maksymalnego prądu (bezpiecznik programowy)
+    // Z tabelki wynika max 20A, ale dajmy bezpiecznik np. 30A
+    if (current_amps > 30.0f) current_amps = 30.0f;
+
+    // 3. Skalowanie: VESC oczekuje prądu * 1000 (miliampery)
+    int32_t send_val = (int32_t)(current_amps * 1000.0f);
+
+    FDCAN_TxHeaderTypeDef TxHeader;
+    uint8_t TxData[4];
+
+    // Budowa ID ramki: [KOMENDA 0x01] [ID_STEROWNIKA]
+    TxHeader.Identifier = (uint32_t)controller_id | ((uint32_t)0x01 << 8);
+
+    // Konfiguracja FDCAN (identyczna jak w działającym SetDuty)
+    TxHeader.IdType = FDCAN_EXTENDED_ID;
+    TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+    TxHeader.DataLength = FDCAN_DLC_BYTES_4;
+    TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+    TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+    TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    TxHeader.MessageMarker = 0;
+
+    // Pakowanie danych (Big Endian)
+    TxData[0] = (uint8_t)((send_val >> 24) & 0xFF);
+    TxData[1] = (uint8_t)((send_val >> 16) & 0xFF);
+    TxData[2] = (uint8_t)((send_val >> 8)  & 0xFF);
+    TxData[3] = (uint8_t)(send_val & 0xFF);
+
+    // Wysłanie do kolejki
+    if (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) > 0)
+    {
+        HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
+    }
+}
+
+uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx) {
+    uint8_t check;
+    uint8_t data;
+
+    // 1. Sprawdzenie obecności (WHO_AM_I)
+    if (HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000) != HAL_OK) {
+        return 1; // Błąd komunikacji
+    }
+
+    if (check == 0x68) {
+        // 2. RESETOWANIE CZUJNIKA (Kluczowe dla stabilności!)
+        // Ustawiamy bit 7 (DEVICE_RESET) w rejestrze 0x6B
+        data = 0x80;
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &data, 1, 1000);
+        HAL_Delay(100); // Czekamy aż wstanie po resecie
+
+        // 3. Wybudzenie (Power Management 1)
+        // Zapisujemy 0x00 (Włączony, użyj wewnętrznego oscylatora 8MHz)
+        data = 0x00;
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &data, 1, 1000);
+        HAL_Delay(50); // Ważne opóźnienie dla PLL
+
+        // 4. Konfiguracja Akcelerometru (+/- 4g) - Lepsze dla roweru niż 2g
+        // 0x00 = 2g, 0x08 = 4g, 0x10 = 8g
+        data = 0x00; // Zostawmy 2g na start
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, ACCEL_CONFIG_REG, 1, &data, 1, 1000);
+
+        // 5. Konfiguracja Żyroskopu (+/- 500 dps)
+        // 0x00 = 250dps, 0x08 = 500dps
+        data = 0x00;
+        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, GYRO_CONFIG_REG, 1, &data, 1, 1000);
+
+        return 0; // Sukces
+    }
+    return 1; // Złe ID urządzenia
+}
+
+void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
+    uint8_t Rec_Data[14];
+
+    // Odczyt blokowy (Burst Read)
+    if(HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 14, 100) == HAL_OK) {
+
+        // Łączenie bajtów (Big Endian -> Little Endian STM32)
+        DataStruct->Accel_X_RAW = (int16_t)((Rec_Data[0] << 8) | Rec_Data[1]);
+        DataStruct->Accel_Y_RAW = (int16_t)((Rec_Data[2] << 8) | Rec_Data[3]);
+        DataStruct->Accel_Z_RAW = (int16_t)((Rec_Data[4] << 8) | Rec_Data[5]);
+
+        DataStruct->Temperature = (float)((int16_t)((Rec_Data[6] << 8) | Rec_Data[7]));
+        DataStruct->Temperature = (DataStruct->Temperature / 340.0f) + 36.53f;
+
+        DataStruct->Gyro_X_RAW = (int16_t)((Rec_Data[8] << 8) | Rec_Data[9]);
+        DataStruct->Gyro_Y_RAW = (int16_t)((Rec_Data[10] << 8) | Rec_Data[11]);
+        DataStruct->Gyro_Z_RAW = (int16_t)((Rec_Data[12] << 8) | Rec_Data[13]);
+
+        // Konwersja fizyczna (dla skali 2g i 250dps)
+        DataStruct->Ax = DataStruct->Accel_X_RAW / 16384.0;
+        DataStruct->Ay = DataStruct->Accel_Y_RAW / 16384.0;
+        DataStruct->Az = DataStruct->Accel_Z_RAW / 16384.0;
+
+        DataStruct->Gx = DataStruct->Gyro_X_RAW / 131.0;
+        DataStruct->Gy = DataStruct->Gyro_Y_RAW / 131.0;
+        DataStruct->Gz = DataStruct->Gyro_Z_RAW / 131.0;
     }
 }
 
