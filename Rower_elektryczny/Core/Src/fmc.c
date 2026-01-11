@@ -22,7 +22,56 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN 0 */
+static void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram)
+{
+  FMC_SDRAM_CommandTypeDef cmd;
+  uint32_t timeout = 0xFFFF;
 
+  /* 1) Clock enable */
+  cmd.CommandMode            = FMC_SDRAM_CMD_CLK_ENABLE;
+  cmd.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+  cmd.AutoRefreshNumber      = 1;
+  cmd.ModeRegisterDefinition = 0;
+  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+
+  HAL_Delay(1); /* >=100us */
+
+  /* 2) Precharge all */
+  cmd.CommandMode = FMC_SDRAM_CMD_PALL;
+  cmd.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
+  cmd.AutoRefreshNumber = 1;
+  cmd.ModeRegisterDefinition = 0;
+  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+
+  /* 3) Auto refresh */
+  cmd.CommandMode = FMC_SDRAM_CMD_AUTOREFRESH_MODE;
+  cmd.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
+  cmd.AutoRefreshNumber = 8;
+  cmd.ModeRegisterDefinition = 0;
+  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+
+  /* 4) Load Mode Register
+     BL=1, Sequential, CAS=3, Standard, Single write burst */
+  uint32_t mode =
+      0x0000 |        /* BL=1 */
+      0x0000 |        /* Sequential */
+      0x0030 |        /* CAS=3 (bits 6:4) */
+      0x0000 |        /* Standard */
+      0x0200;         /* Single write burst */
+
+  cmd.CommandMode = FMC_SDRAM_CMD_LOAD_MODE;
+  cmd.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
+  cmd.AutoRefreshNumber = 1;
+  cmd.ModeRegisterDefinition = mode;
+  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+
+  /* 5) Refresh rate
+     8192 refresh / 64ms => 7.8125us
+     SDCLK = FMC(64MHz)/2 = 32MHz (u Ciebie SDClockPeriod=2)
+     COUNT = 7.8125us * 32MHz - 20 ≈ 230
+  */
+  HAL_SDRAM_ProgramRefreshRate(hsdram, 230);
+}
 /* USER CODE END 0 */
 
 SDRAM_HandleTypeDef hsdram1;
