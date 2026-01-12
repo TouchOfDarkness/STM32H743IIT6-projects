@@ -224,8 +224,8 @@ int main(void)
       static float current_drag_filtered = 0.0f;  // Filtr dla generatora
 
       // Konfiguracja Twojej krzywej
-      const float MAX_GEN_RPM = 9000.0f;
-      const float START_DRIVE_AMPS = 20.0f;        // Startujemy ciut łagodniej (8A), bo generator stawia opór
+      const float MAX_GEN_RPM = 10000.0f;
+      const float START_DRIVE_AMPS = 15.0f;        // Startujemy ciut łagodniej (8A), bo generator stawia opór
       const float MAX_DRIVE_AMPS = 25.0f;         // Max moc na koła
       const float DRIVE_RAMP = 0.05f;             // Płynność gazu
 
