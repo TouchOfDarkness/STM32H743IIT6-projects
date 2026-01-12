@@ -220,9 +220,9 @@ int main(void)
     {
       Error_Handler();
     }
-    //if (MPU6050_Init(&hi2c2) == 0) {
+    if (MPU6050_Init(&hi2c2) == 0) {
           // Opcjonalnie: mignij diodą, że MPU OK
-      //}
+      }
     /* Initialize QSPI Flash */
       if (BSP_QSPI_Init() != HAL_OK)
       {

@@ -247,8 +247,7 @@ static uint8_t QSPI_ResetMemory(QSPI_HandleTypeDef *hqspi)
   }
 
   /* Czekaj na zakończenie resetu (tRST = 30us typ.) */
-  // HAL_Delay(1);
-  for(volatile int i=0; i<20000; i++) __NOP();
+  HAL_Delay(1);
 
   return HAL_OK;
 }
