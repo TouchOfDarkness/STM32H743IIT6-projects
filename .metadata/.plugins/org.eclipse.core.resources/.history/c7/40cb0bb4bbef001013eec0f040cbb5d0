@@ -594,45 +594,28 @@ void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
 
 void MPU_Config(void)
 {
-	MPU_Region_InitTypeDef MPU_InitStruct = {0};
+  MPU_Region_InitTypeDef MPU_InitStruct = {0};
 
-	  /* Disables the MPU */
-	  HAL_MPU_Disable();
+  /* Disables the MPU */
+  HAL_MPU_Disable();
 
-	  /* 1. Konfiguracja domyślna - tło (opcjonalne, ale dobra praktyka) */
-	  /* Zostawiamy domyślną mapę pamięci, więc nie musimy blokować całych 4GB */
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
+  MPU_InitStruct.BaseAddress = 0x0;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+  MPU_InitStruct.SubRegionDisable = 0x87;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
-	  /* 2. Konfiguracja dla SDRAM (0xC0000000) - 32MB */
-	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-	  MPU_InitStruct.BaseAddress = 0xC0000000;
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB; // Dopasuj do swojej kości (256Mbit = 32MB)
-	  MPU_InitStruct.SubRegionDisable = 0x0;
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0; // Tryb Normal
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	  /* WAŻNE: Na początek wyłącz Cache dla SDRAM, aby uniknąć problemów z koherencją */
-	  /* Gdy zadziała, możesz zmienić na Cacheable + Bufferable i zarządzać Cachem ręcznie */
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE; // Lub BUFFERABLE dla lekkiego przyspieszenia zapisu
-
-	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
-	  /* 3. Konfiguracja dla QSPI (0x90000000) - 256MB (maksymalny obszar mapowania) */
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
-	  MPU_InitStruct.BaseAddress = 0x90000000;
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_256MB;
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE; // QSPI jest tylko do odczytu (assets), więc Cache pomaga
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-
-	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
-	  /* Enables the MPU */
-	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+  /* Enables the MPU */
+  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 
 }
 

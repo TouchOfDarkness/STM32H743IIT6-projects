@@ -2,4 +2,4 @@
 ../Core/Src/freertos.c:89:6:vApplicationMallocFailedHook	4	static
 ../Core/Src/freertos.c:109:6:MX_FREERTOS_Init	8	static
 ../Core/Src/freertos.c:154:6:StartDefaultTask	16	static
-../Core/Src/freertos.c:172:6:TouchGFX_Task	16	static
+../Core/Src/freertos.c:172:13:TouchGFX_Task	16	static

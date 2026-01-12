@@ -43,58 +43,8 @@
 #define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)
 
-static void BSP_SDRAM_Initialization_sequence(uint32_t RefreshCount)
-{
-  __IO uint32_t tmpmrd = 0;
-  FMC_SDRAM_CommandTypeDef Command;
+static void BSP_SDRAM_Initialization_sequence(uint32_t RefreshCount);
 
-  /* Krok 1: Włącz zegar dla obu banków (jeśli używasz Banku 1, Target = BANK1) */
-  Command.CommandMode            = FMC_SDRAM_CMD_CLK_ENABLE;
-  Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
-  Command.AutoRefreshNumber      = 1;
-  Command.ModeRegisterDefinition = 0;
-
-  /* Wyślij komendę */
-  HAL_SDRAM_SendCommand(&hsdram1, &Command, SDRAM_TIMEOUT);
-
-  /* Krok 2: Czekaj minimum 100us (ważne!) */
-  HAL_Delay(1);
-
-  /* Krok 3: Precharge All */
-  Command.CommandMode            = FMC_SDRAM_CMD_PALL;
-  Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
-  Command.AutoRefreshNumber      = 1;
-  Command.ModeRegisterDefinition = 0;
-
-  HAL_SDRAM_SendCommand(&hsdram1, &Command, SDRAM_TIMEOUT);
-
-  /* Krok 4: Auto Refresh (zazwyczaj 8 cykli na start) */
-  Command.CommandMode            = FMC_SDRAM_CMD_AUTOREFRESH_MODE;
-  Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
-  Command.AutoRefreshNumber      = 8;
-  Command.ModeRegisterDefinition = 0;
-
-  HAL_SDRAM_SendCommand(&hsdram1, &Command, SDRAM_TIMEOUT);
-
-  /* Krok 5: Programowanie rejestru trybu (Mode Register) */
-  /* Ustawienia muszą pasować do Twojej konfiguracji w CubeMX (CAS Latency = 3) */
-  tmpmrd = (uint32_t)(SDRAM_MODEREG_BURST_LENGTH_1          |
-                      SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
-                      SDRAM_MODEREG_CAS_LATENCY_3           |
-                      SDRAM_MODEREG_OPERATING_MODE_STANDARD |
-                      SDRAM_MODEREG_WRITEBURST_MODE_SINGLE);
-
-  Command.CommandMode            = FMC_SDRAM_CMD_LOAD_MODE;
-  Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
-  Command.AutoRefreshNumber      = 1;
-  Command.ModeRegisterDefinition = tmpmrd;
-
-  HAL_SDRAM_SendCommand(&hsdram1, &Command, SDRAM_TIMEOUT);
-
-  /* Krok 6: Ustawienie częstotliwości odświeżania */
-  /* RefreshCount zdefiniowany w fmc.c (np. 0x0603) */
-  HAL_SDRAM_ProgramRefreshRate(&hsdram1, RefreshCount);
-}
 /* USER CODE END 0 */
 
 SDRAM_HandleTypeDef hsdram1;

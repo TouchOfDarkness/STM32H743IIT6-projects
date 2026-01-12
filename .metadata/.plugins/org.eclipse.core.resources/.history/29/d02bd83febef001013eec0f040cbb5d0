@@ -169,7 +169,7 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_TouchGFX_Task */
-__weak void TouchGFX_Task(void *argument)
+void TouchGFX_Task(void *argument)
 {
   /* USER CODE BEGIN TouchGFX_Task */
   /* Infinite loop */
@@ -184,3 +184,4 @@ __weak void TouchGFX_Task(void *argument)
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
+
