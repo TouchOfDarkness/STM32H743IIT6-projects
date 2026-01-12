@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "crc.h"
 #include "dma2d.h"
 #include "fdcan.h"
@@ -31,7 +32,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "cmsis_os.h"
+extern void TouchGFX_Task(void *argument);
+extern uint8_t BSP_QSPI_Init(void);
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -132,6 +135,7 @@ MPU6050_t MPU6050; // Globalna instancja struktury
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 void VESC_SetDuty(uint8_t controller_id, float dutyCycle);
 void VESC_SetAllDuty(float duty_Left, float duty_Right, float duty_Gen);
@@ -186,6 +190,8 @@ int main(void)
   MX_CRC_Init();
   MX_QUADSPI_Init();
   MX_TouchGFX_Init();
+  /* Call PreOsInit function */
+  MX_TouchGFX_PreOSInit();
   /* USER CODE BEGIN 2 */
   // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
     // VESC wysyła ramki z ID rozszerzonym (29-bit).
@@ -217,7 +223,47 @@ int main(void)
     if (MPU6050_Init(&hi2c2) == 0) {
           // Opcjonalnie: mignij diodą, że MPU OK
       }
+    /* Initialize QSPI Flash */
+      if (BSP_QSPI_Init() != HAL_OK)
+      {
+        Error_Handler();
+      }
+
+      /* Enable LCD backlight */
+      HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
   /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* Call init function for freertos objects (in cmsis_os2.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  void StartDefaultTask(void *argument)
+  {
+    for(;;)
+    {
+      HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);  // LED toggle (jeśli masz)
+      osDelay(500);
+    }
+  }
+
+  void TouchGFX_Task(void *argument)
+  {
+    extern void MX_TouchGFX_Process(void);
+    for(;;)
+    {
+      MX_TouchGFX_Process();
+      osDelay(1);  // Yield to other tasks
+    }
+  }
+  /* USER CODE END RTOS_THREADS */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -234,7 +280,6 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-  MX_TouchGFX_Process();
     /* USER CODE BEGIN 3 */
 	  MPU6050_Read_All(&hi2c2, &MPU6050);
 	  // 1. Pobierz obroty
@@ -575,6 +620,27 @@ void MPU_Config(void)
 }
 
 /**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM6 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM6) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
+
+/**
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
@@ -588,6 +654,8 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**

@@ -22,56 +22,29 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN 0 */
-static void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram)
-{
-  FMC_SDRAM_CommandTypeDef cmd;
-  uint32_t timeout = 0xFFFF;
 
-  /* 1) Clock enable */
-  cmd.CommandMode            = FMC_SDRAM_CMD_CLK_ENABLE;
-  cmd.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
-  cmd.AutoRefreshNumber      = 1;
-  cmd.ModeRegisterDefinition = 0;
-  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+/* SDRAM base address (FMC Bank1 on H7 is typically mapped at 0xC0000000) */
+#define SDRAM_BASE_ADDR   ((uint32_t)0xC0000000)
 
-  HAL_Delay(1); /* >=100us */
+/*
+ * Refresh counter:
+ * zależy od częstotliwości zegara SDRAM i parametrów odświeżania pamięci.
+ * Dla wielu projektów H7 + ~100MHz SDRAM spotyka się wartości ~0x0600…0x0700.
+ * Jeśli masz działający przykład (np. z TouchGFX), możesz wziąć stamtąd.
+ */
+#define REFRESH_COUNT     ((uint32_t)0x0603)
 
-  /* 2) Precharge all */
-  cmd.CommandMode = FMC_SDRAM_CMD_PALL;
-  cmd.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
-  cmd.AutoRefreshNumber = 1;
-  cmd.ModeRegisterDefinition = 0;
-  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+#define SDRAM_TIMEOUT     ((uint32_t)0xFFFF)
 
-  /* 3) Auto refresh */
-  cmd.CommandMode = FMC_SDRAM_CMD_AUTOREFRESH_MODE;
-  cmd.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
-  cmd.AutoRefreshNumber = 8;
-  cmd.ModeRegisterDefinition = 0;
-  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
+/* SDRAM Mode Register definitions */
+#define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
+#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((uint16_t)0x0000)
+#define SDRAM_MODEREG_CAS_LATENCY_3              ((uint16_t)0x0030)
+#define SDRAM_MODEREG_OPERATING_MODE_STANDARD    ((uint16_t)0x0000)
+#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)
 
-  /* 4) Load Mode Register
-     BL=1, Sequential, CAS=3, Standard, Single write burst */
-  uint32_t mode =
-      0x0000 |        /* BL=1 */
-      0x0000 |        /* Sequential */
-      0x0030 |        /* CAS=3 (bits 6:4) */
-      0x0000 |        /* Standard */
-      0x0200;         /* Single write burst */
+static void BSP_SDRAM_Initialization_sequence(uint32_t RefreshCount);
 
-  cmd.CommandMode = FMC_SDRAM_CMD_LOAD_MODE;
-  cmd.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK1;
-  cmd.AutoRefreshNumber = 1;
-  cmd.ModeRegisterDefinition = mode;
-  HAL_SDRAM_SendCommand(hsdram, &cmd, timeout);
-
-  /* 5) Refresh rate
-     8192 refresh / 64ms => 7.8125us
-     SDCLK = FMC(64MHz)/2 = 32MHz (u Ciebie SDClockPeriod=2)
-     COUNT = 7.8125us * 32MHz - 20 ≈ 230
-  */
-  HAL_SDRAM_ProgramRefreshRate(hsdram, 230);
-}
 /* USER CODE END 0 */
 
 SDRAM_HandleTypeDef hsdram1;
@@ -118,7 +91,7 @@ void MX_FMC_Init(void)
   }
 
   /* USER CODE BEGIN FMC_Init 2 */
-
+  BSP_SDRAM_Initialization_sequence(REFRESH_COUNT);
   /* USER CODE END FMC_Init 2 */
 }
 
@@ -240,7 +213,7 @@ static void HAL_FMC_MspInit(void){
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* Peripheral interrupt init */
-  HAL_NVIC_SetPriority(FMC_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(FMC_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(FMC_IRQn);
   /* USER CODE BEGIN FMC_MspInit 1 */
 

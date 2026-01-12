@@ -11,6 +11,7 @@
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:828:18:virtual void touchgfx::HAL::waitForLTDCLines(uint16_t)	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:972:30:virtual touchgfx::FlashDataReader* touchgfx::HAL::getFlashDataReader() const	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:1134:18:virtual void touchgfx::HAL::taskDelay(uint16_t)	16	static
+../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:1161:22:virtual uint16_t touchgfx::HAL::getTFTCurrentLine()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:1172:21:virtual touchgfx::DMAType touchgfx::HAL::getDMAType()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:1319:18:virtual void touchgfx::HAL::partialLTDCDeadlineMissed()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/HAL.hpp:1349:15:uint16_t* touchgfx::HAL::getClientFrameBuffer()	16	static
