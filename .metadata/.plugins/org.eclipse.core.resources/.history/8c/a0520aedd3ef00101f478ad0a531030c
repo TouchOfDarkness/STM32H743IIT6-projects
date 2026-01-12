@@ -249,7 +249,7 @@ int main(void)
 
         // Wartości przyrostowe
         const float CURRENT_STEP = 1.0f;    // O ile A zwiększamy napęd na każdym biegu
-        const float DRAG_STEP = 0.2f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
+        const float DRAG_STEP = 1.0f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
 
         // Zmienne wykonawcze
         static float current_drive_filtered = 0.0f;
