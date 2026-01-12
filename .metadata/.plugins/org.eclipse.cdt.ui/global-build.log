@@ -1,56 +1,14 @@
-12:12:48 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+15:31:46 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
 arm-none-eabi-size  Rower_elektryczny.elf 
    text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
+  31768	     16	   2768	  34552	   86f8	Rower_elektryczny.elf
 Finished building: default.size.stdout
  
-12:12:53 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+15:31:51 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
 arm-none-eabi-size  Rower_elektryczny.elf 
    text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
-Finished building: default.size.stdout
- 
-12:14:15 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
-make -j12 all 
-arm-none-eabi-size  Rower_elektryczny.elf 
-   text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
-Finished building: default.size.stdout
- 
-12:17:18 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
-make -j12 all 
-arm-none-eabi-size  Rower_elektryczny.elf 
-   text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
-Finished building: default.size.stdout
- 
-12:17:34 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
-make -j12 all 
-arm-none-eabi-size  Rower_elektryczny.elf 
-   text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
-Finished building: default.size.stdout
- 
-12:19:12 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
-make -j12 all 
-arm-none-eabi-size  Rower_elektryczny.elf 
-   text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
-Finished building: default.size.stdout
- 
-12:19:36 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
-make -j12 all 
-arm-none-eabi-size  Rower_elektryczny.elf 
-   text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
-Finished building: default.size.stdout
- 
-12:21:09 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
-make -j12 all 
-arm-none-eabi-size  Rower_elektryczny.elf 
-   text	   data	    bss	    dec	    hex	filename
-  31472	     16	   2552	  34040	   84f8	Rower_elektryczny.elf
+  31768	     16	   2768	  34552	   86f8	Rower_elektryczny.elf
 Finished building: default.size.stdout
  

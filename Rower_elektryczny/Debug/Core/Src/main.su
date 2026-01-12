@@ -1,8 +1,9 @@
-../Core/Src/main.c:151:5:main	88	static
-../Core/Src/main.c:313:6:SystemClock_Config	152	static
-../Core/Src/main.c:392:6:HAL_FDCAN_RxFifo0Callback	24	static
-../Core/Src/main.c:465:6:VESC_SetCurrent	64	static
-../Core/Src/main.c:509:6:VESC_SetBrakeCurrent	64	static
-../Core/Src/main.c:545:9:MPU6050_Init	40	static
-../Core/Src/main.c:616:6:MPU_Config	24	static
-../Core/Src/main.c:647:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:144:9:Get_Filtered_RPM	16	static
+../Core/Src/main.c:167:5:main	136	static
+../Core/Src/main.c:379:6:SystemClock_Config	152	static
+../Core/Src/main.c:458:6:HAL_FDCAN_RxFifo0Callback	24	static
+../Core/Src/main.c:531:6:VESC_SetCurrent	64	static
+../Core/Src/main.c:575:6:VESC_SetBrakeCurrent	64	static
+../Core/Src/main.c:611:9:MPU6050_Init	40	static
+../Core/Src/main.c:682:6:MPU_Config	24	static
+../Core/Src/main.c:713:6:Error_Handler	4	static,ignoring_inline_asm

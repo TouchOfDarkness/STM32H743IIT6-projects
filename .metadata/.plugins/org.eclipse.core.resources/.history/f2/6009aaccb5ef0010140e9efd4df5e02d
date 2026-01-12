@@ -40,7 +40,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define FILTER_SAMPLES 50 // Długość bufora uśredniającego (wygładzanie wykresu)
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -237,7 +237,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
     // --- ZMIENNE AUTOMATYCZNEJ SKRZYNI BIEGÓW ---
         uint8_t current_gear = 1;           // Aktualny bieg (1 - domyślny)
-        const uint8_t MAX_GEAR = 16;         // Ile mamy biegów?
+        const uint8_t MAX_GEAR = 5;         // Ile mamy biegów?
 
         uint32_t timer_upshift = 0;         // Licznik czasu do zmiany w górę
         uint32_t timer_downshift = 0;       // Licznik czasu do zmiany w dół
@@ -248,8 +248,8 @@ int main(void)
         const uint32_t SHIFT_DELAY = 6000;  // 6 sekund (6000 ms)
 
         // Wartości przyrostowe
-        const float CURRENT_STEP = 1.0f;    // O ile A zwiększamy napęd na każdym biegu
-        const float DRAG_STEP = 1.0f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
+        const float CURRENT_STEP = 1.5f;    // O ile A zwiększamy napęd na każdym biegu
+        const float DRAG_STEP = 5.0f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
 
         // Zmienne wykonawcze
         static float current_drive_filtered = 0.0f;
@@ -332,7 +332,7 @@ int main(void)
 	            if (rpm_filtered < 1000) {
 	                // START: Dajemy 20A, żeby ruszyć z miejsca (jak prosiłeś)
 	                // Robimy szybki ramp od 0 do 20A w zakresie 200-500 RPM
-	                target_drive = 8.0f;
+	                target_drive = 20.0f;
 	                target_drag = 1.0f; // Minimalny opór przy starcie
 	            }
 	            else {
@@ -341,8 +341,8 @@ int main(void)
 	                float progress = (float)(rpm_filtered - 1000) / (9000.0f - 1000.0f);
 	                if (progress > 1.0f) progress = 1.0f;
 
-	                float base_drive = 1.0f + (progress * (3.0f - 1.0f));
-	                float base_drag = 2.0f + (progress * 6.0f); // Bazowy opór rośnie lekko
+	                float base_drive = 3.0f + (progress * (12.0f - 3.0f));
+	                float base_drag = 2.0f + (progress * 8.0f); // Bazowy opór rośnie lekko
 
 	                // DODAJEMY EFEKT BIEGÓW
 	                // Bieg 1: Dodatek 0A
