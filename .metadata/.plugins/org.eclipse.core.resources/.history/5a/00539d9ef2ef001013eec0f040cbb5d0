@@ -33,7 +33,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os.h"
-
+extern void TouchGFX_Task(void *argument);
 extern uint8_t BSP_QSPI_Init(void);
 /* USER CODE END Includes */
 
@@ -245,6 +245,24 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
 
   /* USER CODE BEGIN RTOS_THREADS */
+  void StartDefaultTask(void *argument)
+  {
+    for(;;)
+    {
+      HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);  // LED toggle (jeśli masz)
+      osDelay(500);
+    }
+  }
+
+  void TouchGFX_Task(void *argument)
+  {
+    extern void MX_TouchGFX_Process(void);
+    for(;;)
+    {
+      MX_TouchGFX_Process();
+      osDelay(1);  // Yield to other tasks
+    }
+  }
   /* USER CODE END RTOS_THREADS */
 
   /* Infinite loop */
@@ -433,7 +451,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
                              target->watt_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
                              // POPRAWKA PONIŻEJ: 24, 16, 8, 0
                              target->watt_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
-                             break;
+                            break;
 
                     // --- STATUS 4: Temperatury, Prąd Baterii ---
                     case 0x10:
@@ -568,6 +586,7 @@ void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
         DataStruct->Gz = DataStruct->Gyro_Z_RAW / 131.0;
     }
 }
+
 
 /* USER CODE END 4 */
 

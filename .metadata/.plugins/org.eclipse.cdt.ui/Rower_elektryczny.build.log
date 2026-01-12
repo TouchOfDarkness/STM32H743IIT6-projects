@@ -1,17 +1,10 @@
-20:48:06 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+21:50:29 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/quadspi.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/quadspi.d" -MT"Core/Src/quadspi.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/quadspi.o"
-arm-none-eabi-g++ -o "Rower_elektryczny.elf" @"objects.list"  -l:libtouchgfx-float-abi-hard.a -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static -L"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
-Finished building target: Rower_elektryczny.elf
- 
 arm-none-eabi-size  Rower_elektryczny.elf 
-arm-none-eabi-objdump -h -S Rower_elektryczny.elf  > "Rower_elektryczny.list"
    text	   data	    bss	    dec	    hex	filename
- 191352	    640	  52656	 244648	  3bba8	Rower_elektryczny.elf
+ 191340	    640	 142768	 334748	  51b9c	Rower_elektryczny.elf
 Finished building: default.size.stdout
  
-Finished building: Rower_elektryczny.list
- 
 
-20:48:11 Build Finished. 0 errors, 0 warnings. (took 4s.772ms)
+21:50:31 Build Finished. 0 errors, 0 warnings. (took 1s.936ms)
 
