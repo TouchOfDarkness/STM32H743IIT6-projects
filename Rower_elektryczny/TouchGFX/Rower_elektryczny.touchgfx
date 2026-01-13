@@ -7,11 +7,25 @@
           {
             "Type": "Image",
             "Name": "image1",
-            "X": 423,
-            "Y": 172,
-            "Width": 200,
-            "Height": 200,
-            "RelativeFilename": "BWicher.png"
+            "Width": 1024,
+            "Height": 600,
+            "RelativeFilename": "__generated\\alternate_theme_images_backgrounds_1024x600_meteor_rain.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "Velocity",
+            "X": 105,
+            "Y": 58,
+            "Width": 95,
+            "Height": 25,
+            "TextId": "Velocity",
+            "TextRotation": "0",
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "VelocityValue",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
           }
         ],
         "Interactions": []

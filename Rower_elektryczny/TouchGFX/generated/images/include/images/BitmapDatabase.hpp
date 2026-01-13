@@ -6,7 +6,7 @@
 #include <touchgfx/hal/Types.hpp>
 #include <touchgfx/Bitmap.hpp>
 
-const uint16_t BITMAP_BWICHER_ID = 0;
+const uint16_t BITMAP_ALTERNATE_THEME_IMAGES_BACKGROUNDS_1024X600_METEOR_RAIN_ID = 0;
 
 namespace BitmapDatabase
 {

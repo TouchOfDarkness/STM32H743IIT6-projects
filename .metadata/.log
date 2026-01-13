@@ -6536,3 +6536,229 @@ org.eclipse.core.runtime.CoreException: Setup exceptions
 
 !ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2026-01-13 21:17:30.358
 !MESSAGE SWV configuration; base: 36000000; minDiv: 18; maxDiv: 65535; maxSWO: 2000000; limit: 2000000 => SWO: 2000000; CPU: 64000000; div: 32
+
+!ENTRY org.eclipse.cdt.core 4 0 2026-01-13 22:15:58.560
+!MESSAGE Error while parsing /Rower_elektryczny/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.cpp.
+!STACK 0
+java.lang.reflect.InvocationTargetException
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.getMaskedException(AbstractIndexerTask.java:1206)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.swallowError(AbstractIndexerTask.java:1192)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1128)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseLinkage(AbstractIndexerTask.java:910)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.runTask(AbstractIndexerTask.java:572)
+	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMIndexerTask.run(PDOMIndexerTask.java:164)
+	at org.eclipse.cdt.internal.core.pdom.PDOMIndexerJob.run(PDOMIndexerJob.java:160)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.OutOfMemoryError: Java heap space
+	at org.eclipse.cdt.internal.core.dom.parser.CompositeValue.create(CompositeValue.java:90)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.EvalInitList.getValue(EvalInitList.java:111)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializerImpl(SemanticUtil.java:905)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializer(SemanticUtil.java:869)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:176)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:155)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.computeInitialValue(CPPVariable.java:261)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.getInitialValue(CPPVariable.java:248)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.resolveNames(PDOMWriter.java:453)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.addSymbols(PDOMWriter.java:284)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.writeToIndex(AbstractIndexerTask.java:1295)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1107)
+	... 5 more
+Root exception:
+java.lang.OutOfMemoryError: Java heap space
+	at org.eclipse.cdt.internal.core.dom.parser.CompositeValue.create(CompositeValue.java:90)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.EvalInitList.getValue(EvalInitList.java:111)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializerImpl(SemanticUtil.java:905)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializer(SemanticUtil.java:869)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:176)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:155)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.computeInitialValue(CPPVariable.java:261)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.getInitialValue(CPPVariable.java:248)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.resolveNames(PDOMWriter.java:453)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.addSymbols(PDOMWriter.java:284)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.writeToIndex(AbstractIndexerTask.java:1295)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1107)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseLinkage(AbstractIndexerTask.java:910)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.runTask(AbstractIndexerTask.java:572)
+	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMIndexerTask.run(PDOMIndexerTask.java:164)
+	at org.eclipse.cdt.internal.core.pdom.PDOMIndexerJob.run(PDOMIndexerJob.java:160)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.jobs 4 2 2026-01-13 22:16:00.056
+!MESSAGE An internal error occurred during: "Build Project".
+!STACK 0
+java.lang.OutOfMemoryError: Java heap space
+	at org.eclipse.core.internal.filesystem.local.Convert.toPlatformChars(Convert.java:143)
+	at org.eclipse.core.internal.filesystem.local.LocalFileNatives.fetchFileInfo(LocalFileNatives.java:116)
+	at org.eclipse.core.internal.filesystem.local.LocalFileHandler.fetchFileInfo(LocalFileHandler.java:30)
+	at org.eclipse.core.internal.filesystem.local.LocalFileNativesManager.fetchFileInfo(LocalFileNativesManager.java:89)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.fetchInfo(LocalFile.java:181)
+	at org.eclipse.core.filesystem.provider.FileStore.fetchInfo(FileStore.java:260)
+	at org.eclipse.core.filesystem.provider.FileStore.childInfos(FileStore.java:99)
+	at org.eclipse.core.internal.localstore.UnifiedTree.getLocalList(UnifiedTree.java:360)
+	at org.eclipse.core.internal.localstore.UnifiedTree.addChildren(UnifiedTree.java:148)
+	at org.eclipse.core.internal.localstore.UnifiedTree.addNodeChildrenToQueue(UnifiedTree.java:254)
+	at org.eclipse.core.internal.localstore.UnifiedTree.accept(UnifiedTree.java:120)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refreshResource(FileSystemResourceManager.java:1025)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.refresh(FileSystemResourceManager.java:1008)
+	at org.eclipse.core.internal.resources.Resource.refreshLocal(Resource.java:1610)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:350)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.refreshResources(RefreshScopeManager.java:355)
+	at org.eclipse.cdt.core.resources.RefreshScopeManager$2.run(RefreshScopeManager.java:372)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2453)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2478)
+	at org.eclipse.cdt.internal.core.BuildRunnerHelper.refreshProject(BuildRunnerHelper.java:378)
+	at org.eclipse.cdt.managedbuilder.core.ExternalBuildRunner.invokeExternalBuild(ExternalBuildRunner.java:149)
+	at org.eclipse.cdt.managedbuilder.core.ExternalBuildRunner.invokeBuild(ExternalBuildRunner.java:73)
+
+!ENTRY org.eclipse.cdt.core 4 0 2026-01-13 22:16:18.857
+!MESSAGE Error while parsing /Rower_elektryczny/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.cpp.
+!STACK 0
+java.lang.reflect.InvocationTargetException
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.getMaskedException(AbstractIndexerTask.java:1206)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.swallowError(AbstractIndexerTask.java:1192)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1128)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseLinkage(AbstractIndexerTask.java:944)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.runTask(AbstractIndexerTask.java:572)
+	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMIndexerTask.run(PDOMIndexerTask.java:164)
+	at org.eclipse.cdt.internal.core.pdom.PDOMIndexerJob.run(PDOMIndexerJob.java:160)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.OutOfMemoryError: Java heap space
+	at org.eclipse.cdt.internal.core.dom.parser.CompositeValue.create(CompositeValue.java:90)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.EvalInitList.getValue(EvalInitList.java:111)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializerImpl(SemanticUtil.java:905)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializer(SemanticUtil.java:869)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:176)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:155)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.computeInitialValue(CPPVariable.java:261)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.getInitialValue(CPPVariable.java:248)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.resolveNames(PDOMWriter.java:453)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.addSymbols(PDOMWriter.java:284)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.writeToIndex(AbstractIndexerTask.java:1295)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1107)
+	... 5 more
+Root exception:
+java.lang.OutOfMemoryError: Java heap space
+	at org.eclipse.cdt.internal.core.dom.parser.CompositeValue.create(CompositeValue.java:90)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.EvalInitList.getValue(EvalInitList.java:111)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializerImpl(SemanticUtil.java:905)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.SemanticUtil.getValueOfInitializer(SemanticUtil.java:869)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:176)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.VariableHelpers.getInitialValue(VariableHelpers.java:155)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.computeInitialValue(CPPVariable.java:261)
+	at org.eclipse.cdt.internal.core.dom.parser.cpp.CPPVariable.getInitialValue(CPPVariable.java:248)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.resolveNames(PDOMWriter.java:453)
+	at org.eclipse.cdt.internal.core.pdom.PDOMWriter.addSymbols(PDOMWriter.java:284)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.writeToIndex(AbstractIndexerTask.java:1295)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseFile(AbstractIndexerTask.java:1107)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.parseLinkage(AbstractIndexerTask.java:944)
+	at org.eclipse.cdt.internal.core.pdom.AbstractIndexerTask.runTask(AbstractIndexerTask.java:572)
+	at org.eclipse.cdt.internal.core.pdom.indexer.PDOMIndexerTask.run(PDOMIndexerTask.java:164)
+	at org.eclipse.cdt.internal.core.pdom.PDOMIndexerJob.run(PDOMIndexerJob.java:160)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2026-01-13 22:18:17.109
+!MESSAGE SWV configuration; base: 36000000; minDiv: 18; maxDiv: 65535; maxSWO: 2000000; limit: 2000000 => SWO: 2000000; CPU: 64000000; div: 32
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2026-01-13 22:18:45.771
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.debug.ui.actions.DsfResumeCommand$4$1@68e43633): Status ERROR: org.eclipse.cdt.dsf.gdb code=10001 Connection is shut down' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10001 2026-01-13 22:18:45.771
+!MESSAGE Connection is shut down
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 4 0 2026-01-13 22:18:50.930
+!MESSAGE SWV Client received I/O Exception: Connection reset... trying to reconnect
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 4 0 2026-01-13 22:18:50.933
+!MESSAGE SWVClient - Failed to connect to Host: localhost Port: 61235
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 4 0 2026-01-13 22:18:50.935
+!MESSAGE Failed to reconnect and read data
+!STACK 0
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at java.base/java.net.Socket.connect(Socket.java:686)
+	at java.base/java.net.Socket.<init>(Socket.java:555)
+	at java.base/java.net.Socket.<init>(Socket.java:324)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.SWVClient.connect(SWVClient.java:168)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.SWVClient.getNextByte(SWVClient.java:283)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.SWVClient.run(SWVClient.java:313)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2026-01-13 22:18:54.236
+!MESSAGE ST-LINK firmware verification, Check required failed
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2026-01-13 22:18:54.237
+!MESSAGE ST-LINK firmware verification, No latest info found: -1
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2026-01-13 22:19:19.857
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+localhost:61234: Connection timed out.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+localhost:61234: Connection timed out.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:252)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:336)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1040)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1243)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: localhost:61234: Connection timed out.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2026-01-13 22:19:19.858
+!MESSAGE Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+localhost:61234: Connection timed out.
+!STACK 0
+java.lang.Exception: localhost:61234: Connection timed out.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2026-01-13 22:19:39.849
+!MESSAGE SWV configuration; base: 36000000; minDiv: 18; maxDiv: 65535; maxSWO: 2000000; limit: 2000000 => SWO: 2000000; CPU: 64000000; div: 32
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2026-01-13 22:20:09.987
+!MESSAGE Error in final launch sequence:
+
+Setup exceptions
+!STACK 1
+org.eclipse.core.runtime.CoreException: Setup exceptions
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:252)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:336)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1040)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1243)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 com.st.stm32cube.ide.mcu.debug.launch 4 0 2026-01-13 22:20:09.987
+!MESSAGE Setup exceptions

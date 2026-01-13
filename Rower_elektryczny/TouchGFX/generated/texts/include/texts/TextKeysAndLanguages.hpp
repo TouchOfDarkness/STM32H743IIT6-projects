@@ -12,6 +12,8 @@ enum LANGUAGES
 
 enum TEXTS
 {
+    T_VELOCITYVALUE,
+    T_VELOCITY,
     NUMBER_OF_TEXT_KEYS
 };
 

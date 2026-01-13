@@ -6,18 +6,15 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../TouchGFX/generated/images/src/BitmapDatabase.cpp \
-../TouchGFX/generated/images/src/SVGDatabase.cpp \
-../TouchGFX/generated/images/src/image_BWicher.cpp 
+../TouchGFX/generated/images/src/SVGDatabase.cpp 
 
 OBJS += \
 ./TouchGFX/generated/images/src/BitmapDatabase.o \
-./TouchGFX/generated/images/src/SVGDatabase.o \
-./TouchGFX/generated/images/src/image_BWicher.o 
+./TouchGFX/generated/images/src/SVGDatabase.o 
 
 CPP_DEPS += \
 ./TouchGFX/generated/images/src/BitmapDatabase.d \
-./TouchGFX/generated/images/src/SVGDatabase.d \
-./TouchGFX/generated/images/src/image_BWicher.d 
+./TouchGFX/generated/images/src/SVGDatabase.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -27,7 +24,7 @@ TouchGFX/generated/images/src/%.o TouchGFX/generated/images/src/%.su TouchGFX/ge
 clean: clean-TouchGFX-2f-generated-2f-images-2f-src
 
 clean-TouchGFX-2f-generated-2f-images-2f-src:
-	-$(RM) ./TouchGFX/generated/images/src/BitmapDatabase.cyclo ./TouchGFX/generated/images/src/BitmapDatabase.d ./TouchGFX/generated/images/src/BitmapDatabase.o ./TouchGFX/generated/images/src/BitmapDatabase.su ./TouchGFX/generated/images/src/SVGDatabase.cyclo ./TouchGFX/generated/images/src/SVGDatabase.d ./TouchGFX/generated/images/src/SVGDatabase.o ./TouchGFX/generated/images/src/SVGDatabase.su ./TouchGFX/generated/images/src/image_BWicher.cyclo ./TouchGFX/generated/images/src/image_BWicher.d ./TouchGFX/generated/images/src/image_BWicher.o ./TouchGFX/generated/images/src/image_BWicher.su
+	-$(RM) ./TouchGFX/generated/images/src/BitmapDatabase.cyclo ./TouchGFX/generated/images/src/BitmapDatabase.d ./TouchGFX/generated/images/src/BitmapDatabase.o ./TouchGFX/generated/images/src/BitmapDatabase.su ./TouchGFX/generated/images/src/SVGDatabase.cyclo ./TouchGFX/generated/images/src/SVGDatabase.d ./TouchGFX/generated/images/src/SVGDatabase.o ./TouchGFX/generated/images/src/SVGDatabase.su
 
 .PHONY: clean-TouchGFX-2f-generated-2f-images-2f-src
 
