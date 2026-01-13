@@ -75,8 +75,11 @@ void TouchGFX_Task(void *argument);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* Hook prototypes */
-void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName);
-
+void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName;)
+{
+   __disable_irq();
+   while(1);
+}
 void vApplicationMallocFailedHook(void);
 
 /* USER CODE BEGIN 4 */

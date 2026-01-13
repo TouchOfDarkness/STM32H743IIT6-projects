@@ -263,7 +263,44 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  MPU6050_Read_All(&hi2c2, &MPU6050);
+	  // 1. Pobierz obroty
+	      int32_t rpm_raw = vescM.rpm;
+	      if (rpm_raw < 0) rpm_raw = 0; // Zabezpieczenie przed ujemnymi
 
+	      // 2. Martwa strefa (np. do 200 erpm nic nie rób, żeby silnik nie buczał na postoju)
+	      if (rpm_raw < 200) rpm_raw = 0;
+
+	      // --- MAGIA MATEMATYKI (Krzywa Kwadratowa) ---
+
+	      // A. Obliczamy w jakim % drogi do maksa jesteśmy (0.0 do 1.0)
+	      float throttle_pos = (float)rpm_raw / MAX_GEN_RPM;
+	      if (throttle_pos > 1.0f) throttle_pos = 1.0f; // Nie przekraczaj 100%
+
+	      // B. Podnosimy do kwadratu -> To daje łagodny start!
+	      // Przykład:
+	      // Liniowo: 50% RPM = 50% Prądu
+	      // Kwadratowo: 0.5 * 0.5 = 0.25 (czyli przy połowie obrotów masz tylko 25% mocy!)
+	      float current_target = throttle_pos * throttle_pos * MAX_CURRENT;
+
+	      // --- FILTROWANIE (RAMPING) ---
+	      // To realizuje Twoją prośbę o "mniejsze przyrosty".
+	      // Prąd nie skacze od razu do celu, tylko zbliża się o 5% różnicy w każdym kroku pętli.
+	      current_filtered = (current_filtered * (1.0f - RAMP_FACTOR)) + (current_target * RAMP_FACTOR);
+
+	      // Zabezpieczenie "na wszelki wypadek"
+	      if (current_filtered < 0.1f) current_filtered = 0.0f; // Zeruj małe śmieci
+
+	      // 3. Wyślij wygładzony, "miękki" prąd na silniki
+	      VESC_SetCurrent(VESC_ID_L, current_filtered);
+
+	      // Krótkie opóźnienie dla stabilności CAN (ważne przy 3 VESC)
+	      HAL_Delay(1);
+
+	      VESC_SetCurrent(VESC_ID_R, current_filtered);
+
+	      // Częstotliwość pętli (ok 50Hz)
+	      HAL_Delay(20);
   }
   /* USER CODE END 3 */
 }
@@ -549,20 +586,19 @@ void MPU_Config(void)
 	  /* 2. Konfiguracja dla SDRAM (0xC0000000) - 32MB */
 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
 	  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-	  /* W funkcji MPU_Config, sekcja dla SDRAM */
 	  MPU_InitStruct.BaseAddress = 0xC0000000;
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB; // Dopasuj do swojej kości (256Mbit = 32MB)
 	  MPU_InitStruct.SubRegionDisable = 0x0;
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0; // Tryb Normal
 	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
 	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
-	  // ZMIANA: Włącz Bufferable dla wydajności zapisu (TouchGFX tego potrzebuje)
+	  /* WAŻNE: Na początek wyłącz Cache dla SDRAM, aby uniknąć problemów z koherencją */
+	  /* Gdy zadziała, możesz zmienić na Cacheable + Bufferable i zarządzać Cachem ręcznie */
 	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE; // ZMIANA z NOT_BUFFERABLE
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE; // Lub BUFFERABLE dla lekkiego przyspieszenia zapisu
 
-	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 	  /* 3. Konfiguracja dla QSPI (0x90000000) - 256MB (maksymalny obszar mapowania) */
