@@ -68,7 +68,7 @@ const osThreadAttr_t TouchGFXTask_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-void TouchGFX_Task(void *argument);
+extern void TouchGFX_Task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -192,19 +192,6 @@ void StartDefaultTask(void *argument)
 	  }
   /* USER CODE END StartDefaultTask */
 }
-
-/* USER CODE BEGIN Header_TouchGFX_Task */
-/**
-* @brief Function implementing the TouchGFXTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_TouchGFX_Task */
-void TouchGFX_Task(void *argument);
-  /* USER CODE BEGIN TouchGFX_Task */
-  /* Infinite loop */
-  /* USER CODE END TouchGFX_Task */
-
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */

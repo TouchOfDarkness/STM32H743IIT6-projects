@@ -237,22 +237,7 @@ int main(void)
       }
 
       /* Enable LCD backlight */
-      // === TEST SDRAM I LTDC ===
-        // Wypełnij bufor ramki (0xC0000000) kolorem CZERWONYM.
-        // Dla formatu RGB565, czerwony to 0xF800.
-        // Rozdzielczość 1024 * 600.
 
-        uint16_t* frame_buffer = (uint16_t*)0xC0000000;
-        for (int i = 0; i < (1024 * 600); i++)
-        {
-            frame_buffer[i] = 0xF800; // Czerwony
-        }
-
-        // Opcjonalnie: Narysuj zielony pasek na środku, żeby mieć pewność
-        for (int i = (1024 * 290); i < (1024 * 310); i++)
-        {
-            frame_buffer[i] = 0x07E0; // Zielony
-        }
   /* USER CODE END 2 */
 
   /* Init scheduler */
