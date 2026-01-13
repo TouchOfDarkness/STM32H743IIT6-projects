@@ -193,13 +193,6 @@ int main(void)
   /* Call PreOsInit function */
   MX_TouchGFX_PreOSInit();
   /* USER CODE BEGIN 2 */
-
-  HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
-
-  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_RESET);
-  HAL_Delay(20);
-  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET);
-  HAL_Delay(120);
   // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
     // VESC wysyła ramki z ID rozszerzonym (29-bit).
     FDCAN_FilterTypeDef sFilterConfig;
@@ -237,7 +230,7 @@ int main(void)
       }
 
       /* Enable LCD backlight */
-
+      HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Init scheduler */

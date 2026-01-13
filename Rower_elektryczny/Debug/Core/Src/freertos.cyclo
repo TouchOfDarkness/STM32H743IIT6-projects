@@ -1,5 +1,4 @@
-../Core/Src/freertos.c:83:6:vApplicationStackOverflowHook	1
-../Core/Src/freertos.c:96:6:vApplicationMallocFailedHook	1
-../Core/Src/freertos.c:116:6:MX_FREERTOS_Init	1
-../Core/Src/freertos.c:161:6:StartDefaultTask	1
-../Core/Src/freertos.c:205:13:TouchGFX_Task	1
+../Core/Src/freertos.c:72:6:vApplicationStackOverflowHook	1
+../Core/Src/freertos.c:85:6:vApplicationMallocFailedHook	1
+../Core/Src/freertos.c:105:6:MX_FREERTOS_Init	1
+../Core/Src/freertos.c:147:6:StartDefaultTask	1

@@ -54,6 +54,13 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow7,
 };
+/* Definitions for TouchGFXTask */
+osThreadId_t TouchGFXTaskHandle;
+const osThreadAttr_t TouchGFXTask_attributes = {
+  .name = "TouchGFXTask",
+  .stack_size = 4098 * 4,
+  .priority = (osPriority_t) osPriorityAboveNormal,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -61,6 +68,7 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
+void TouchGFX_Task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -127,6 +135,9 @@ void MX_FREERTOS_Init(void) {
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
+  /* creation of TouchGFXTask */
+  TouchGFXTaskHandle = osThreadNew(TouchGFX_Task, NULL, &TouchGFXTask_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -179,6 +190,24 @@ void StartDefaultTask(void *argument)
 //	      osDelay(20); // ZMIANA: Używaj osDelay zamiast HAL_Delay
 	  }
   /* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_TouchGFX_Task */
+/**
+* @brief Function implementing the TouchGFXTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_TouchGFX_Task */
+void TouchGFX_Task(void *argument)
+{
+  /* USER CODE BEGIN TouchGFX_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END TouchGFX_Task */
 }
 
 /* Private application code --------------------------------------------------*/

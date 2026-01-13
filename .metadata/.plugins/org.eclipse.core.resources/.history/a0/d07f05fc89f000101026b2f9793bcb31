@@ -193,9 +193,6 @@ int main(void)
   /* Call PreOsInit function */
   MX_TouchGFX_PreOSInit();
   /* USER CODE BEGIN 2 */
-
-  HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
-
   HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_RESET);
   HAL_Delay(20);
   HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET);

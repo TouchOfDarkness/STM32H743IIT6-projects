@@ -1,7 +1,10 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * File Name          : app_touchgfx.c
+  ******************************************************************************
+  * This file was created by TouchGFX Generator 4.26.0. This file is only
+  * generated once! Delete this file from your project and re-generate code
+  * using STM32CubeMX or change this file manually to update it.
   ******************************************************************************
   * @attention
   *
@@ -14,22 +17,17 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
+/* Includes ------------------------------------------------------------------*/
 #include "app_touchgfx.h"
-#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
 /* Private define ------------------------------------------------------------*/
+
 /* USER CODE BEGIN PD */
 
 /* USER CODE END PD */
@@ -40,61 +38,54 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+void touchgfx_init(void);
+void touchgfx_components_init(void);
+void touchgfx_taskEntry(void);
+
 /* USER CODE BEGIN PFP */
 extern void touchgfx_init(void);
 extern void touchgfx_taskEntry(void);
 /* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-void TouchGFX_Task(void *argument)
-{
-  /* USER CODE BEGIN TouchGFX_Task */
-
-  // Krótkie opóźnienie na start, aby system się ustabilizował
-  osDelay(100);
-
-  // Uruchomienie głównej pętli TouchGFX
-  // Ta funkcja normalnie NIE POWINNA nigdy wrócić.
-  touchgfx_taskEntry();
-
-  // === SAFETY LOOP ===
-  // Jeśli touchgfx_taskEntry() wróci (np. z powodu błędu),
-  // ta pętla zapobiegnie skokowi do prvCheckTasksWaitingTermination.
-  // Jeśli debugger tu trafi, oznacza to, że TouchGFX się wyłożył.
-  for(;;)
-  {
-      osDelay(1000);
-  }
-  /* USER CODE END TouchGFX_Task */
-}
-
+/**
+ * PreOS Initialization function
+ */
 void MX_TouchGFX_PreOSInit(void)
 {
-  /* USER CODE BEGIN MX_TouchGFX_PreOSInit */
-  // Tutaj można dodać inicjalizację QSPI, jeśli nie jest w main()
-  /* USER CODE END MX_TouchGFX_PreOSInit */
 }
 
+/**
+ * Initialize TouchGFX application
+ */
 void MX_TouchGFX_Init(void)
 {
-  /* USER CODE BEGIN MX_TouchGFX_Init */
-  // Inicjalizacja frameworku TouchGFX (HAL, OSWrappers)
-  touchgfx_init();
-  /* USER CODE END MX_TouchGFX_Init */
+    // Calling forward to touchgfx_init in C++ domain
+    touchgfx_components_init();
+    touchgfx_init();
 }
 
+/**
+ * TouchGFX application entry function
+ */
 void MX_TouchGFX_Process(void)
 {
-  /* USER CODE BEGIN MX_TouchGFX_Process */
-  touchgfx_taskEntry();
-  /* USER CODE END MX_TouchGFX_Process */
+    // Calling forward to touchgfx_taskEntry in C++ domain
+    touchgfx_taskEntry();
 }
+
+/**
+ * TouchGFX application thread
+ */
+void TouchGFX_Task(void* argument)
+{
+    // Calling forward to touchgfx_taskEntry in C++ domain
+    touchgfx_taskEntry();
+}
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
