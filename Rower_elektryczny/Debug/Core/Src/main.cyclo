@@ -5,5 +5,5 @@
 ../Core/Src/main.c:473:9:MPU6050_Init	3
 ../Core/Src/main.c:510:6:MPU6050_Read_All	2
 ../Core/Src/main.c:543:6:MPU_Config	1
-../Core/Src/main.c:578:6:HAL_TIM_PeriodElapsedCallback	2
-../Core/Src/main.c:595:6:Error_Handler	1
+../Core/Src/main.c:601:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:618:6:Error_Handler	1

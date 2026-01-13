@@ -200,11 +200,10 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_TouchGFX_Task */
-void TouchGFX_Task(void *argument);
+void TouchGFX_Task(void *argument)
   /* USER CODE BEGIN TouchGFX_Task */
   /* Infinite loop */
   /* USER CODE END TouchGFX_Task */
-
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */

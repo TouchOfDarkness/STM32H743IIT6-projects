@@ -167,7 +167,6 @@ void StartDefaultTask(void *argument)
 	  /* Infinite loop */
 	  for(;;)
 	  {
-		  osDelay(100);
 //	      // 1. Odczyt MPU (przeniesione z main.c)
 //	      MPU6050_Read_All(&hi2c2, &MPU6050);
 //
@@ -200,11 +199,16 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_TouchGFX_Task */
-void TouchGFX_Task(void *argument);
+void TouchGFX_Task(void *argument)
+{
   /* USER CODE BEGIN TouchGFX_Task */
   /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
   /* USER CODE END TouchGFX_Task */
-
+}
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */

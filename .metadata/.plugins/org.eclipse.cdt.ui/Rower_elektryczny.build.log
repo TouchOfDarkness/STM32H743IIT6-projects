@@ -1,30 +1,17 @@
-15:13:16 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+15:48:26 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:262:19: warning: unused variable 'RAMP_FACTOR' [-Wunused-variable]
-  262 |       const float RAMP_FACTOR = 0.05f;    // Jak szybko prąd ma gonić cel (0.01 = bardzo wolno/płynnie, 0.1 = szybko)
-      |                   ^~~~~~~~~~~
-../Core/Src/main.c:261:19: warning: unused variable 'MAX_CURRENT' [-Wunused-variable]
-  261 |       const float MAX_CURRENT = 20.0f;    // Maksymalny prąd w Amperach
-      |                   ^~~~~~~~~~~
-../Core/Src/main.c:260:19: warning: unused variable 'MAX_GEN_RPM' [-Wunused-variable]
-  260 |       const float MAX_GEN_RPM = 10000.0f; // Przy jakich obrotach chcesz miec PEŁNĄ MOC (zwiększ jeśli 8000 to za mało)
-      |                   ^~~~~~~~~~~
-../Core/Src/main.c:257:20: warning: unused variable 'current_filtered' [-Wunused-variable]
-  257 |       static float current_filtered = 0.0f;
-      |                    ^~~~~~~~~~~~~~~~
+arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
 arm-none-eabi-g++ -o "Rower_elektryczny.elf" @"objects.list"  -l:libtouchgfx-float-abi-hard.a -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static -L"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 Finished building target: Rower_elektryczny.elf
  
 arm-none-eabi-size  Rower_elektryczny.elf 
 arm-none-eabi-objdump -h -S Rower_elektryczny.elf  > "Rower_elektryczny.list"
    text	   data	    bss	    dec	    hex	filename
- 187964	    640	  52568	 241172	  3ae14	Rower_elektryczny.elf
+ 188312	    640	  52576	 241528	  3af78	Rower_elektryczny.elf
 Finished building: default.size.stdout
  
 Finished building: Rower_elektryczny.list
  
 
-15:13:20 Build Finished. 0 errors, 4 warnings. (took 4s.775ms)
+15:48:32 Build Finished. 0 errors, 0 warnings. (took 5s.590ms)
 
