@@ -227,13 +227,47 @@ int main(void)
     {
       Error_Handler();
     }
-
+    //if (MPU6050_Init(&hi2c2) == 0) {
+          // Opcjonalnie: mignij diodą, że MPU OK
+      //}
     /* Initialize QSPI Flash */
       if (BSP_QSPI_Init() != HAL_OK)
       {
         Error_Handler();
       }
 
+      /* Enable LCD backlight */
+      // === TEST SDRAM I LTDC ===
+        // Wypełnij bufor ramki (0xC0000000) kolorem CZERWONYM.
+        // Dla formatu RGB565, czerwony to 0xF800.
+        // Rozdzielczość 1024 * 600.
+
+
+      // Adres bufora ramki (zgodny z konfiguracją LTDC w CubeMX)
+      uint16_t* frame_buffer = (uint16_t*)0xC0000000;
+      int lcd_width = 1024;
+      int lcd_height = 600;
+
+
+      for (int i = 0; i < 1024 * 600; i++) {
+          frame_buffer[i] = 0xF800;
+      }
+      // 1. Wyczyść ekran na CZARNO (0x0000)
+      // To usunie losowe "kreski" i śmieci z pamięci
+      for (int i = 0; i < lcd_width * lcd_height; i++) {
+          frame_buffer[i] = 0x0000;
+      }
+
+      // 2. Narysuj PIONOWĄ linię na środku (X = 512)
+      // Kolor ZIELONY (0x07E0 w formacie RGB565)
+      int x_pos = 512;
+      for (int y = 0; y < lcd_height; y++) {
+          // Oblicz adres piksela: Base + (Y * Szerokość + X)
+          frame_buffer[y * lcd_width + x_pos] = 0x07E0;
+      }
+
+      // 3. Opcjonalnie: Wymuś zapisanie Cache do RAM (jeśli MPU jest włączone jako Cacheable)
+      // Bez tego linia może się nie pojawić, jeśli utknie w procesorze
 
       // --- KONIEC TESTU ---
   /* USER CODE END 2 */
@@ -258,30 +292,12 @@ int main(void)
       const float MAX_GEN_RPM = 10000.0f; // Przy jakich obrotach chcesz miec PEŁNĄ MOC (zwiększ jeśli 8000 to za mało)
       const float MAX_CURRENT = 20.0f;    // Maksymalny prąd w Amperach
       const float RAMP_FACTOR = 0.05f;    // Jak szybko prąd ma gonić cel (0.01 = bardzo wolno/płynnie, 0.1 = szybko)
+
+
   while (1)
   {
     /* USER CODE END WHILE */
-	  // 1. Odczyt MPU (przeniesione z main.c)
-	  	      MPU6050_Read_All(&hi2c2, &MPU6050);
 
-	  	      // 2. Logika VESC (przeniesione z main.c)
-	  	      int32_t rpm_raw = vescM.rpm;
-	  	      if (rpm_raw < 0) rpm_raw = 0;
-	  	      if (rpm_raw < 200) rpm_raw = 0;
-
-	  	      float throttle_pos = (float)rpm_raw / MAX_GEN_RPM;
-	  	      if (throttle_pos > 1.0f) throttle_pos = 1.0f;
-
-	  	      float current_target = throttle_pos * throttle_pos * MAX_CURRENT;
-	  	      current_filtered = (current_filtered * (1.0f - RAMP_FACTOR)) + (current_target * RAMP_FACTOR);
-
-	  	      if (current_filtered < 0.1f) current_filtered = 0.0f;
-
-	  	      VESC_SetCurrent(VESC_ID_L, current_filtered);
-	  	      osDelay(1); // ZMIANA: Używaj osDelay zamiast HAL_Delay w FreeRTOS!
-
-	  	      VESC_SetCurrent(VESC_ID_R, current_filtered);
-	  	      osDelay(20); // ZMIANA: Używaj osDelay zamiast HAL_Delay
     /* USER CODE BEGIN 3 */
 
   }

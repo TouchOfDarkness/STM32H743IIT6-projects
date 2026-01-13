@@ -159,13 +159,36 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-
+//	static float current_filtered = 0.0f;
+//	  const float MAX_GEN_RPM = 10000.0f;
+//	  const float MAX_CURRENT = 20.0f;
+//	  const float RAMP_FACTOR = 0.05f;
 
 	  /* Infinite loop */
 	  for(;;)
 	  {
 		  osDelay(100);
-
+//	      // 1. Odczyt MPU (przeniesione z main.c)
+//	      MPU6050_Read_All(&hi2c2, &MPU6050);
+//
+//	      // 2. Logika VESC (przeniesione z main.c)
+//	      int32_t rpm_raw = vescM.rpm;
+//	      if (rpm_raw < 0) rpm_raw = 0;
+//	      if (rpm_raw < 200) rpm_raw = 0;
+//
+//	      float throttle_pos = (float)rpm_raw / MAX_GEN_RPM;
+//	      if (throttle_pos > 1.0f) throttle_pos = 1.0f;
+//
+//	      float current_target = throttle_pos * throttle_pos * MAX_CURRENT;
+//	      current_filtered = (current_filtered * (1.0f - RAMP_FACTOR)) + (current_target * RAMP_FACTOR);
+//
+//	      if (current_filtered < 0.1f) current_filtered = 0.0f;
+//
+//	      VESC_SetCurrent(VESC_ID_L, current_filtered);
+//	      osDelay(1); // ZMIANA: Używaj osDelay zamiast HAL_Delay w FreeRTOS!
+//
+//	      VESC_SetCurrent(VESC_ID_R, current_filtered);
+//	      osDelay(20); // ZMIANA: Używaj osDelay zamiast HAL_Delay
 	  }
   /* USER CODE END StartDefaultTask */
 }
