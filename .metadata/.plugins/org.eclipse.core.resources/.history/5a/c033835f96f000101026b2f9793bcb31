@@ -32,7 +32,7 @@
  * Dla wielu projektów H7 + ~100MHz SDRAM spotyka się wartości ~0x0600…0x0700.
  * Jeśli masz działający przykład (np. z TouchGFX), możesz wziąć stamtąd.
  */
-#define REFRESH_COUNT     ((uint32_t)0x2F8)
+#define REFRESH_COUNT     ((uint32_t)0x0603)
 
 #define SDRAM_TIMEOUT     ((uint32_t)0xFFFF)
 
@@ -128,10 +128,10 @@ void MX_FMC_Init(void)
   hsdram1.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_1;
   /* SdramTiming */
   SdramTiming.LoadToActiveDelay = 2;
-  SdramTiming.ExitSelfRefreshDelay = 9;
-  SdramTiming.SelfRefreshTime = 6;
-  SdramTiming.RowCycleDelay = 8;
-  SdramTiming.WriteRecoveryTime = 4;
+  SdramTiming.ExitSelfRefreshDelay = 7;
+  SdramTiming.SelfRefreshTime = 4;
+  SdramTiming.RowCycleDelay = 7;
+  SdramTiming.WriteRecoveryTime = 3;
   SdramTiming.RPDelay = 2;
   SdramTiming.RCDDelay = 2;
 

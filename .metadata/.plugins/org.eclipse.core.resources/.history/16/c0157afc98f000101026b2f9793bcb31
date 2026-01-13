@@ -242,34 +242,17 @@ int main(void)
         // Dla formatu RGB565, czerwony to 0xF800.
         // Rozdzielczość 1024 * 600.
 
+        uint16_t* frame_buffer = (uint16_t*)0xC0000000;
+        for (int i = 0; i < (1024 * 600); i++)
+        {
+            frame_buffer[i] = 0xF800; // Czerwony
+        }
 
-      // Adres bufora ramki (zgodny z konfiguracją LTDC w CubeMX)
-      uint16_t* frame_buffer = (uint16_t*)0xC0000000;
-      int lcd_width = 1024;
-      int lcd_height = 600;
-
-
-      for (int i = 0; i < 1024 * 600; i++) {
-          frame_buffer[i] = 0xF800;
-      }
-      // 1. Wyczyść ekran na CZARNO (0x0000)
-      // To usunie losowe "kreski" i śmieci z pamięci
-      for (int i = 0; i < lcd_width * lcd_height; i++) {
-          frame_buffer[i] = 0x0000;
-      }
-
-      // 2. Narysuj PIONOWĄ linię na środku (X = 512)
-      // Kolor ZIELONY (0x07E0 w formacie RGB565)
-      int x_pos = 512;
-      for (int y = 0; y < lcd_height; y++) {
-          // Oblicz adres piksela: Base + (Y * Szerokość + X)
-          frame_buffer[y * lcd_width + x_pos] = 0x07E0;
-      }
-
-      // 3. Opcjonalnie: Wymuś zapisanie Cache do RAM (jeśli MPU jest włączone jako Cacheable)
-      // Bez tego linia może się nie pojawić, jeśli utknie w procesorze
-
-      // --- KONIEC TESTU ---
+        // Opcjonalnie: Narysuj zielony pasek na środku, żeby mieć pewność
+        for (int i = (1024 * 290); i < (1024 * 310); i++)
+        {
+            frame_buffer[i] = 0x07E0; // Zielony
+        }
   /* USER CODE END 2 */
 
   /* Init scheduler */

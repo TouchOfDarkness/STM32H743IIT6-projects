@@ -242,16 +242,11 @@ int main(void)
         // Dla formatu RGB565, czerwony to 0xF800.
         // Rozdzielczość 1024 * 600.
 
-
       // Adres bufora ramki (zgodny z konfiguracją LTDC w CubeMX)
       uint16_t* frame_buffer = (uint16_t*)0xC0000000;
       int lcd_width = 1024;
       int lcd_height = 600;
 
-
-      for (int i = 0; i < 1024 * 600; i++) {
-          frame_buffer[i] = 0xF800;
-      }
       // 1. Wyczyść ekran na CZARNO (0x0000)
       // To usunie losowe "kreski" i śmieci z pamięci
       for (int i = 0; i < lcd_width * lcd_height; i++) {
@@ -268,6 +263,7 @@ int main(void)
 
       // 3. Opcjonalnie: Wymuś zapisanie Cache do RAM (jeśli MPU jest włączone jako Cacheable)
       // Bez tego linia może się nie pojawić, jeśli utknie w procesorze
+      SCB_CleanDCache();
 
       // --- KONIEC TESTU ---
   /* USER CODE END 2 */

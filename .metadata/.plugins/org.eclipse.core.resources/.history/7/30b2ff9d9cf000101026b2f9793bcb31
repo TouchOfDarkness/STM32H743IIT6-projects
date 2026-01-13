@@ -242,6 +242,9 @@ int main(void)
         // Dla formatu RGB565, czerwony to 0xF800.
         // Rozdzielczość 1024 * 600.
 
+      uint16_t* frame_buffer = (uint16_t*)0xC0000000;
+
+      // 1. Wypełnij CZERWONYM (0xF800 w RGB565)
 
       // Adres bufora ramki (zgodny z konfiguracją LTDC w CubeMX)
       uint16_t* frame_buffer = (uint16_t*)0xC0000000;
