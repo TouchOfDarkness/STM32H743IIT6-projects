@@ -100,13 +100,11 @@ VescData_t vescR; // Zmienna dla prawego
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 void VESC_SetCurrent(uint8_t controller_id, float current_amps);
 void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps);
 void MPU_Config(void);
-void MotorControl_Task_Entry(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -217,26 +215,143 @@ int main(void)
 
 
   /* USER CODE END 2 */
-
-  /* Init scheduler */
   osKernelInitialize();
-
-  /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
-
-  /* Start scheduler */
   osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
-
-  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t current_gear = 1;           // Aktualny bieg (1 - domyślny)
+  const uint8_t MAX_GEAR = 16;         // Ile mamy biegów?
+
+  uint32_t timer_upshift = 0;         // Licznik czasu do zmiany w górę
+  uint32_t timer_downshift = 0;       // Licznik czasu do zmiany w dół
+
+         // Konfiguracja progów (zgodnie z Twoim opisem)
+  const int32_t UPSHIFT_RPM = 7000;   // Powyżej tego liczymy czas do zmiany w górę
+  const int32_t DOWNSHIFT_RPM = 5000; // Poniżej tego liczymy czas do redukcji (histereza)
+  const uint32_t SHIFT_DELAY = 6000;  // 6 sekund (6000 ms)
+
+         // Wartości przyrostowe
+  const float CURRENT_STEP = 1.0f;    // O ile A zwiększamy napęd na każdym biegu
+  const float DRAG_STEP = 0.2f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
+
+         // Zmienne wykonawcze
+  static float current_drive_filtered = 0.0f;
+  static float current_drag_filtered = 0.0f;
 
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  /* USER CODE END WHILE */
+
+	      /* USER CODE BEGIN 3 */
+	  	  // 1. Pobierz obroty
+	  	  // 1. ODCZYT I2C (Zabezpieczony)
+
+
+	  	  // 2. ODCZYT OBROTÓW + FILTRACJA
+	  	        int32_t rpm_raw = vescM.rpm;
+	  	        if (rpm_raw < 0) rpm_raw = 0;
+
+	  	        // Tuta wchodzi filtr średniej kroczącej - wygładzi te "góry i doliny" z wykresu
+	  	        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
+
+	  	        // 3. LOGIKA AUTOMATYCZNEJ SKRZYNI BIEGÓW
+	  	        // Czas pętli to ok. 25ms (Delay 20 + kod). Używamy HAL_GetTick() dla precyzji.
+	  	        static uint32_t last_tick = 0;
+	  	        uint32_t current_tick = HAL_GetTick();
+	  	        uint32_t dt = current_tick - last_tick; // Czas od ostatniej pętli
+	  	        last_tick = current_tick;
+
+	  	        if (rpm_filtered > 200) // Tylko jak jedziemy
+	  	        {
+	  	            // --- Logika Zmiany w Górę ---
+	  	            if (rpm_filtered > UPSHIFT_RPM) {
+	  	                timer_upshift += dt;
+	  	                timer_downshift = 0; // Reset licznika w dół
+
+	  	                if (timer_upshift > SHIFT_DELAY) {
+	  	                    // Minęło 6 sekund szybkiego pedałowania -> BIEG W GÓRĘ
+	  	                    if (current_gear < MAX_GEAR) {
+	  	                        current_gear++;
+	  	                        // Opcjonalnie: Mignij diodą na płytce
+	  	                    }
+	  	                    timer_upshift = 0; // Reset licznika po zmianie
+	  	                }
+	  	            }
+	  	            // --- Logika Zmiany w Dół ---
+	  	            else if (rpm_filtered < DOWNSHIFT_RPM) {
+	  	                timer_downshift += dt;
+	  	                timer_upshift = 0; // Reset licznika w górę
+
+	  	                if (timer_downshift > SHIFT_DELAY) {
+	  	                    // Minęło 6 sekund wolnego pedałowania -> REDUKCJA
+	  	                    if (current_gear > 1) {
+	  	                        current_gear--;
+	  	                    }
+	  	                    timer_downshift = 0;
+	  	                }
+	  	            }
+	  	            else {
+	  	                // Jesteśmy w strefie "OK" (między 5000 a 7000) - zerujemy liczniki
+	  	                timer_upshift = 0;
+	  	                timer_downshift = 0;
+	  	            }
+	  	        } else {
+	  	            // Zatrzymanie - reset do 1 biegu
+	  	             current_gear = 1;
+	  	             timer_upshift = 0;
+	  	             timer_downshift = 0;
+	  	        }
+
+	  	        // 4. OBLICZANIE PRĄDÓW
+
+	  	        float target_drive = 0.0f;
+	  	        float target_drag = 0.0f;
+
+	  	        if (rpm_filtered > 200)
+	  	        {
+	  	            // A. LOGIKA STARTU (LAUNCH) vs JAZDA (CRUISE)
+	  	            if (rpm_filtered < 1000) {
+	  	                // START: Dajemy 20A, żeby ruszyć z miejsca (jak prosiłeś)
+	  	                // Robimy szybki ramp od 0 do 20A w zakresie 200-500 RPM
+	  	                target_drive = 8.0f;
+	  	                target_drag = 1.0f; // Minimalny opór przy starcie
+	  	            }
+	  	            else {
+	  	                // JAZDA (CRUISE): 3A - 12A + BIEGI
+	  	                // Bazowa mapa 3-12A dla zakresu 1000-9000 RPM
+	  	                float progress = (float)(rpm_filtered - 1000) / (9000.0f - 1000.0f);
+	  	                if (progress > 1.0f) progress = 1.0f;
+
+	  	                float base_drive = 1.0f + (progress * (3.0f - 1.0f));
+	  	                float base_drag = 2.0f + (progress * 6.0f); // Bazowy opór rośnie lekko
+
+	  	                // DODAJEMY EFEKT BIEGÓW
+	  	                // Bieg 1: Dodatek 0A
+	  	                // Bieg 2: Dodatek 1.5A Drive, 5A Drag
+	  	                // ...
+	  	                float gear_drive_bonus = (current_gear - 1) * CURRENT_STEP; // np. 1.5A na bieg
+	  	                float gear_drag_bonus = (current_gear - 1) * DRAG_STEP;     // np. 5.0A na bieg (Musi być dużo!)
+
+	  	                target_drive = base_drive + gear_drive_bonus;
+	  	                target_drag = base_drag + gear_drag_bonus;
+	  	            }
+	  	        }
+
+	  	        // 5. FILTROWANIE WYJŚCIA (Ramping)
+	  	        current_drive_filtered = (current_drive_filtered * 0.9f) + (target_drive * 0.1f);
+	  	        current_drag_filtered = (current_drag_filtered * 0.9f) + (target_drag * 0.1f);
+
+	  	        // 6. WYSYŁANIE DO VESC
+	  	        VESC_SetCurrent(VESC_ID_L, current_drive_filtered);
+	  	        HAL_Delay(1);
+	  	        VESC_SetCurrent(VESC_ID_R, current_drive_filtered);
+	  	        HAL_Delay(1);
+	  	        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
+	  	        HAL_Delay(20);
+
   }
   /* USER CODE END 3 */
 }
@@ -476,104 +591,6 @@ void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps)
     }
 }
 
-void MotorControl_Task_Entry(void)
-{
-    // --- ZMIENNE PRZENIESIONE Z MAIN ---
-    uint8_t current_gear = 1;
-    const uint8_t MAX_GEAR = 16;
-    uint32_t timer_upshift = 0;
-    uint32_t timer_downshift = 0;
-
-    const int32_t UPSHIFT_RPM = 7000;
-    const int32_t DOWNSHIFT_RPM = 5000;
-    const uint32_t SHIFT_DELAY = 6000;
-
-    const float CURRENT_STEP = 1.0f;
-    const float DRAG_STEP = 0.2f;
-
-    static float current_drive_filtered = 0.0f;
-    static float current_drag_filtered = 0.0f;
-
-    // Pętla nieskończona zadania
-    while (1)
-    {
-        // 1. ODCZYT OBROTÓW + FILTRACJA
-        int32_t rpm_raw = vescM.rpm;
-        if (rpm_raw < 0) rpm_raw = 0;
-        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
-
-        // 2. LOGIKA AUTOMATYCZNEJ SKRZYNI BIEGÓW
-        static uint32_t last_tick = 0;
-        uint32_t current_tick = HAL_GetTick();
-        uint32_t dt = current_tick - last_tick;
-        last_tick = current_tick;
-
-        if (rpm_filtered > 200)
-        {
-            if (rpm_filtered > UPSHIFT_RPM) {
-                timer_upshift += dt;
-                timer_downshift = 0;
-                if (timer_upshift > SHIFT_DELAY) {
-                    if (current_gear < MAX_GEAR) current_gear++;
-                    timer_upshift = 0;
-                }
-            }
-            else if (rpm_filtered < DOWNSHIFT_RPM) {
-                timer_downshift += dt;
-                timer_upshift = 0;
-                if (timer_downshift > SHIFT_DELAY) {
-                    if (current_gear > 1) current_gear--;
-                    timer_downshift = 0;
-                }
-            }
-            else {
-                timer_upshift = 0;
-                timer_downshift = 0;
-            }
-        } else {
-             current_gear = 1;
-             timer_upshift = 0;
-             timer_downshift = 0;
-        }
-
-        // 3. OBLICZANIE PRĄDÓW
-        float target_drive = 0.0f;
-        float target_drag = 0.0f;
-
-        if (rpm_filtered > 200)
-        {
-            if (rpm_filtered < 1000) {
-                target_drive = 8.0f;
-                target_drag = 1.0f;
-            }
-            else {
-                float progress = (float)(rpm_filtered - 1000) / (9000.0f - 1000.0f);
-                if (progress > 1.0f) progress = 1.0f;
-
-                float base_drive = 1.0f + (progress * (3.0f - 1.0f));
-                float base_drag = 2.0f + (progress * 6.0f);
-
-                float gear_drive_bonus = (current_gear - 1) * CURRENT_STEP;
-                float gear_drag_bonus = (current_gear - 1) * DRAG_STEP;
-
-                target_drive = base_drive + gear_drive_bonus;
-                target_drag = base_drag + gear_drag_bonus;
-            }
-        }
-
-        // 4. FILTROWANIE WYJŚCIA
-        current_drive_filtered = (current_drive_filtered * 0.9f) + (target_drive * 0.1f);
-        current_drag_filtered = (current_drag_filtered * 0.9f) + (target_drag * 0.1f);
-
-        // 5. WYSYŁANIE DO VESC
-        VESC_SetCurrent(VESC_ID_L, current_drive_filtered);
-        osDelay(1);
-        VESC_SetCurrent(VESC_ID_R, current_drive_filtered);
-        osDelay(1);
-        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
-        osDelay(20);
-    }
-}
 /* USER CODE END 4 */
 
  /* MPU Configuration */

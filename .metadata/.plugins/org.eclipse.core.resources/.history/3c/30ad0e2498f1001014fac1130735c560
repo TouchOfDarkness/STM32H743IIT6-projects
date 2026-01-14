@@ -69,7 +69,6 @@ const osThreadAttr_t TouchGFXTask_attributes = {
 
 void StartDefaultTask(void *argument);
 extern void TouchGFX_Task(void *argument);
-extern void MotorControl_Task_Entry(void);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -159,14 +158,13 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-	MotorControl_Task_Entry();
   /* Infinite loop */
 
 
 	  /* Infinite loop */
 	  for(;;)
 	  {
-		  osDelay(1);
+		  osDelay(100);
 
 	  }
   /* USER CODE END StartDefaultTask */
