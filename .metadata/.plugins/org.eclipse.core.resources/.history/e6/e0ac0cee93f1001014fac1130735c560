@@ -104,7 +104,7 @@ void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 void VESC_SetCurrent(uint8_t controller_id, float current_amps);
 void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps);
-void MPU_Config(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -237,6 +237,7 @@ int main(void)
          // Zmienne wykonawcze
   static float current_drive_filtered = 0.0f;
   static float current_drag_filtered = 0.0f;
+  uint8_t Rec_Data[14];
 
   while (1)
   {
