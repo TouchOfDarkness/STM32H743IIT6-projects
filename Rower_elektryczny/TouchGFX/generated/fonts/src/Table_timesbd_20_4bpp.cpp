@@ -4,17 +4,16 @@
 
 FONT_TABLE_LOCATION_FLASH_PRAGMA
 KEEP extern const touchgfx::GlyphNode glyphs_timesbd_20_4bpp[] FONT_TABLE_LOCATION_FLASH_ATTRIBUTE = {
-    {     0, 0x0020,   0,   0,   0,   0,   5,   0,   0, 0x00 },
-    {     0, 0x0030,  10,  14,  14,   0,  10,   0,   0, 0x00 },
-    {    70, 0x003F,   8,  14,  14,   1,  10,   0,   0, 0x00 },
-    {   126, 0x0056,  15,  14,  14,   0,  14,   0,   0, 0x00 },
-    {   238, 0x0063,   9,  10,  10,   0,   9,   0,   0, 0x00 },
-    {   288, 0x0065,   9,  10,  10,   0,   9,   0,   1, 0x00 },
-    {   338, 0x0069,   6,  14,  14,   0,   6,   1,   1, 0x00 },
-    {   380, 0x006C,   6,  14,  14,   0,   6,   0,   0, 0x00 },
-    {   422, 0x006F,  10,  10,  10,   0,  10,   2,   1, 0x00 },
-    {   472, 0x0074,   7,  14,  14,   0,   7,   0,   0, 0x00 },
-    {   528, 0x0079,  10,  15,  10,   0,  10,   3,   1, 0x00 }
+    {     0, 0x0020,   0,   0,   0,   0,   5,   0,   1, 0x00 },
+    {     0, 0x0031,   8,  14,  14,   1,  10,   1,   1, 0x00 },
+    {    56, 0x0032,   9,  14,  14,   0,  10,   0,   0, 0x00 },
+    {   126, 0x003F,   8,  14,  14,   1,  10,   0,   0, 0x00 },
+    {   182, 0x0041,  15,  15,  15,   0,  14,   2,   3, 0x00 },
+    {   302, 0x0045,  13,  14,  14,   0,  13,   0,   0, 0x00 },
+    {   400, 0x0052,  15,  14,  14,   0,  14,   0,   0, 0x00 },
+    {   512, 0x0053,  10,  14,  14,   1,  11,   0,   0, 0x00 },
+    {   582, 0x0054,  13,  14,  14,   0,  13,   5,   2, 0x00 },
+    {   680, 0x0056,  15,  14,  14,   0,  14,   7,   2, 0x00 }
 };
 
 // timesbd_20_4bpp
@@ -188,6 +187,6 @@ touchgfx::GeneratedFont& getFont_timesbd_20_4bpp();
 
 touchgfx::GeneratedFont& getFont_timesbd_20_4bpp()
 {
-    static touchgfx::GeneratedFont timesbd_20_4bpp(glyphs_timesbd_20_4bpp, 11, 25, 20, 0, 0, 4, 1, 0, 1, unicodes_timesbd_20_4bpp, kerning_timesbd_20_4bpp, 63, 0, 0, &timesbd_contextualFormsTable);
+    static touchgfx::GeneratedFont timesbd_20_4bpp(glyphs_timesbd_20_4bpp, 10, 20, 20, 0, 0, 4, 1, 0, 1, unicodes_timesbd_20_4bpp, kerning_timesbd_20_4bpp, 63, 0, 0, &timesbd_contextualFormsTable);
     return timesbd_20_4bpp;
 }

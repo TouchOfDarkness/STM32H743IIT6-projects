@@ -4,12 +4,12 @@
     <Language Id="GB" />
   </Languages>
   <Texts>
-    <TextGroup Id="Group1">
-      <Text Id="VelocityValue" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0</Translation>
+    <TextGroup Id="TestText">
+      <Text Id="textRamp" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">TEST VAR2 &lt;V&gt;</Translation>
       </Text>
-      <Text Id="Velocity" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">Velocity   &lt;&gt;</Translation>
+      <Text Id="textToggle" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">TEST VAR1  &lt;v&gt;</Translation>
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted" />

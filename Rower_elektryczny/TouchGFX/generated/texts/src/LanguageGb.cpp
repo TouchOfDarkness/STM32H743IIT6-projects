@@ -10,6 +10,6 @@ KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE;
 // Remap all strings
 TEXT_LOCATION_FLASH_PRAGMA
 KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE = {
-    13, // T_VELOCITYVALUE: "VelocityValue"
-    0   // T_VELOCITY: "Velocity   <>"
+    13, // T_TEXTRAMP: "TEST VAR2 <>"
+    0   // T_TEXTTOGGLE: "TEST VAR1  <>"
 };

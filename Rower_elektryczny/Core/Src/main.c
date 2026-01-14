@@ -96,6 +96,9 @@ VescData_t vescL; // Zmienna dla lewego
 VescData_t vescM; // Zmienna dla środkowego
 VescData_t vescR; // Zmienna dla prawego
 
+
+volatile int test_toggle_var = 0;   // Zmienna 0/1 co sekundę
+volatile float test_ramp_var = 0.0f; // Zmienna liniowa 0.0 -> 1.0
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,28 +109,13 @@ void MX_FREERTOS_Init(void);
 void VESC_SetCurrent(uint8_t controller_id, float current_amps);
 void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps);
 void MPU_Config(void);
+int32_t Get_Filtered_RPM(int32_t new_val);
 void MotorControl_Task_Entry(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int32_t Get_Filtered_RPM(int32_t new_val) {
-    static int32_t buffer[FILTER_SAMPLES];
-    static uint8_t index = 0;
-    static int32_t sum = 0;
-    static uint8_t count = 0;
 
-    // Odejmij starą wartość i dodaj nową
-    sum -= buffer[index];
-    buffer[index] = new_val;
-    sum += buffer[index];
-
-    index++;
-    if (index >= FILTER_SAMPLES) index = 0;
-    if (count < FILTER_SAMPLES) count++;
-
-    return sum / count;
-}
 /* USER CODE END 0 */
 
 /**
@@ -476,6 +464,23 @@ void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps)
     }
 }
 
+int32_t Get_Filtered_RPM(int32_t new_val) {
+    static int32_t buffer[FILTER_SAMPLES];
+    static uint8_t index = 0;
+    static int32_t sum = 0;
+    static uint8_t count = 0;
+
+    // Odejmij starą wartość i dodaj nową
+    sum -= buffer[index];
+    buffer[index] = new_val;
+    sum += buffer[index];
+
+    index++;
+    if (index >= FILTER_SAMPLES) index = 0;
+    if (count < FILTER_SAMPLES) count++;
+
+    return sum / count;
+}
 void MotorControl_Task_Entry(void)
 {
     // --- ZMIENNE PRZENIESIONE Z MAIN ---

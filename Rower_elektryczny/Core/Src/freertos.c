@@ -45,7 +45,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+extern volatile int test_toggle_var;
+extern volatile float test_ramp_var;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -61,6 +62,13 @@ const osThreadAttr_t TouchGFXTask_attributes = {
   .stack_size = 4096 * 4,
   .priority = (osPriority_t) osPriorityBelowNormal,
 };
+/* Definitions for TaskTest */
+osThreadId_t TaskTestHandle;
+const osThreadAttr_t TaskTest_attributes = {
+  .name = "TaskTest",
+  .stack_size = 256 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -69,7 +77,7 @@ const osThreadAttr_t TouchGFXTask_attributes = {
 
 void StartDefaultTask(void *argument);
 extern void TouchGFX_Task(void *argument);
-extern void MotorControl_Task_Entry(void);
+void TestTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -139,6 +147,9 @@ void MX_FREERTOS_Init(void) {
   /* creation of TouchGFXTask */
   TouchGFXTaskHandle = osThreadNew(TouchGFX_Task, NULL, &TouchGFXTask_attributes);
 
+  /* creation of TaskTest */
+  TaskTestHandle = osThreadNew(TestTask, NULL, &TaskTest_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -170,6 +181,47 @@ void StartDefaultTask(void *argument)
 
 	  }
   /* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_TestTask */
+/**
+* @brief Function implementing the TaskTest thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_TestTask */
+void TestTask(void *argument)
+{
+  /* USER CODE BEGIN TestTask */
+  /* Infinite loop */
+  for(;;)
+  {
+	  // --- LOGIKA ZMIENNYCH TESTOWYCH ---
+	  static uint32_t test_timer_1s = 0;
+	  static uint32_t test_last_tick = 0;
+
+	  uint32_t current_tick_test = HAL_GetTick();
+	  uint32_t dt_test = current_tick_test - test_last_tick;
+	  test_last_tick = current_tick_test;
+
+	  // 1. Zmienna przełączająca 0/1 co sekundę
+	  test_timer_1s += dt_test;
+	  if (test_timer_1s >= 1000) // Co 1000ms (1 sekunda)
+	  {
+	      test_toggle_var = !test_toggle_var; // Negacja: 0->1, 1->0
+	      test_timer_1s = 0;
+	  }
+
+	  // 2. Zmienna liniowa 0.0 -> 1.0 w ciągu sekundy
+	  // Zwiększamy wartość o ułamek czasu, jaki upłynął (dt / 1000ms)
+	  test_ramp_var += (float)dt_test / 1000.0f;
+
+	  if (test_ramp_var >= 1.0f)
+	  {
+	      test_ramp_var = 0.0f; // Reset po osiągnięciu 1.0
+	  }
+  }
+  /* USER CODE END TestTask */
 }
 
 /* Private application code --------------------------------------------------*/

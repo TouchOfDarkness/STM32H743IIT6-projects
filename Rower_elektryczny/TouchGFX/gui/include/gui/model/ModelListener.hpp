@@ -14,6 +14,10 @@ public:
     {
         model = m;
     }
+
+    virtual void updateTestValues(int toggleVal, float rampVal) {}
+
+
 protected:
     Model* model;
 };
