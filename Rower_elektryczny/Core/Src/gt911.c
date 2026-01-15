@@ -26,17 +26,33 @@ static HAL_StatusTypeDef GT911_ReadReg(I2C_HandleTypeDef *hi2c, uint16_t reg, ui
 
 // Reset GT911 - WAŻNE: ustaw adres I2C
 void GT911_Reset(void) {
-    // Ustaw INT na LOW dla adresu 0x5D (lub HIGH dla 0x14)
-    HAL_GPIO_WritePin(GT911_INT_GPIO_Port, GT911_INT_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GT911_RST_GPIO_Port, GT911_RST_Pin, GPIO_PIN_RESET);
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    // 1. Skonfiguruj INT jako WYJŚCIE, aby wymusić stan logiczny
+    GPIO_InitStruct.Pin = GT911_INT_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GT911_INT_GPIO_Port, &GPIO_InitStruct);
+
+    // 2. Sekwencja Resetu (Ustawienie adresu 0xBA -> INT LOW)
+    HAL_GPIO_WritePin(GT911_INT_GPIO_Port, GT911_INT_Pin, GPIO_PIN_RESET); // INT LOW
+    HAL_GPIO_WritePin(GT911_RST_GPIO_Port, GT911_RST_Pin, GPIO_PIN_RESET); // RST LOW
     HAL_Delay(10);
 
-    HAL_GPIO_WritePin(GT911_RST_GPIO_Port, GT911_RST_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GT911_RST_GPIO_Port, GT911_RST_Pin, GPIO_PIN_SET);   // RST HIGH
     HAL_Delay(10);
 
-    // Zwolnij INT
-    HAL_GPIO_WritePin(GT911_INT_GPIO_Port, GT911_INT_Pin, GPIO_PIN_SET);
-    HAL_Delay(100);
+    // 3. Przywróć INT jako WEJŚCIE (Przerwanie)
+    // Czekamy chwilę, aż GT911 "złapie" adres
+    HAL_Delay(50);
+
+    GPIO_InitStruct.Pin = GT911_INT_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(GT911_INT_GPIO_Port, &GPIO_InitStruct);
+
+    HAL_Delay(50);
 }
 
 // Inicjalizacja GT911

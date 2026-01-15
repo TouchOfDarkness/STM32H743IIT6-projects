@@ -1,5 +1,5 @@
 ../Core/Src/gt911.c:7:26:GT911_WriteReg	1
 ../Core/Src/gt911.c:16:26:GT911_ReadReg	2
 ../Core/Src/gt911.c:28:6:GT911_Reset	1
-../Core/Src/gt911.c:43:9:GT911_Init	7
-../Core/Src/gt911.c:72:9:GT911_ReadTouchData	7
+../Core/Src/gt911.c:59:9:GT911_Init	7
+../Core/Src/gt911.c:88:9:GT911_ReadTouchData	7

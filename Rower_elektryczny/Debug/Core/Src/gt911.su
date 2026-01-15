@@ -1,5 +1,5 @@
 ../Core/Src/gt911.c:7:26:GT911_WriteReg	296	static
 ../Core/Src/gt911.c:16:26:GT911_ReadReg	40	static
-../Core/Src/gt911.c:28:6:GT911_Reset	8	static
-../Core/Src/gt911.c:43:9:GT911_Init	24	static
-../Core/Src/gt911.c:72:9:GT911_ReadTouchData	72	static
+../Core/Src/gt911.c:28:6:GT911_Reset	32	static
+../Core/Src/gt911.c:59:9:GT911_Init	24	static
+../Core/Src/gt911.c:88:9:GT911_ReadTouchData	72	static

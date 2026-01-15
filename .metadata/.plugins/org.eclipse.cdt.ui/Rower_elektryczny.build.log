@@ -1,10 +1,10 @@
-19:58:34 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+21:33:52 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
 arm-none-eabi-size  Rower_elektryczny.elf 
    text	   data	    bss	    dec	    hex	filename
-1769198	    644	  72736	1842578	 1c1d92	Rower_elektryczny.elf
+1769262	    644	  72736	1842642	 1c1dd2	Rower_elektryczny.elf
 Finished building: default.size.stdout
  
 
-19:58:36 Build Finished. 0 errors, 0 warnings. (took 2s.35ms)
+21:33:55 Build Finished. 0 errors, 0 warnings. (took 2s.133ms)
 
