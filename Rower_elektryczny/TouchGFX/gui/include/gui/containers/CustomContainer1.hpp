@@ -10,7 +10,8 @@ public:
     virtual ~CustomContainer1() {}
 
     virtual void initialize();
-    void updateElement(const char* name, int value);
+    void updateElementInt(const char* name, int value);
+    void updateElementFloat(const char* name, float value, int precision = 2);
 
 protected:
 };

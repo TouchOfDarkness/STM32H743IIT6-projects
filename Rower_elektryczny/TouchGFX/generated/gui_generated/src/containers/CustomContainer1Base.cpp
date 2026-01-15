@@ -20,7 +20,7 @@ CustomContainer1Base::CustomContainer1Base()
     scalableImage2.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
     add(scalableImage2);
 
-    ParameterText.setXY(21, 22);
+    ParameterText.setXY(12, 22);
     ParameterText.setColor(touchgfx::Color::getColorFromRGB(77, 255, 0));
     ParameterText.setLinespacing(0);
     Unicode::snprintf(ParameterTextBuffer, PARAMETERTEXT_SIZE, "%s", touchgfx::TypedText(T_PARAMETERNAMEWILDCARD).getText());

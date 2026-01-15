@@ -5,6 +5,7 @@
 #include <touchgfx/canvas_widget_renderer/CanvasWidgetRenderer.hpp>
 #include <touchgfx/Color.hpp>
 #include <images/BitmapDatabase.hpp>
+#include <texts/TextKeysAndLanguages.hpp>
 
 MainScreenViewBase::MainScreenViewBase() :
     updateItemCallback(this, &MainScreenViewBase::updateItemCallbackHandler)
@@ -32,6 +33,18 @@ MainScreenViewBase::MainScreenViewBase() :
     dynamicGraph.setGraphAreaMargin(0, 0, 0, 0);
     dynamicGraph.setGraphAreaPadding(0, 0, 0, 0);
     dynamicGraph.setGraphRangeY(0, 100);
+    dynamicGraphMajorXAxisGrid.setColor(touchgfx::Color::getColorFromRGB(170, 178, 181));
+    dynamicGraphMajorXAxisGrid.setInterval(10);
+    dynamicGraphMajorXAxisGrid.setLineWidth(1);
+    dynamicGraphMajorXAxisGrid.setScale(1);
+    dynamicGraph.addGraphElement(dynamicGraphMajorXAxisGrid);
+
+    dynamicGraphMajorXAxisLabel.setInterval(10);
+    dynamicGraphMajorXAxisLabel.setLabelTypedText(touchgfx::TypedText(T___SINGLEUSE_TODZ));
+    dynamicGraphMajorXAxisLabel.setColor(touchgfx::Color::getColorFromRGB(20, 151, 197));
+    dynamicGraphMajorXAxisLabel.setScale(1);
+    dynamicGraph.addBottomElement(dynamicGraphMajorXAxisLabel);
+
     dynamicGraphLine1Painter.setColor(touchgfx::Color::getColorFromRGB(20, 151, 197));
     dynamicGraphLine1.setPainter(dynamicGraphLine1Painter);
     dynamicGraphLine1.setLineWidth(2);
@@ -142,30 +155,76 @@ MainScreenViewBase::MainScreenViewBase() :
 
     swipeContainer.add(swipeContainerGraphPage);
 
-    swipeContainerParameterPage.setWidth(1024);
-    swipeContainerParameterPage.setHeight(600);
-    scrollList.setPosition(462, 30, 403, 489);
-    scrollList.setHorizontal(false);
-    scrollList.setCircular(false);
-    scrollList.setEasingEquation(touchgfx::EasingEquations::backEaseOut);
-    scrollList.setSwipeAcceleration(10);
-    scrollList.setDragAcceleration(10);
-    scrollList.setNumberOfItems(27);
-    scrollList.setPadding(0, 0);
-    scrollList.setSnapping(false);
-    scrollList.setOvershootPercentage(75);
-    scrollList.setDrawableSize(68, 0);
-    scrollList.setDrawables(scrollListListItems, updateItemCallback);
-    swipeContainerParameterPage.add(scrollList);
-
-    swipeContainer.add(swipeContainerParameterPage);
-
     swipeContainerMainPage.setWidth(1024);
     swipeContainerMainPage.setHeight(600);
     swipeContainer.add(swipeContainerMainPage);
 
+    swipeContainerParameterPage.setWidth(1024);
+    swipeContainerParameterPage.setHeight(600);
+    scrollListL.setPosition(34, 55, 403, 245);
+    scrollListL.setHorizontal(false);
+    scrollListL.setCircular(false);
+    scrollListL.setEasingEquation(touchgfx::EasingEquations::backEaseOut);
+    scrollListL.setSwipeAcceleration(10);
+    scrollListL.setDragAcceleration(10);
+    scrollListL.setNumberOfItems(13);
+    scrollListL.setPadding(0, 0);
+    scrollListL.setSnapping(false);
+    scrollListL.setOvershootPercentage(75);
+    scrollListL.setDrawableSize(68, 0);
+    scrollListL.setDrawables(scrollListLListItems, updateItemCallback);
+    swipeContainerParameterPage.add(scrollListL);
+
+    scrollListR.setPosition(588, 57, 403, 243);
+    scrollListR.setHorizontal(false);
+    scrollListR.setCircular(false);
+    scrollListR.setEasingEquation(touchgfx::EasingEquations::backEaseOut);
+    scrollListR.setSwipeAcceleration(10);
+    scrollListR.setDragAcceleration(10);
+    scrollListR.setNumberOfItems(13);
+    scrollListR.setPadding(0, 0);
+    scrollListR.setSnapping(false);
+    scrollListR.setOvershootPercentage(75);
+    scrollListR.setDrawableSize(68, 0);
+    scrollListR.setDrawables(scrollListRListItems, updateItemCallback);
+    swipeContainerParameterPage.add(scrollListR);
+
+    scrollListM.setPosition(311, 303, 403, 243);
+    scrollListM.setHorizontal(false);
+    scrollListM.setCircular(false);
+    scrollListM.setEasingEquation(touchgfx::EasingEquations::backEaseOut);
+    scrollListM.setSwipeAcceleration(10);
+    scrollListM.setDragAcceleration(10);
+    scrollListM.setNumberOfItems(13);
+    scrollListM.setPadding(0, 0);
+    scrollListM.setSnapping(false);
+    scrollListM.setOvershootPercentage(75);
+    scrollListM.setDrawableSize(68, 0);
+    scrollListM.setDrawables(scrollListMListItems, updateItemCallback);
+    swipeContainerParameterPage.add(scrollListM);
+
+    swipeContainer.add(swipeContainerParameterPage);
+
     swipeContainer.setSelectedPage(1);
     add(swipeContainer);
+
+    textArea1.setXY(498, 534);
+    textArea1.setColor(touchgfx::Color::getColorFromRGB(219, 112, 31));
+    textArea1.setLinespacing(0);
+    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_0VQV));
+    add(textArea1);
+
+    textArea1_2.setXY(738, 18);
+    textArea1_2.setColor(touchgfx::Color::getColorFromRGB(219, 112, 31));
+    textArea1_2.setLinespacing(0);
+    textArea1_2.setTypedText(touchgfx::TypedText(T___SINGLEUSE_D03D));
+    add(textArea1_2);
+
+    textArea1_1.setXY(184, 18);
+    textArea1_1.setColor(touchgfx::Color::getColorFromRGB(219, 112, 31));
+    textArea1_1.setLinespacing(0);
+    textArea1_1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_XAB6));
+    add(textArea1_1);
 }
 
 MainScreenViewBase::~MainScreenViewBase()
@@ -175,17 +234,37 @@ MainScreenViewBase::~MainScreenViewBase()
 
 void MainScreenViewBase::setupScreen()
 {
-    scrollList.initialize();
-    for (int i = 0; i < scrollListListItems.getNumberOfDrawables(); i++)
+    scrollListL.initialize();
+    for (int i = 0; i < scrollListLListItems.getNumberOfDrawables(); i++)
     {
-        scrollListListItems[i].initialize();
+        scrollListLListItems[i].initialize();
+    }
+    scrollListR.initialize();
+    for (int i = 0; i < scrollListRListItems.getNumberOfDrawables(); i++)
+    {
+        scrollListRListItems[i].initialize();
+    }
+    scrollListM.initialize();
+    for (int i = 0; i < scrollListMListItems.getNumberOfDrawables(); i++)
+    {
+        scrollListMListItems[i].initialize();
     }
 }
 
 void MainScreenViewBase::updateItemCallbackHandler(touchgfx::DrawableListItemsInterface* items, int16_t containerIndex, int16_t itemIndex)
 {
-    if (items == &scrollListListItems)
+    if (items == &scrollListLListItems)
     {
-        scrollListUpdateItem(scrollListListItems[containerIndex], itemIndex);
+        scrollListLUpdateItem(scrollListLListItems[containerIndex], itemIndex);
+    }
+
+    if (items == &scrollListRListItems)
+    {
+        scrollListRUpdateItem(scrollListRListItems[containerIndex], itemIndex);
+    }
+
+    if (items == &scrollListMListItems)
+    {
+        scrollListMUpdateItem(scrollListMListItems[containerIndex], itemIndex);
     }
 }

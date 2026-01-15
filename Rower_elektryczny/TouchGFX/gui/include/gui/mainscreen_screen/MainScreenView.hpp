@@ -12,10 +12,15 @@ public:
     virtual ~MainScreenView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-    void scrollListUpdateItem(CustomContainer1& item, int16_t itemIndex);
+    virtual void scrollListLUpdateItem(CustomContainer1& item, int16_t itemIndex);
+    virtual void scrollListMUpdateItem(CustomContainer1& item, int16_t itemIndex);
+    virtual void scrollListRUpdateItem(CustomContainer1& item, int16_t itemIndex);
     virtual void handleTickEvent();
 
 protected:
+
+private:
+    int currentMotorIndex = 0;
 };
 
 #endif // MAINSCREENVIEW_HPP

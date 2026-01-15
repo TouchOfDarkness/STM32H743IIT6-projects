@@ -6,6 +6,10 @@
 
 using namespace touchgfx;
 
+extern "C" {
+    #include "main.h" // Tutaj mamy dostęp do vescL
+}
+
 class MainScreenView;
 
 class MainScreenPresenter : public touchgfx::Presenter, public ModelListener
@@ -27,8 +31,8 @@ public:
 
     virtual ~MainScreenPresenter() {}
 
-    int getRpm() {
-            return model->getVescLRpm();
+    VescData_t getVescData(int index) {
+            return model->getVescData(index);
         }
 
 

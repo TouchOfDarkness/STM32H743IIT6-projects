@@ -1,0 +1,57 @@
+#include <gui/mainscreen_screen/MainScreenView.hpp>
+#include <touchgfx/Utils.hpp>
+#include "main.h"
+
+static const int NUMBER_OF_PARAMS = 13;
+
+MainScreenView::MainScreenView()
+{
+
+}
+
+void MainScreenView::setupScreen()
+{
+    MainScreenViewBase::setupScreen();
+    scrollList.setNumberOfItems(NUMBER_OF_PARAMS*3);
+}
+
+void MainScreenView::tearDownScreen()
+{
+    MainScreenViewBase::tearDownScreen();
+}
+void MainScreenView::scrollListUpdateItem(CustomContainer1& item, int16_t itemIndex)
+{
+	VescData_t data = presenter->getVescData(currentMotorIndex);
+
+	    switch(itemIndex)
+	    {
+	        // Inty przekazujemy normalnie (wybierze wersję int funkcji)
+	        case 0: item.updateElement("RPM", data.rpm); break;
+
+	        // Floaty przekazujemy normalnie (wybierze wersję float funkcji)
+	        // Możesz dodać trzeci parametr, np. 1 (jedno miejsce po przecinku)
+	        case 1: item.updateElement("Prad Silnika", data.current_motor, 1); break;
+	        case 2: item.updateElement("Wypelnienie", data.duty_cycle, 1); break;
+	        case 3: item.updateElement("Ah", data.amp_hours, 3); break; // 3 miejsca po przecinku
+	        case 4: item.updateElement("Ah Lad.", data.amp_hours_chg, 3); break;
+	        case 5: item.updateElement("Wh", data.watt_hours, 1); break;
+	        case 6: item.updateElement("Wh Lad.", data.watt_hours_chg, 1); break;
+	        case 7: item.updateElement("Temp FET", data.temp_fet, 0); break; // 0 miejsc = jak int
+	        case 8: item.updateElement("Temp Motor", data.temp_motor, 0); break;
+	        case 9: item.updateElement("Prad Wej.", data.current_in, 1); break;
+	        case 10: item.updateElement("PID Pos", data.pid_pos, 2); break;
+	        case 11: item.updateElement("Tacho", data.tacho_value); break; // To jest int
+	        case 12: item.updateElement("Napiecie Wej.", data.v_in, 1); break;
+	        default: item.updateElement("???", 0); break;
+	    }
+}
+
+void MainScreenView::handleTickEvent()
+{
+    // Wymuś przerysowanie elementów listy (nie jest to super wydajne dla dużych list, ale dla testu OK)
+    // Lepszą metodą jest sprawdzanie czy wartość się zmieniła w Modelu
+    for (int i = 0; i < scrollList.getNumberOfItems(); i++)
+    {
+        scrollList.itemChanged(i);
+    }
+}

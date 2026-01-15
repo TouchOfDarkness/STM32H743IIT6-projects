@@ -1,9 +1,7 @@
 #include <gui/model/Model.hpp>
 #include <gui/model/ModelListener.hpp>
 
-extern "C" {
-    #include "main.h" // Tutaj mamy dostęp do vescL
-}
+
 
 Model::Model() : modelListener(0)
 {
@@ -17,7 +15,12 @@ void Model::tick()
 
 }
 
-int Model::getVescLRpm()
+VescData_t Model::getVescData(int controllerIndex)
 {
-    return vescL.rpm;
+    switch(controllerIndex) {
+        case 0: return vescL;
+        case 1: return vescM;
+        case 2: return vescR;
+        default: return vescL; // Zabezpieczenie
+    }
 }

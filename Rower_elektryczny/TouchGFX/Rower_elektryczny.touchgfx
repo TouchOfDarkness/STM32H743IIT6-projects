@@ -22,7 +22,7 @@
             "IndicatorImageNormal": "__generated\\alternate_theme_images_widgets_swipecontainer_large_off_normal.png",
             "IndicatorImageHighlight": "__generated\\alternate_theme_images_widgets_swipecontainer_large_on_active.png",
             "EndSwipeElasticWidth": 50,
-            "SelectedPage": "swipeContainerParameterPage",
+            "SelectedPage": "swipeContainerMainPage",
             "Preset": "alternate_theme\\presets\\swipecontainer\\large_active.json",
             "Components": [
               {
@@ -57,30 +57,30 @@
                           "Blue": 197
                         }
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "Type": "Container",
-                "Name": "swipeContainerParameterPage",
-                "Width": 1024,
-                "Height": 600,
-                "Components": [
-                  {
-                    "Type": "ScrollList",
-                    "Name": "scrollList",
-                    "X": 462,
-                    "Y": 30,
-                    "Width": 403,
-                    "Height": 489,
-                    "ItemTemplateName": "CustomContainer1",
-                    "NumberofItems": 27,
-                    "Easing": "Back",
-                    "EasingOption": "Out",
-                    "SwipeAcceleration": 1.0,
-                    "DragAcceleration": 1.0,
-                    "OverShootPercentage": 75
+                    ],
+                    "XAxisGrid": {
+                      "Type": "GraphGrid",
+                      "Color": {
+                        "Red": 170,
+                        "Green": 178,
+                        "Blue": 181
+                      },
+                      "Interval": 10.0,
+                      "LineWidth": 1
+                    },
+                    "XAxisLabel": {
+                      "Type": "GraphLabel",
+                      "Interval": 10.0,
+                      "DecimalSeparator": "Point",
+                      "TextColor": {
+                        "Red": 20,
+                        "Green": 151,
+                        "Blue": 197
+                      },
+                      "TextId": "__SingleUse_TODZ",
+                      "TextRotation": "0",
+                      "Position": "Bottom"
+                    }
                   }
                 ]
               },
@@ -90,8 +90,109 @@
                 "Width": 1024,
                 "Height": 600,
                 "Components": []
+              },
+              {
+                "Type": "Container",
+                "Name": "swipeContainerParameterPage",
+                "Width": 1024,
+                "Height": 600,
+                "Components": [
+                  {
+                    "Type": "ScrollList",
+                    "Name": "scrollListL",
+                    "X": 34,
+                    "Y": 55,
+                    "Width": 403,
+                    "Height": 245,
+                    "ItemTemplateName": "CustomContainer1",
+                    "NumberofItems": 13,
+                    "Easing": "Back",
+                    "EasingOption": "Out",
+                    "SwipeAcceleration": 1.0,
+                    "DragAcceleration": 1.0,
+                    "OverShootPercentage": 75
+                  },
+                  {
+                    "Type": "ScrollList",
+                    "Name": "scrollListR",
+                    "X": 588,
+                    "Y": 57,
+                    "Width": 403,
+                    "Height": 243,
+                    "ItemTemplateName": "CustomContainer1",
+                    "NumberofItems": 13,
+                    "Easing": "Back",
+                    "EasingOption": "Out",
+                    "SwipeAcceleration": 1.0,
+                    "DragAcceleration": 1.0,
+                    "OverShootPercentage": 75
+                  },
+                  {
+                    "Type": "ScrollList",
+                    "Name": "scrollListM",
+                    "X": 311,
+                    "Y": 303,
+                    "Width": 403,
+                    "Height": 243,
+                    "ItemTemplateName": "CustomContainer1",
+                    "NumberofItems": 13,
+                    "Easing": "Back",
+                    "EasingOption": "Out",
+                    "SwipeAcceleration": 1.0,
+                    "DragAcceleration": 1.0,
+                    "OverShootPercentage": 75
+                  }
+                ]
               }
             ]
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea1",
+            "X": 498,
+            "Y": 534,
+            "Width": 90,
+            "Height": 25,
+            "TextId": "__SingleUse_0VQV",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 219,
+              "Green": 112,
+              "Blue": 31
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea1_2",
+            "X": 738,
+            "Y": 18,
+            "Width": 111,
+            "Height": 25,
+            "TextId": "__SingleUse_D03D",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 219,
+              "Green": 112,
+              "Blue": 31
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea1_1",
+            "X": 184,
+            "Y": 18,
+            "Width": 102,
+            "Height": 25,
+            "TextId": "__SingleUse_XAB6",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 219,
+              "Green": 112,
+              "Blue": 31
+            },
+            "AutoSize": true
           }
         ],
         "Interactions": []
@@ -123,9 +224,9 @@
           {
             "Type": "TextArea",
             "Name": "ParameterText",
-            "X": 21,
+            "X": 12,
             "Y": 22,
-            "Width": 9,
+            "Width": 160,
             "Height": 25,
             "TextId": "ParameterName",
             "TextRotation": "0",
@@ -145,7 +246,7 @@
             "Name": "ValueText",
             "X": 224,
             "Y": 22,
-            "Width": 80,
+            "Width": 120,
             "Height": 25,
             "TextId": "ParameterValue",
             "TextRotation": "0",

@@ -1,6 +1,9 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+extern "C" {
+    #include "main.h" // Tutaj mamy dostęp do vescL
+}
 class ModelListener;
 
 class Model
@@ -14,7 +17,7 @@ public:
     }
 
     void tick();
-    int getVescLRpm();
+    VescData_t getVescData(int controllerIndex);
 protected:
     ModelListener* modelListener;
 };

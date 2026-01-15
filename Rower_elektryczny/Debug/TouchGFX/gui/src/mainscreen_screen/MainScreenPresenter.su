@@ -6,8 +6,8 @@
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:9:5:ModelListener::ModelListener()	16	static
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:11:13:ModelListener::~ModelListener()	16	static
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:11:13:virtual ModelListener::~ModelListener()	16	static
-../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp:28:13:MainScreenPresenter::~MainScreenPresenter()	16	static
-../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp:28:13:virtual MainScreenPresenter::~MainScreenPresenter()	16	static
+../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp:32:13:MainScreenPresenter::~MainScreenPresenter()	16	static
+../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp:32:13:virtual MainScreenPresenter::~MainScreenPresenter()	16	static
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.cpp:4:1:MainScreenPresenter::MainScreenPresenter(MainScreenView&)	16	static
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.cpp:10:6:virtual void MainScreenPresenter::activate()	16	static
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.cpp:15:6:virtual void MainScreenPresenter::deactivate()	16	static

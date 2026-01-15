@@ -1,0 +1,39 @@
+#include <gui/mainscreen_screen/MainScreenView.hpp>
+#include <touchgfx/Utils.hpp>
+
+MainScreenView::MainScreenView()
+{
+
+}
+
+void MainScreenView::setupScreen()
+{
+    MainScreenViewBase::setupScreen();
+    scrollList.setNumberOfItems(1);
+}
+
+void MainScreenView::tearDownScreen()
+{
+    MainScreenViewBase::tearDownScreen();
+}
+void MainScreenView::scrollListUpdateItem(CustomContainer1& item, int16_t itemIndex)
+{
+    if (itemIndex == 0)
+    {
+        // Pobieramy wartość z Presentera
+        int currentRpm = presenter->getRpm();
+
+        // Aktualizujemy kontener
+        item.updateElement("RPM Lewy", currentRpm);
+    }
+}
+
+void MainScreenView::handleTickEvent()
+{
+    // Wymuś przerysowanie elementów listy (nie jest to super wydajne dla dużych list, ale dla testu OK)
+    // Lepszą metodą jest sprawdzanie czy wartość się zmieniła w Modelu
+    for (int i = 0; i < scrollList.getNumberOfItems(); i++)
+    {
+        scrollList.itemChanged(i);
+    }
+}

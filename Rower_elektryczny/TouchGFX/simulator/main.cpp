@@ -1,4 +1,4 @@
-#include <platform/hal/simulator/sdl2/HALSDL2.hpp>
+d#include <platform/hal/simulator/sdl2/HALSDL2.hpp>
 #include <touchgfx/hal/NoDMA.hpp>
 #include <common/TouchGFXInit.hpp>
 #include <gui_generated/common/SimConstants.hpp>

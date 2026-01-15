@@ -13,9 +13,11 @@
 #include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/graph/GraphScroll.hpp>
 #include <touchgfx/widgets/graph/GraphElements.hpp>
+#include <touchgfx/widgets/graph/GraphLabels.hpp>
 #include <touchgfx/widgets/canvas/PainterRGB565.hpp>
 #include <touchgfx/containers/scrollers/ScrollList.hpp>
 #include <gui/containers/CustomContainer1.hpp>
+#include <touchgfx/widgets/TextArea.hpp>
 
 class MainScreenViewBase : public touchgfx::View<MainScreenPresenter>
 {
@@ -24,7 +26,17 @@ public:
     virtual ~MainScreenViewBase();
     virtual void setupScreen();
 
-    virtual void scrollListUpdateItem(CustomContainer1& item, int16_t itemIndex)
+    virtual void scrollListLUpdateItem(CustomContainer1& item, int16_t itemIndex)
+    {
+        // Override and implement this function in MainScreen
+    }
+
+    virtual void scrollListRUpdateItem(CustomContainer1& item, int16_t itemIndex)
+    {
+        // Override and implement this function in MainScreen
+    }
+
+    virtual void scrollListMUpdateItem(CustomContainer1& item, int16_t itemIndex)
     {
         // Override and implement this function in MainScreen
     }
@@ -42,12 +54,21 @@ protected:
     touchgfx::SwipeContainer swipeContainer;
     touchgfx::Container swipeContainerGraphPage;
     touchgfx::GraphScroll<100> dynamicGraph;
+    touchgfx::GraphElementGridX dynamicGraphMajorXAxisGrid;
+    touchgfx::GraphLabelsX dynamicGraphMajorXAxisLabel;
     touchgfx::GraphElementLine dynamicGraphLine1;
     touchgfx::PainterRGB565 dynamicGraphLine1Painter;
-    touchgfx::Container swipeContainerParameterPage;
-    touchgfx::ScrollList scrollList;
-    touchgfx::DrawableListItems<CustomContainer1, 9> scrollListListItems;
     touchgfx::Container swipeContainerMainPage;
+    touchgfx::Container swipeContainerParameterPage;
+    touchgfx::ScrollList scrollListL;
+    touchgfx::DrawableListItems<CustomContainer1, 5> scrollListLListItems;
+    touchgfx::ScrollList scrollListR;
+    touchgfx::DrawableListItems<CustomContainer1, 5> scrollListRListItems;
+    touchgfx::ScrollList scrollListM;
+    touchgfx::DrawableListItems<CustomContainer1, 5> scrollListMListItems;
+    touchgfx::TextArea textArea1;
+    touchgfx::TextArea textArea1_2;
+    touchgfx::TextArea textArea1_1;
 
 private:
 
