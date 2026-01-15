@@ -22,11 +22,12 @@
 #include "dma2d.h"
 #include "fdcan.h"
 #include "i2c.h"
-#include "ltdc.h"
 #include "memorymap.h"
 #include "quadspi.h"
+#include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
+#include "mpu6050.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -92,38 +93,7 @@ VescData_t vescL; // Zmienna dla lewego
 VescData_t vescM; // Zmienna dla środkowego
 VescData_t vescR; // Zmienna dla prawego
 
-
-// --- MPU6050 DEFINICJE ---
-#define MPU6050_ADDR 0xD0 // Adres urządzenia (0x68 << 1)
-#define SMPLRT_DIV_REG 0x19
-#define GYRO_CONFIG_REG 0x1B
-#define ACCEL_CONFIG_REG 0x1C
-#define ACCEL_XOUT_H_REG 0x3B
-#define TEMP_OUT_H_REG 0x41
-#define GYRO_XOUT_H_REG 0x43
-#define PWR_MGMT_1_REG 0x6B
-#define WHO_AM_I_REG 0x75
-
-// Struktura przechowująca dane z czujnika
-typedef struct {
-    int16_t Accel_X_RAW;
-    int16_t Accel_Y_RAW;
-    int16_t Accel_Z_RAW;
-    double Ax; // Przyspieszenie w g
-    double Ay;
-    double Az;
-
-    int16_t Gyro_X_RAW;
-    int16_t Gyro_Y_RAW;
-    int16_t Gyro_Z_RAW;
-    double Gx; // Prędkość kątowa w deg/s
-    double Gy;
-    double Gz;
-
-    float Temperature;
-} MPU6050_t;
-
-MPU6050_t MPU6050; // Globalna instancja struktury
+MPU6050_t MPU6050;
 
 
 /* USER CODE END PV */
@@ -135,11 +105,19 @@ static void MPU_Config(void);
 
 void VESC_SetCurrent(uint8_t controller_id, float current_amps);
 void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps);
-uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#include <stdio.h> // Wymagane do printf
+
+// Przekierowanie printf na USART1 (port USB-UART na płytce)
+int _write(int file, char *ptr, int len) {
+    HAL_UART_Transmit(&huart1, (uint8_t*)ptr, len, 10);
+    return len;
+}
+
 // Funkcja uśredniająca (Filtr dolnoprzepustowy)
 int32_t Get_Filtered_RPM(int32_t new_val) {
     static int32_t buffer[FILTER_SAMPLES];
@@ -158,6 +136,13 @@ int32_t Get_Filtered_RPM(int32_t new_val) {
 
     return sum / count;
 }
+
+float AngX, AngY;
+
+
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -194,12 +179,12 @@ int main(void)
   MX_GPIO_Init();
   MX_FMC_Init();
   MX_QUADSPI_Init();
-  MX_LTDC_Init();
   MX_DMA2D_Init();
   MX_FDCAN1_Init();
   MX_I2C4_Init();
   MX_I2C2_Init();
   MX_CRC_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
     // VESC wysyła ramki z ID rozszerzonym (29-bit).
@@ -228,9 +213,12 @@ int main(void)
     {
       Error_Handler();
     }
-    if (MPU6050_Init(&hi2c2) == 0) {
-          // Opcjonalnie: mignij diodą, że MPU OK
-      }
+
+
+
+
+    MPU6050_Init(&hi2c2);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -248,8 +236,8 @@ int main(void)
         const uint32_t SHIFT_DELAY = 6000;  // 6 sekund (6000 ms)
 
         // Wartości przyrostowe
-        const float CURRENT_STEP = 1.0f;    // O ile A zwiększamy napęd na każdym biegu
-        const float DRAG_STEP = 0.2f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
+        const float CURRENT_STEP = 2.5f;    // O ile A zwiększamy napęd na każdym biegu
+        const float DRAG_STEP = 0.05f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
 
         // Zmienne wykonawcze
         static float current_drive_filtered = 0.0f;
@@ -261,16 +249,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  MPU6050_Read_All(&hi2c2, &MPU6050);
-	  // 1. Pobierz obroty
-	  // 1. ODCZYT I2C (Zabezpieczony)
+	  /* USER CODE BEGIN 3 */
 
+	  MPU6050_Read_All(&hi2c2, &MPU6050);
 
 	  // 2. ODCZYT OBROTÓW + FILTRACJA
 	        int32_t rpm_raw = vescM.rpm;
 	        if (rpm_raw < 0) rpm_raw = 0;
 
-	        // Tuta wchodzi filtr średniej kroczącej - wygładzi te "góry i doliny" z wykresu
+	        //filtr uśredniający nieregularne ERPM z generatora
 	        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
 
 	        // 3. LOGIKA AUTOMATYCZNEJ SKRZYNI BIEGÓW
@@ -297,18 +284,18 @@ int main(void)
 	                }
 	            }
 	            // --- Logika Zmiany w Dół ---
-	            else if (rpm_filtered < DOWNSHIFT_RPM) {
-	                timer_downshift += dt;
-	                timer_upshift = 0; // Reset licznika w górę
+	            else if (rpm_filtered < 3000) {
+	                            timer_upshift = 0; // Dopiero tu kasujemy chęć zmiany w górę
 
-	                if (timer_downshift > SHIFT_DELAY) {
-	                    // Minęło 6 sekund wolnego pedałowania -> REDUKCJA
-	                    if (current_gear > 1) {
-	                        current_gear--;
-	                    }
-	                    timer_downshift = 0;
-	                }
-	            }
+	                            // A logika redukcji biegu zostaje po staremu lub też ją łagodzimy
+	                            if (rpm_filtered < DOWNSHIFT_RPM) {
+	                                timer_downshift += dt;
+	                                if (timer_downshift > SHIFT_DELAY) {
+	                                    if (current_gear > 1) current_gear--;
+	                                    timer_downshift = 0;
+	                                }
+	                            }
+	                        }
 	            else {
 	                // Jesteśmy w strefie "OK" (między 5000 a 7000) - zerujemy liczniki
 	                timer_upshift = 0;
@@ -330,10 +317,10 @@ int main(void)
 	        {
 	            // A. LOGIKA STARTU (LAUNCH) vs JAZDA (CRUISE)
 	            if (rpm_filtered < 1000) {
-	                // START: Dajemy 20A, żeby ruszyć z miejsca (jak prosiłeś)
-	                // Robimy szybki ramp od 0 do 20A w zakresie 200-500 RPM
+	                // START: Dajemy 8A, żeby ruszyć z miejsca (jak prosiłeś)
+	                // Robimy szybki ramp od 0 do 8A w zakresie 200-500 RPM
 	                target_drive = 8.0f;
-	                target_drag = 1.0f; // Minimalny opór przy starcie
+	                target_drag = 0.0f; // Minimalny opór przy starcie
 	            }
 	            else {
 	                // JAZDA (CRUISE): 3A - 12A + BIEGI
@@ -367,7 +354,117 @@ int main(void)
 	        HAL_Delay(1);
 	        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
 
-	        HAL_Delay(20);
+	        AngX = MPU6050.KalmanAngleX;
+	        AngY = MPU6050.KalmanAngleY;
+	        // ============================================================
+	              // LOGOWANIE DANYCH DO REALTERM (Format Czytelny dla Człowieka)
+	              // ============================================================
+
+	              // Kod czyszczący ekran (działa w RealTerm/PuTTY), żeby dane nie migały
+	              // Jeśli wolisz zapisywać do pliku liniami, usuń "\033[2J\033[H"
+
+
+	        	  //----------------------------------------------------------------------
+	        	  //----------------------------------------------------------------------
+
+//	              printf("\033[2J\033[H");
+//
+//	              printf("=== CZAS: %lu ms ===\r\n", HAL_GetTick());
+//
+//	              // --- 1. DANE Z VESC LEWY (L) ---
+//	              printf("[VESC_L]\r\n");
+//	              printf("  RPM: %ld\r\n", vescL.rpm);
+//	              printf("  Current Motor: %.2f A\r\n", vescL.current_motor);
+//	              printf("  Duty Cycle: %.2f\r\n", vescL.duty_cycle);
+//	              printf("  Ah Used: %.4f\r\n", vescL.amp_hours);
+//	              printf("  Ah Charged: %.4f\r\n", vescL.amp_hours_chg);
+//	              printf("  Wh Used: %.4f\r\n", vescL.watt_hours);
+//	              printf("  Wh Charged: %.4f\r\n", vescL.watt_hours_chg);
+//	              printf("  Temp FET: %.1f C\r\n", vescL.temp_fet);
+//	              printf("  Temp Motor: %.1f C\r\n", vescL.temp_motor);
+//	              printf("  Current In: %.2f A\r\n", vescL.current_in);
+//	              printf("  PID Pos: %.2f\r\n", vescL.pid_pos);
+//	              printf("  Tacho: %ld\r\n", vescL.tacho_value);
+//	              printf("  Vin: %.1f V\r\n", vescL.v_in);
+//
+//	              // --- 2. DANE Z VESC SRODKOWY (M - Generator) ---
+//	              printf("[VESC_M - Generator]\r\n");
+//	              printf("  RPM (Raw): %ld\r\n", vescM.rpm);
+//	              printf("  Current Drag (Target): %.2f A\r\n", current_drag_filtered);
+//	              printf("  Duty Cycle: %.2f\r\n", vescM.duty_cycle);
+//	              printf("  Vin: %.1f V\r\n", vescM.v_in);
+//	              // Możesz dodać resztę pól jeśli potrzebujesz
+//
+//	              // --- 3. DANE Z VESC PRAWY (R) ---
+//	              printf("[VESC_R]\r\n");
+//	              printf("  RPM: %ld\r\n", vescR.rpm);
+//	              printf("  Current Motor: %.2f A\r\n", vescR.current_motor);
+//	              // Analogicznie reszta pól...
+//
+//	              // --- 4. DANE Z MPU6050 ---
+//	              printf("[MPU6050]\r\n");
+//	              printf("  Accel RAW: X=%d, Y=%d, Z=%d\r\n", MPU6050.Accel_X_RAW, MPU6050.Accel_Y_RAW, MPU6050.Accel_Z_RAW);
+//	              printf("  Accel G:   Ax=%.3f, Ay=%.3f, Az=%.3f\r\n", MPU6050.Ax, MPU6050.Ay, MPU6050.Az);
+//	              printf("  Gyro RAW:  X=%d, Y=%d, Z=%d\r\n", MPU6050.Gyro_X_RAW, MPU6050.Gyro_Y_RAW, MPU6050.Gyro_Z_RAW);
+//	              printf("  Gyro Deg/s: Gx=%.3f, Gy=%.3f, Gz=%.3f\r\n", MPU6050.Gx, MPU6050.Gy, MPU6050.Gz);
+//	              printf("  Kalman Ang: X=%.2f, Y=%.2f\r\n", MPU6050.KalmanAngleX, MPU6050.KalmanAngleY);
+//	              printf("  Temp: %.2f C\r\n", MPU6050.Temperature);
+//
+//	              // --- 5. LOGIKA SKRZYNI BIEGOW ---
+//	              printf("[GEARBOX]\r\n");
+//	              printf("  Current Gear: %d\r\n", current_gear);
+//	              printf("  RPM Filtered: %ld\r\n", rpm_filtered);
+//	              printf("  Timer Upshift: %lu / %lu\r\n", timer_upshift, SHIFT_DELAY);
+//	              printf("----------------------------------------\r\n\r\n");
+
+	              //----------------------------------------------------------------------
+	              //----------------------------------------------------------------------
+
+	        // 1. DANE SYSTEMOWE
+	              printf("%lu,%d,%lu,%ld,%.2f,%.2f,",
+	                     HAL_GetTick(),            // Czas
+	                     current_gear,             // Bieg
+	                     timer_upshift,            // Timer
+	                     rpm_filtered,             // RPM Filtrowane
+	                     current_drive_filtered,   // Prąd Zadany Napęd
+	                     current_drag_filtered     // Prąd Zadany Opór
+	              );
+
+	              // 2. VESC LEWY (L) - Struktura VescData_t
+	              printf("%ld,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.1f,%.1f,%.2f,%.2f,%ld,%.1f,",
+	                     vescL.rpm, vescL.current_motor, vescL.duty_cycle,
+	                     vescL.amp_hours, vescL.amp_hours_chg, vescL.watt_hours, vescL.watt_hours_chg,
+	                     vescL.temp_fet, vescL.temp_motor, vescL.current_in, vescL.pid_pos, vescL.tacho_value, vescL.v_in
+	              );
+
+	              // 3. VESC ŚRODKOWY (M) - Generator
+	              printf("%ld,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.1f,%.1f,%.2f,%.2f,%ld,%.1f,",
+	                     vescM.rpm, vescM.current_motor, vescM.duty_cycle,
+	                     vescM.amp_hours, vescM.amp_hours_chg, vescM.watt_hours, vescM.watt_hours_chg,
+	                     vescM.temp_fet, vescM.temp_motor, vescM.current_in, vescM.pid_pos, vescM.tacho_value, vescM.v_in
+	              );
+
+	              // 4. VESC PRAWY (R)
+	              printf("%ld,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.1f,%.1f,%.2f,%.2f,%ld,%.1f,",
+	                     vescR.rpm, vescR.current_motor, vescR.duty_cycle,
+	                     vescR.amp_hours, vescR.amp_hours_chg, vescR.watt_hours, vescR.watt_hours_chg,
+	                     vescR.temp_fet, vescR.temp_motor, vescR.current_in, vescR.pid_pos, vescR.tacho_value, vescR.v_in
+	              );
+
+	              // 5. MPU6050 (Z poprawnymi nazwami Kalman)
+	              // Format: Ax, Ay, Az, Gx, Gy, Gz, Temp, KalmanX, KalmanY
+	              // Używamy MPU6050.KalmanAngleX zgodnie z Twoim plikiem .h
+	              printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.2f,%.2f,%.2f\r\n",
+	                     MPU6050.Ax, MPU6050.Ay, MPU6050.Az,
+	                     MPU6050.Gx, MPU6050.Gy, MPU6050.Gz,
+	                     MPU6050.Temperature,
+	                     MPU6050.KalmanAngleX,  // <--- POPRAWIONE
+	                     MPU6050.KalmanAngleY   // <--- POPRAWIONE
+	              );
+
+
+
+	        HAL_Delay(1);
   }
   /* USER CODE END 3 */
 }
@@ -396,10 +493,6 @@ void SystemClock_Config(void)
   */
   HAL_PWR_EnableBkUpAccess();
   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-
-  /** Macro to configure the PLL clock source
-  */
-  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -430,7 +523,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
@@ -608,71 +701,7 @@ void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps)
 }
 
 
-uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx) {
-    uint8_t check;
-    uint8_t data;
 
-    // 1. Sprawdzenie obecności (WHO_AM_I)
-    if (HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000) != HAL_OK) {
-        return 1; // Błąd komunikacji
-    }
-
-    if (check == 0x68) {
-        // 2. RESETOWANIE CZUJNIKA (Kluczowe dla stabilności!)
-        // Ustawiamy bit 7 (DEVICE_RESET) w rejestrze 0x6B
-        data = 0x80;
-        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &data, 1, 1000);
-        HAL_Delay(100); // Czekamy aż wstanie po resecie
-
-        // 3. Wybudzenie (Power Management 1)
-        // Zapisujemy 0x00 (Włączony, użyj wewnętrznego oscylatora 8MHz)
-        data = 0x00;
-        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &data, 1, 1000);
-        HAL_Delay(50); // Ważne opóźnienie dla PLL
-
-        // 4. Konfiguracja Akcelerometru (+/- 4g) - Lepsze dla roweru niż 2g
-        // 0x00 = 2g, 0x08 = 4g, 0x10 = 8g
-        data = 0x00; // Zostawmy 2g na start
-        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, ACCEL_CONFIG_REG, 1, &data, 1, 1000);
-
-        // 5. Konfiguracja Żyroskopu (+/- 500 dps)
-        // 0x00 = 250dps, 0x08 = 500dps
-        data = 0x00;
-        HAL_I2C_Mem_Write(I2Cx, MPU6050_ADDR, GYRO_CONFIG_REG, 1, &data, 1, 1000);
-
-        return 0; // Sukces
-    }
-    return 1; // Złe ID urządzenia
-}
-
-//void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
-//    uint8_t Rec_Data[14];
-//
-//    // Odczyt blokowy (Burst Read)
-//    if(HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 14, 100) == HAL_OK) {
-//
-//        // Łączenie bajtów (Big Endian -> Little Endian STM32)
-//        DataStruct->Accel_X_RAW = (int16_t)((Rec_Data[0] << 8) | Rec_Data[1]);
-//        DataStruct->Accel_Y_RAW = (int16_t)((Rec_Data[2] << 8) | Rec_Data[3]);
-//        DataStruct->Accel_Z_RAW = (int16_t)((Rec_Data[4] << 8) | Rec_Data[5]);
-//
-//        DataStruct->Temperature = (float)((int16_t)((Rec_Data[6] << 8) | Rec_Data[7]));
-//        DataStruct->Temperature = (DataStruct->Temperature / 340.0f) + 36.53f;
-//
-//        DataStruct->Gyro_X_RAW = (int16_t)((Rec_Data[8] << 8) | Rec_Data[9]);
-//        DataStruct->Gyro_Y_RAW = (int16_t)((Rec_Data[10] << 8) | Rec_Data[11]);
-//        DataStruct->Gyro_Z_RAW = (int16_t)((Rec_Data[12] << 8) | Rec_Data[13]);
-//
-//        // Konwersja fizyczna (dla skali 2g i 250dps)
-//        DataStruct->Ax = DataStruct->Accel_X_RAW / 16384.0;
-//        DataStruct->Ay = DataStruct->Accel_Y_RAW / 16384.0;
-//        DataStruct->Az = DataStruct->Accel_Z_RAW / 16384.0;
-//
-//        DataStruct->Gx = DataStruct->Gyro_X_RAW / 131.0;
-//        DataStruct->Gy = DataStruct->Gyro_Y_RAW / 131.0;
-//        DataStruct->Gz = DataStruct->Gyro_Z_RAW / 131.0;
-//    }
-//}
 
 
 /* USER CODE END 4 */

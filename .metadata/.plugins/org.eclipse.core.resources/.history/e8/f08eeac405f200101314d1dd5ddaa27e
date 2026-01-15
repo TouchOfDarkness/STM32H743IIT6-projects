@@ -1,0 +1,673 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2025 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "crc.h"
+#include "dma2d.h"
+#include "fdcan.h"
+#include "i2c.h"
+#include "ltdc.h"
+#include "memorymap.h"
+#include "quadspi.h"
+#include "gpio.h"
+#include "fmc.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+#define FILTER_SAMPLES 50 // Długość bufora uśredniającego (wygładzanie wykresu)
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+
+/* USER CODE BEGIN PV */
+FDCAN_RxHeaderTypeDef RxHeader;
+uint8_t RxData[8]; // Bufor na dane odebrane z VESC
+uint8_t TxData[8]; // Bufor na dane do wysłania
+// --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
+FDCAN_TxHeaderTypeDef TxHeader;
+typedef struct {
+    // === STATUS 1 (Komenda 0x09) ===
+    volatile int32_t rpm;           // Prędkość obrotowa (ERPM)
+    volatile float current_motor;   // Prąd na silniku (A)
+    volatile float duty_cycle;      // Wypełnienie (0.00 - 1.00)
+
+    // === STATUS 2 (Komenda 0x0E) ===
+    volatile float amp_hours;       // Zużyte amperogodziny (Ah)
+    volatile float amp_hours_chg;   // Odzyskane amperogodziny (ładowanie)
+
+    // === STATUS 3 (Komenda 0x0F) ===
+    volatile float watt_hours;      // Zużyte watogodziny (Wh)
+    volatile float watt_hours_chg;  // Odzyskane watogodziny (ładowanie)
+
+    // === STATUS 4 (Komenda 0x10) ===
+    volatile float temp_fet;        // Temperatura MOSFET-ów (st. C)
+    volatile float temp_motor;      // Temperatura Silnika (st. C)
+    volatile float current_in;      // Prąd pobierany z baterii (A)
+    volatile float pid_pos;         // Pozycja PID (kąt 0-360)
+
+    // === STATUS 5 (Komenda 0x1B) ===
+    volatile int32_t tacho_value;   // Licznik obrotów (przebieg)
+    volatile float v_in;            // Napięcie baterii (V)
+
+} VescData_t;
+
+// --- 2. INSTANCJE DLA SILNIKÓW ---
+// Ustawiamy ID Twoich VESC-ów
+#define VESC_ID_L  1   // Lewy
+#define VESC_ID_M  2   // Środkowy
+#define VESC_ID_R  3   // Prawy (przykładowo)
+
+VescData_t vescL; // Zmienna dla lewego
+VescData_t vescM; // Zmienna dla środkowego
+VescData_t vescR; // Zmienna dla prawego
+
+
+// --- MPU6050 DEFINICJE ---
+
+#define MPU6050_ADDR 0xD0
+
+int16_t Accel_X_RAW, Accel_Y_RAW, Accel_Z_RAW;
+
+int16_t Gyro_X_RAW, Gyro_Y_RAW, Gyro_Z_RAW;
+
+int16_t Temperature_RAW;
+
+
+
+// Zmienne przeliczone (opcjonalnie)
+
+float Ax, Ay, Az;
+
+float Gx, Gy, Gz;
+
+
+
+uint8_t rec_data[14]; // Bufor na dane z czujnika
+
+float Angle_X = 0.0;
+
+float Angle_Y = 0.0;
+
+float Angle_Z = 0.0;
+
+
+
+float dt = 0.05; // Czas trwania pętli w sekundach (50ms = 0.05s)
+
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MPU_Config(void);
+/* USER CODE BEGIN PFP */
+
+void VESC_SetCurrent(uint8_t controller_id, float current_amps);
+void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps);
+uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx);
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+// Funkcja uśredniająca (Filtr dolnoprzepustowy)
+int32_t Get_Filtered_RPM(int32_t new_val) {
+    static int32_t buffer[FILTER_SAMPLES];
+    static uint8_t index = 0;
+    static int32_t sum = 0;
+    static uint8_t count = 0;
+
+    // Odejmij starą wartość i dodaj nową
+    sum -= buffer[index];
+    buffer[index] = new_val;
+    sum += buffer[index];
+
+    index++;
+    if (index >= FILTER_SAMPLES) index = 0;
+    if (count < FILTER_SAMPLES) count++;
+
+    return sum / count;
+}
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MPU Configuration--------------------------------------------------------*/
+  MPU_Config();
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_FMC_Init();
+  MX_QUADSPI_Init();
+  MX_LTDC_Init();
+  MX_DMA2D_Init();
+  MX_FDCAN1_Init();
+  MX_I2C4_Init();
+  MX_I2C2_Init();
+  MX_CRC_Init();
+  /* USER CODE BEGIN 2 */
+  // 1. Konfiguracja Filtra - akceptujemy WSZYSTKO (tryb otwarty dla testów)
+    // VESC wysyła ramki z ID rozszerzonym (29-bit).
+    FDCAN_FilterTypeDef sFilterConfig;
+
+    sFilterConfig.IdType = FDCAN_EXTENDED_ID;
+    sFilterConfig.FilterIndex = 0;
+    sFilterConfig.FilterType = FDCAN_FILTER_MASK;
+    sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+    sFilterConfig.FilterID1 = 0;     // Akceptuj wszystko
+    sFilterConfig.FilterID2 = 0;     // Maska 0 = ignoruj bity ID (bierz wszystko jak leci)
+
+    if (HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    // 2. Start modułu FDCAN
+    if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    // 3. Włączenie przerwań (chcemy wiedzieć, kiedy przyjdzie nowa wiadomość)
+    if (HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+    // --- ZMIENNE AUTOMATYCZNEJ SKRZYNI BIEGÓW ---
+        uint8_t current_gear = 1;           // Aktualny bieg (1 - domyślny)
+        const uint8_t MAX_GEAR = 16;         // Ile mamy biegów?
+
+        uint32_t timer_upshift = 0;         // Licznik czasu do zmiany w górę
+        uint32_t timer_downshift = 0;       // Licznik czasu do zmiany w dół
+
+        // Konfiguracja progów (zgodnie z Twoim opisem)
+        const int32_t UPSHIFT_RPM = 7000;   // Powyżej tego liczymy czas do zmiany w górę
+        const int32_t DOWNSHIFT_RPM = 5000; // Poniżej tego liczymy czas do redukcji (histereza)
+        const uint32_t SHIFT_DELAY = 6000;  // 6 sekund (6000 ms)
+
+        // Wartości przyrostowe
+        const float CURRENT_STEP = 1.0f;    // O ile A zwiększamy napęd na każdym biegu
+        const float DRAG_STEP = 0.2f;       // O ile A zwiększamy opór generatora (musi być dużo, żeby zwolnić nogi!)
+
+        // Zmienne wykonawcze
+        static float current_drive_filtered = 0.0f;
+        static float current_drag_filtered = 0.0f;
+        uint8_t Rec_Data[14];
+
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+//	  MPU6050_Read_All(&hi2c2, &MPU6050);
+	  // 1. Pobierz obroty
+	  // 1. ODCZYT I2C (Zabezpieczony)
+
+
+	  // 2. ODCZYT OBROTÓW + FILTRACJA
+	        int32_t rpm_raw = vescM.rpm;
+	        if (rpm_raw < 0) rpm_raw = 0;
+
+	        //filtr uśredniający nieregularne ERPM z generatora
+	        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
+
+	        // 3. LOGIKA AUTOMATYCZNEJ SKRZYNI BIEGÓW
+	        // Czas pętli to ok. 25ms (Delay 20 + kod). Używamy HAL_GetTick() dla precyzji.
+	        static uint32_t last_tick = 0;
+	        uint32_t current_tick = HAL_GetTick();
+	        uint32_t dt = current_tick - last_tick; // Czas od ostatniej pętli
+	        last_tick = current_tick;
+
+	        if (rpm_filtered > 200) // Tylko jak jedziemy
+	        {
+	            // --- Logika Zmiany w Górę ---
+	            if (rpm_filtered > UPSHIFT_RPM) {
+	                timer_upshift += dt;
+	                timer_downshift = 0; // Reset licznika w dół
+
+	                if (timer_upshift > SHIFT_DELAY) {
+	                    // Minęło 6 sekund szybkiego pedałowania -> BIEG W GÓRĘ
+	                    if (current_gear < MAX_GEAR) {
+	                        current_gear++;
+	                        // Opcjonalnie: Mignij diodą na płytce
+	                    }
+	                    timer_upshift = 0; // Reset licznika po zmianie
+	                }
+	            }
+	            // --- Logika Zmiany w Dół ---
+	            else if (rpm_filtered < DOWNSHIFT_RPM) {
+	                timer_downshift += dt;
+	                timer_upshift = 0; // Reset licznika w górę
+
+	                if (timer_downshift > SHIFT_DELAY) {
+	                    // Minęło 6 sekund wolnego pedałowania -> REDUKCJA
+	                    if (current_gear > 1) {
+	                        current_gear--;
+	                    }
+	                    timer_downshift = 0;
+	                }
+	            }
+	            else {
+	                // Jesteśmy w strefie "OK" (między 5000 a 7000) - zerujemy liczniki
+	                timer_upshift = 0;
+	                timer_downshift = 0;
+	            }
+	        } else {
+	            // Zatrzymanie - reset do 1 biegu
+	             current_gear = 1;
+	             timer_upshift = 0;
+	             timer_downshift = 0;
+	        }
+
+	        // 4. OBLICZANIE PRĄDÓW
+
+	        float target_drive = 0.0f;
+	        float target_drag = 0.0f;
+
+	        if (rpm_filtered > 200)
+	        {
+	            // A. LOGIKA STARTU (LAUNCH) vs JAZDA (CRUISE)
+	            if (rpm_filtered < 1000) {
+	                // START: Dajemy 8A, żeby ruszyć z miejsca (jak prosiłeś)
+	                // Robimy szybki ramp od 0 do 8A w zakresie 200-500 RPM
+	                target_drive = 8.0f;
+	                target_drag = 0.1f; // Minimalny opór przy starcie
+	            }
+	            else {
+	                // JAZDA (CRUISE): 3A - 12A + BIEGI
+	                // Bazowa mapa 3-12A dla zakresu 1000-9000 RPM
+	                float progress = (float)(rpm_filtered - 1000) / (9000.0f - 1000.0f);
+	                if (progress > 1.0f) progress = 1.0f;
+
+	                float base_drive = 1.0f + (progress * (3.0f - 1.0f));
+	                float base_drag = 2.0f + (progress * 6.0f); // Bazowy opór rośnie lekko
+
+	                // DODAJEMY EFEKT BIEGÓW
+	                // Bieg 1: Dodatek 0A
+	                // Bieg 2: Dodatek 1.5A Drive, 5A Drag
+	                // ...
+	                float gear_drive_bonus = (current_gear - 1) * CURRENT_STEP; // np. 1.5A na bieg
+	                float gear_drag_bonus = (current_gear - 1) * DRAG_STEP;     // np. 5.0A na bieg (Musi być dużo!)
+
+	                target_drive = base_drive + gear_drive_bonus;
+	                target_drag = base_drag + gear_drag_bonus;
+	            }
+	        }
+
+	        // 5. FILTROWANIE WYJŚCIA (Ramping)
+	        current_drive_filtered = (current_drive_filtered * 0.9f) + (target_drive * 0.1f);
+	        current_drag_filtered = (current_drag_filtered * 0.9f) + (target_drag * 0.1f);
+
+	        // 6. WYSYŁANIE DO VESC
+	        VESC_SetCurrent(VESC_ID_L, current_drive_filtered);
+	        HAL_Delay(1);
+	        VESC_SetCurrent(VESC_ID_R, current_drive_filtered);
+	        HAL_Delay(1);
+	        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
+
+	        HAL_Delay(20);
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_CRSInitTypeDef RCC_CRSInitStruct = {0};
+
+  /** Supply configuration update enable
+  */
+  HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+
+  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+
+  /** Configure LSE Drive Capability
+  */
+  HAL_PWR_EnableBkUpAccess();
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+
+  /** Macro to configure the PLL clock source
+  */
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_CSI
+                              |RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE
+                              |RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+  RCC_OscInitStruct.CSIState = RCC_CSI_ON;
+  RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV1;
+  RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Enable the SYSCFG APB clock
+  */
+  __HAL_RCC_CRS_CLK_ENABLE();
+
+  /** Configures CRS
+  */
+  RCC_CRSInitStruct.Prescaler = RCC_CRS_SYNC_DIV1;
+  RCC_CRSInitStruct.Source = RCC_CRS_SYNC_SOURCE_LSE;
+  RCC_CRSInitStruct.Polarity = RCC_CRS_SYNC_POLARITY_RISING;
+  RCC_CRSInitStruct.ReloadValue = __HAL_RCC_CRS_RELOADVALUE_CALCULATE(48000000,32768);
+  RCC_CRSInitStruct.ErrorLimitValue = 34;
+  RCC_CRSInitStruct.HSI48CalibrationValue = 32;
+
+  HAL_RCCEx_CRSConfig(&RCC_CRSInitStruct);
+}
+
+/* USER CODE BEGIN 4 */
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
+{
+    // Czy przyszła nowa wiadomość?
+    if ((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != 0)
+    {
+        // Pobierz wiadomość
+        if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK)
+        {
+            // 1. Rozpoznanie KTO wysłał (ID VESC)
+            uint8_t id_nadawcy = (RxHeader.Identifier & 0xFF);
+
+            // 2. Rozpoznanie CO wysłał (Komenda)
+            uint8_t komenda = (RxHeader.Identifier >> 8) & 0xFF;
+
+            // 3. Wybór odpowiedniej struktury (Wskaźnik)
+            VescData_t *target = NULL;
+
+            if      (id_nadawcy == VESC_ID_M) target = &vescM; // Środkowy
+            else if (id_nadawcy == VESC_ID_L) target = &vescL; // Lewy
+            else if (id_nadawcy == VESC_ID_R) target = &vescR; // Prawy
+
+            // Jeśli znaleźliśmy pasujący silnik, dekodujemy dane
+            if (target != NULL)
+            {
+                switch (komenda)
+                {
+                    // --- STATUS 1: RPM, Prąd Silnika, Duty ---
+                    case 0x09:
+                        target->rpm = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                        target->current_motor = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        target->duty_cycle = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 1000.0f;
+                        break;
+
+                        // --- STATUS 2: Ah zużyte, Ah odzyskane ---
+                        case 0x0E:
+                            target->amp_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                            // POPRAWKA PONIŻEJ: 24, 16, 8, 0
+                            target->amp_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                            break;
+
+                        // --- STATUS 3: Wh zużyte, Wh odzyskane ---
+                        case 0x0F:
+                             target->watt_hours = (float)((int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3])) / 10000.0f;
+                             // POPRAWKA PONIŻEJ: 24, 16, 8, 0
+                             target->watt_hours_chg = (float)((int32_t)((RxData[4] << 24) | (RxData[5] << 16) | (RxData[6] << 8) | RxData[7])) / 10000.0f;
+                            break;
+
+                    // --- STATUS 4: Temperatury, Prąd Baterii ---
+                    case 0x10:
+                        target->temp_fet = (float)((int16_t)((RxData[0] << 8) | RxData[1])) / 10.0f;
+                        target->temp_motor = (float)((int16_t)((RxData[2] << 8) | RxData[3])) / 10.0f;
+                        target->current_in = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        target->pid_pos = (float)((int16_t)((RxData[6] << 8) | RxData[7])) / 50.0f;
+                        break;
+
+                    // --- STATUS 5: Tachometr, Napięcie Baterii ---
+                    case 0x1B:
+                        target->tacho_value = (int32_t)((RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]);
+                        target->v_in = (float)((int16_t)((RxData[4] << 8) | RxData[5])) / 10.0f;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+        // Ponowne włączenie nasłuchiwania
+        HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+    }
+}
+
+// --- Funkcja ustawiania PRĄDU (Momentu) ---
+// Komenda 0x01 w VESC to Set Current
+void VESC_SetCurrent(uint8_t controller_id, float current_amps)
+{
+    // 1. Zabezpieczenie przed ujemnym prądem (chyba że chcesz hamować/wsteczny)
+    // Zakładamy, że rower jedzie tylko do przodu.
+    if (current_amps < 0.0f) current_amps = 0.0f;
+
+    // 2. Zabezpieczenie maksymalnego prądu (bezpiecznik programowy)
+    // Z tabelki wynika max 20A, ale dajmy bezpiecznik np. 30A
+    if (current_amps > 30.0f) current_amps = 30.0f;
+
+    // 3. Skalowanie: VESC oczekuje prądu * 1000 (miliampery)
+    int32_t send_val = (int32_t)(current_amps * 1000.0f);
+
+    FDCAN_TxHeaderTypeDef TxHeader;
+    uint8_t TxData[4];
+
+    // Budowa ID ramki: [KOMENDA 0x01] [ID_STEROWNIKA]
+    TxHeader.Identifier = (uint32_t)controller_id | ((uint32_t)0x01 << 8);
+
+    // Konfiguracja FDCAN (identyczna jak w działającym SetDuty)
+    TxHeader.IdType = FDCAN_EXTENDED_ID;
+    TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+    TxHeader.DataLength = FDCAN_DLC_BYTES_4;
+    TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+    TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+    TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    TxHeader.MessageMarker = 0;
+
+    // Pakowanie danych (Big Endian)
+    TxData[0] = (uint8_t)((send_val >> 24) & 0xFF);
+    TxData[1] = (uint8_t)((send_val >> 16) & 0xFF);
+    TxData[2] = (uint8_t)((send_val >> 8)  & 0xFF);
+    TxData[3] = (uint8_t)(send_val & 0xFF);
+
+    // Wysłanie do kolejki
+    if (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) > 0)
+    {
+        HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
+    }
+}
+
+// --- Funkcja HAMOWANIA (Dla Generatora) ---
+// Komenda 0x02 w VESC to Set Current Brake
+void VESC_SetBrakeCurrent(uint8_t controller_id, float current_amps)
+{
+    // Hamowanie zawsze podajemy jako wartość dodatnią (moduł prądu)
+    if (current_amps < 0.0f) current_amps = -current_amps;
+    if (current_amps > 40.0f) current_amps = 40.0f; // Bezpiecznik
+
+    int32_t send_val = (int32_t)(current_amps * 1000.0f);
+
+    FDCAN_TxHeaderTypeDef TxHeader;
+    uint8_t TxData[4];
+
+    // Budowa ID ramki: [KOMENDA 0x02] [ID_STEROWNIKA]
+    TxHeader.Identifier = (uint32_t)controller_id | ((uint32_t)0x02 << 8);
+
+    // Konfiguracja FDCAN
+    TxHeader.IdType = FDCAN_EXTENDED_ID;
+    TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+    TxHeader.DataLength = FDCAN_DLC_BYTES_4;
+    TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+    TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+    TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    TxHeader.MessageMarker = 0;
+
+    TxData[0] = (uint8_t)((send_val >> 24) & 0xFF);
+    TxData[1] = (uint8_t)((send_val >> 16) & 0xFF);
+    TxData[2] = (uint8_t)((send_val >> 8)  & 0xFF);
+    TxData[3] = (uint8_t)(send_val & 0xFF);
+
+    if (HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1) > 0)
+    {
+        HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData);
+    }
+}
+
+
+
+
+
+/* USER CODE END 4 */
+
+ /* MPU Configuration */
+
+void MPU_Config(void)
+{
+  MPU_Region_InitTypeDef MPU_InitStruct = {0};
+
+  /* Disables the MPU */
+  HAL_MPU_Disable();
+
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
+  MPU_InitStruct.BaseAddress = 0x0;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+  MPU_InitStruct.SubRegionDisable = 0x87;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+  /* Enables the MPU */
+  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+
+}
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
