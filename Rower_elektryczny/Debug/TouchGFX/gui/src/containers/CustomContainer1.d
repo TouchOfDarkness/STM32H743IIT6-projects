@@ -49,7 +49,8 @@ TouchGFX/gui/src/containers/CustomContainer1.o: \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp
+ ../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp \
+ ../Middlewares/ST/touchgfx/framework/include/touchgfx/Utils.hpp
 ../TouchGFX/gui/include/gui/containers/CustomContainer1.hpp:
 ../TouchGFX/generated/gui_generated/include/gui_generated/containers/CustomContainer1Base.hpp:
 ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:
@@ -100,3 +101,4 @@ TouchGFX/gui/src/containers/CustomContainer1.o: \
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp:
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp:
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Utils.hpp:

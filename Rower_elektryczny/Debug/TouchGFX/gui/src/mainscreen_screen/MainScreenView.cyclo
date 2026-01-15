@@ -1,10 +1,11 @@
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	1
-../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	1
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	1
-../TouchGFX/generated/gui_generated/include/gui_generated/mainscreen_screen/MainScreenViewBase.hpp:27:18:virtual void MainScreenViewBase::scrollListUpdateItem(CustomContainer1&, int16_t)	1
-../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:11:13:MainScreenView::~MainScreenView()	1
-../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:11:13:virtual MainScreenView::~MainScreenView()	1
+../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp:30:9:int MainScreenPresenter::getRpm()	1
+../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:12:13:MainScreenView::~MainScreenView()	1
+../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:12:13:virtual MainScreenView::~MainScreenView()	1
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:4:1:MainScreenView::MainScreenView()	1
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:9:6:virtual void MainScreenView::setupScreen()	1
-../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:14:6:virtual void MainScreenView::tearDownScreen()	1
+../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:15:6:virtual void MainScreenView::tearDownScreen()	1
+../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:19:6:virtual void MainScreenView::scrollListUpdateItem(CustomContainer1&, int16_t)	2
+../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:31:6:virtual void MainScreenView::handleTickEvent()	2

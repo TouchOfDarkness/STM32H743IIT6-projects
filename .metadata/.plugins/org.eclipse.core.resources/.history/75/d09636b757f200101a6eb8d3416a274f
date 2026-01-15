@@ -1,0 +1,21 @@
+#include <gui/mainscreen_screen/MainScreenView.hpp>
+#include <touchgfx/Utils.hpp>
+
+MainScreenView::MainScreenView()
+{
+
+}
+
+void MainScreenView::setupScreen()
+{
+    MainScreenViewBase::setupScreen();
+    scrollList1.setNumberOfItems(1);
+    scrollList1.setItemUpdateCallback(scrollListUpdateItemCallback);
+}
+
+void MainScreenView::tearDownScreen()
+{
+    MainScreenViewBase::tearDownScreen();
+}
+
+

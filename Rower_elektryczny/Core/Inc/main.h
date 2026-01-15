@@ -67,7 +67,26 @@ void Error_Handler(void);
 #define GT911_RST_GPIO_Port GPIOH
 
 /* USER CODE BEGIN Private defines */
+typedef struct {
+    volatile int32_t rpm;
+    volatile float current_motor;
+    volatile float duty_cycle;
+    volatile float amp_hours;
+    volatile float amp_hours_chg;
+    volatile float watt_hours;
+    volatile float watt_hours_chg;
+    volatile float temp_fet;
+    volatile float temp_motor;
+    volatile float current_in;
+    volatile float pid_pos;
+    volatile int32_t tacho_value;
+    volatile float v_in;
+} VescData_t;
 
+// 2. Udostępnienie zmiennych dla C++
+extern VescData_t vescL;
+extern VescData_t vescM;
+extern VescData_t vescR;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -1,0 +1,31 @@
+#include <gui/mainscreen_screen/MainScreenView.hpp>
+#include <touchgfx/Utils.hpp>
+
+MainScreenView::MainScreenView()
+{
+
+}
+
+void MainScreenView::setupScreen()
+{
+    MainScreenViewBase::setupScreen();
+    scrollList.setNumberOfItems(1);
+    scrollList.setItemUpdateCallback(scrollListUpdateItemCallback);
+}
+
+void MainScreenView::tearDownScreen()
+{
+    MainScreenViewBase::tearDownScreen();
+}
+void MainScreenView::scrollListUpdateItem(CustomContainer1& item, int16_t itemIndex)
+{
+    if (itemIndex == 0)
+    {
+        // Pobieramy wartość z Presentera
+        int currentRpm = presenter->getRpm();
+
+        // Aktualizujemy kontener
+        item.updateElement("RPM Lewy", currentRpm);
+    }
+}
+

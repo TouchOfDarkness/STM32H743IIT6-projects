@@ -1,0 +1,23 @@
+#include <gui/containers/CustomContainer1.hpp>
+#include <touchgfx/Utils.hpp>
+
+CustomContainer1::CustomContainer1()
+{
+
+}
+
+void CustomContainer1::initialize()
+{
+    CustomContainer1Base::initialize();
+}
+void CustomContainer1::updateElement(const char* name, int value)
+{
+    // 1. Ustaw nazwę parametru (ParameterText)
+    // Zakładamy, że ParameterText ma wildcard, jeśli nie - użyj Unicode::strncpy
+    Unicode::strncpy(parameterTextBuffer, name, PARAMETERTEXT_SIZE);
+    parameterText.invalidate();
+
+    // 2. Ustaw wartość (ValueText)
+    Unicode::snprintf(valueTextBuffer, VALUETEXT_SIZE, "%d", value);
+    valueText.invalidate();
+}

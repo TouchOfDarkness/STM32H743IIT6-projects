@@ -60,31 +60,6 @@ uint8_t RxData[8]; // Bufor na dane odebrane z VESC
 uint8_t TxData[8]; // Bufor na dane do wysłania
 // --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
 FDCAN_TxHeaderTypeDef TxHeader;
-typedef struct {
-    // === STATUS 1 (Komenda 0x09) ===
-    volatile int32_t rpm;           // Prędkość obrotowa (ERPM)
-    volatile float current_motor;   // Prąd na silniku (A)
-    volatile float duty_cycle;      // Wypełnienie (0.00 - 1.00)
-
-    // === STATUS 2 (Komenda 0x0E) ===
-    volatile float amp_hours;       // Zużyte amperogodziny (Ah)
-    volatile float amp_hours_chg;   // Odzyskane amperogodziny (ładowanie)
-
-    // === STATUS 3 (Komenda 0x0F) ===
-    volatile float watt_hours;      // Zużyte watogodziny (Wh)
-    volatile float watt_hours_chg;  // Odzyskane watogodziny (ładowanie)
-
-    // === STATUS 4 (Komenda 0x10) ===
-    volatile float temp_fet;        // Temperatura MOSFET-ów (st. C)
-    volatile float temp_motor;      // Temperatura Silnika (st. C)
-    volatile float current_in;      // Prąd pobierany z baterii (A)
-    volatile float pid_pos;         // Pozycja PID (kąt 0-360)
-
-    // === STATUS 5 (Komenda 0x1B) ===
-    volatile int32_t tacho_value;   // Licznik obrotów (przebieg)
-    volatile float v_in;            // Napięcie baterii (V)
-
-} VescData_t;
 
 // --- 2. INSTANCJE DLA SILNIKÓW ---
 // Ustawiamy ID Twoich VESC-ów

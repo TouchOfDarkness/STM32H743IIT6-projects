@@ -14,6 +14,7 @@ public:
     }
 
     void tick();
+    int getVescLRpm();
 protected:
     ModelListener* modelListener;
 };

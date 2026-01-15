@@ -27,6 +27,10 @@ public:
 
     virtual ~MainScreenPresenter() {}
 
+    int getRpm() {
+            return model->getVescLRpm();
+        }
+
 
 private:
     MainScreenPresenter();
