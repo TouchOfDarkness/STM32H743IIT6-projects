@@ -97,8 +97,6 @@ VescData_t vescM; // Zmienna dla środkowego
 VescData_t vescR; // Zmienna dla prawego
 
 
-volatile int test_toggle_var = 0;   // Zmienna 0/1 co sekundę
-volatile float test_ramp_var = 0.0f; // Zmienna liniowa 0.0 -> 1.0
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

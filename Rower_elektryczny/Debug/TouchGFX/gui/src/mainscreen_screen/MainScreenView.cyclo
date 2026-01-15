@@ -7,4 +7,3 @@
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:4:1:MainScreenView::MainScreenView()	1
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:9:6:virtual void MainScreenView::setupScreen()	1
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:14:6:virtual void MainScreenView::tearDownScreen()	1
-../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:19:6:virtual void MainScreenView::updateScreenValues(int, float)	1

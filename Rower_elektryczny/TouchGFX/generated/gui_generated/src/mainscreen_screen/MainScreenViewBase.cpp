@@ -4,7 +4,6 @@
 #include <gui_generated/mainscreen_screen/MainScreenViewBase.hpp>
 #include <touchgfx/Color.hpp>
 #include <images/BitmapDatabase.hpp>
-#include <texts/TextKeysAndLanguages.hpp>
 
 MainScreenViewBase::MainScreenViewBase()
 {
@@ -15,24 +14,6 @@ MainScreenViewBase::MainScreenViewBase()
     Background.setXY(0, 0);
     Background.setBitmap(touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_BACKGROUNDS_1024X600_METEOR_RAIN_ID));
     add(Background);
-
-    textToggle.setXY(116, 72);
-    textToggle.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    textToggle.setLinespacing(0);
-    textToggleBuffer[0] = 0;
-    textToggle.setWildcard(textToggleBuffer);
-    textToggle.resizeToCurrentText();
-    textToggle.setTypedText(touchgfx::TypedText(T_TEXTTOGGLE));
-    add(textToggle);
-
-    textRamp.setXY(116, 124);
-    textRamp.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    textRamp.setLinespacing(0);
-    textRampBuffer[0] = 0;
-    textRamp.setWildcard(textRampBuffer);
-    textRamp.resizeToCurrentText();
-    textRamp.setTypedText(touchgfx::TypedText(T_TEXTRAMP));
-    add(textRamp);
 }
 
 MainScreenViewBase::~MainScreenViewBase()

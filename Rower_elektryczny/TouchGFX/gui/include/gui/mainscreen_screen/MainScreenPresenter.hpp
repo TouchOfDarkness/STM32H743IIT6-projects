@@ -26,7 +26,7 @@ public:
     virtual void deactivate();
 
     virtual ~MainScreenPresenter() {}
-    virtual void updateTestValues(int toggleVal, float rampVal);
+
 
 private:
     MainScreenPresenter();

@@ -9,7 +9,6 @@
 #include <gui/mainscreen_screen/MainScreenPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
-#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class MainScreenViewBase : public touchgfx::View<MainScreenPresenter>
 {
@@ -28,16 +27,6 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Image Background;
-    touchgfx::TextAreaWithOneWildcard textToggle;
-    touchgfx::TextAreaWithOneWildcard textRamp;
-
-    /*
-     * Wildcard Buffers
-     */
-    static const uint16_t TEXTTOGGLE_SIZE = 10;
-    touchgfx::Unicode::UnicodeChar textToggleBuffer[TEXTTOGGLE_SIZE];
-    static const uint16_t TEXTRAMP_SIZE = 10;
-    touchgfx::Unicode::UnicodeChar textRampBuffer[TEXTRAMP_SIZE];
 
 private:
 

@@ -17,8 +17,4 @@ void MainScreenPresenter::deactivate()
 
 }
 
-void MainScreenPresenter::updateTestValues(int toggleVal, float rampVal)
-{
-    // Przekazujemy dane do View
-    view.updateScreenValues(toggleVal, rampVal);
-}
+

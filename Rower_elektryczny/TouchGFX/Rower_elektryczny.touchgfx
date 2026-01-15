@@ -10,36 +10,6 @@
             "Width": 1024,
             "Height": 600,
             "RelativeFilename": "__generated\\alternate_theme_images_backgrounds_1024x600_meteor_rain.png"
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textToggle",
-            "X": 116,
-            "Y": 72,
-            "Width": 115,
-            "Height": 20,
-            "TextId": "textToggle",
-            "TextRotation": "0",
-            "AutoSize": true,
-            "Wildcard1": {
-              "UseBuffer": true,
-              "BufferSize": 10
-            }
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textRamp",
-            "X": 116,
-            "Y": 124,
-            "Width": 110,
-            "Height": 20,
-            "TextId": "textRamp",
-            "TextRotation": "0",
-            "AutoSize": true,
-            "Wildcard1": {
-              "UseBuffer": true,
-              "BufferSize": 10
-            }
           }
         ],
         "Interactions": []

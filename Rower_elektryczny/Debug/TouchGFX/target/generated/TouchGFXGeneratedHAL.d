@@ -56,10 +56,6 @@ TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
  ../TouchGFX/gui/include/gui/model/ModelListener.hpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Image.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp \
  ../TouchGFX/gui/include/gui/parametersscreen_screen/ParametersScreenView.hpp \
  ../TouchGFX/generated/gui_generated/include/gui_generated/parametersscreen_screen/ParametersScreenViewBase.hpp \
  ../TouchGFX/gui/include/gui/parametersscreen_screen/ParametersScreenPresenter.hpp \
@@ -160,10 +156,6 @@ TouchGFX/target/generated/TouchGFXGeneratedHAL.o: \
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Box.hpp:
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/Image.hpp:
-../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextAreaWithWildcard.hpp:
-../Middlewares/ST/touchgfx/framework/include/touchgfx/widgets/TextArea.hpp:
-../Middlewares/ST/touchgfx/framework/include/touchgfx/TypedText.hpp:
-../Middlewares/ST/touchgfx/framework/include/touchgfx/Texts.hpp:
 ../TouchGFX/gui/include/gui/parametersscreen_screen/ParametersScreenView.hpp:
 ../TouchGFX/generated/gui_generated/include/gui_generated/parametersscreen_screen/ParametersScreenViewBase.hpp:
 ../TouchGFX/gui/include/gui/parametersscreen_screen/ParametersScreenPresenter.hpp:

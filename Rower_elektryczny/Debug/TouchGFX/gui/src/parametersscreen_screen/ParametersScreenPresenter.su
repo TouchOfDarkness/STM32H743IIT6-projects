@@ -6,7 +6,6 @@
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:9:5:ModelListener::ModelListener()	16	static
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:11:13:ModelListener::~ModelListener()	16	static
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:11:13:virtual ModelListener::~ModelListener()	16	static
-../TouchGFX/gui/include/gui/model/ModelListener.hpp:18:18:virtual void ModelListener::updateTestValues(int, float)	24	static
 ../TouchGFX/gui/include/gui/parametersscreen_screen/ParametersScreenPresenter.hpp:28:13:ParametersScreenPresenter::~ParametersScreenPresenter()	16	static
 ../TouchGFX/gui/include/gui/parametersscreen_screen/ParametersScreenPresenter.hpp:28:13:virtual ParametersScreenPresenter::~ParametersScreenPresenter()	16	static
 ../TouchGFX/gui/src/parametersscreen_screen/ParametersScreenPresenter.cpp:4:1:ParametersScreenPresenter::ParametersScreenPresenter(ParametersScreenView&)	16	static

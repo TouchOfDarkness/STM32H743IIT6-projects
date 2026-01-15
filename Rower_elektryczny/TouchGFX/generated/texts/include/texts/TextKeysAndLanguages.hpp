@@ -14,6 +14,8 @@ enum TEXTS
 {
     T_TEXTRAMP,
     T_TEXTTOGGLE,
+    T_VAR2,
+    T_VAR1,
     NUMBER_OF_TEXT_KEYS
 };
 

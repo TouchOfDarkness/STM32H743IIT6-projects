@@ -11,7 +11,6 @@ public:
     virtual ~MainScreenView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-    virtual void updateScreenValues(int toggleVal, float rampVal);
 protected:
 };
 

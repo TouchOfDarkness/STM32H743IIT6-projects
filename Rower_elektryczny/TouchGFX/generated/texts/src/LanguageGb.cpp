@@ -11,5 +11,7 @@ KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE;
 TEXT_LOCATION_FLASH_PRAGMA
 KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE = {
     13, // T_TEXTRAMP: "TEST VAR2 <>"
-    0   // T_TEXTTOGGLE: "TEST VAR1  <>"
+    0,  // T_TEXTTOGGLE: "TEST VAR1  <>"
+    25, // T_VAR2: "0.000000"
+    32  // T_VAR1: "0"
 };
