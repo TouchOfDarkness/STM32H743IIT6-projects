@@ -29,7 +29,7 @@
 #include "gpio.h"
 #include "fmc.h"
 #include "app_touchgfx.h"
-#include "gt911.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os.h"

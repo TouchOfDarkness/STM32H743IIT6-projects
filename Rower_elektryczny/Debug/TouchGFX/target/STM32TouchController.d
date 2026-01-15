@@ -1,6 +1,11 @@
 TouchGFX/target/STM32TouchController.o: \
- ../TouchGFX/target/STM32TouchController.cpp ../Core/Inc/gt911.h \
- ../Core/Inc/main.h ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
+ ../TouchGFX/target/STM32TouchController.cpp \
+ ../TouchGFX/target/STM32TouchController.hpp \
+ ../Middlewares/ST/touchgfx/framework/include/platform/driver/touch/TouchController.hpp \
+ ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp \
+ ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Config.hpp \
+ ../Core/Inc/gt911.h ../Core/Inc/main.h \
+ ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h \
@@ -40,11 +45,11 @@ TouchGFX/target/STM32TouchController.o: \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_fmc.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
- ../Core/Inc/i2c.h ../TouchGFX/target/STM32TouchController.hpp \
- ../Middlewares/ST/touchgfx/framework/include/platform/driver/touch/TouchController.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp \
- ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Config.hpp \
- ../Core/Inc/i2c.h
+ ../Core/Inc/i2c.h ../Core/Inc/i2c.h
+../TouchGFX/target/STM32TouchController.hpp:
+../Middlewares/ST/touchgfx/framework/include/platform/driver/touch/TouchController.hpp:
+../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp:
+../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Config.hpp:
 ../Core/Inc/gt911.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
@@ -88,8 +93,4 @@ TouchGFX/target/STM32TouchController.o: \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
 ../Core/Inc/i2c.h:
-../TouchGFX/target/STM32TouchController.hpp:
-../Middlewares/ST/touchgfx/framework/include/platform/driver/touch/TouchController.hpp:
-../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp:
-../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Config.hpp:
 ../Core/Inc/i2c.h:

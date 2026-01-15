@@ -42,7 +42,7 @@ bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 
 	    // Wywołaj funkcję odczytu, którą przygotowaliśmy wcześniej
 	    // Użyj hi2c2 lub hi2c4 zależnie od podłączenia
-	    if (GT911_ReadTouchData(&hi2c4, &touchData))
+	    if (GT911_ReadTouchData(&hi2c2, &touchData))
 	    {
 	        if (touchData.touchCount > 0)
 	        {
