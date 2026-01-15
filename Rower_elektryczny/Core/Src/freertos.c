@@ -60,7 +60,7 @@ osThreadId_t TouchGFXTaskHandle;
 const osThreadAttr_t TouchGFXTask_attributes = {
   .name = "TouchGFXTask",
   .stack_size = 4096 * 4,
-  .priority = (osPriority_t) osPriorityBelowNormal,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for TaskTest */
 osThreadId_t TaskTestHandle;

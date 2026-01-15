@@ -45,15 +45,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  20 .debug_macro  00047326  00000000  00000000  001fbdb9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line   00049535  00000000  00000000  002430df  2**0
+ 21 .debug_line   00049537  00000000  00000000  002430df  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_str    00198120  00000000  00000000  0028c614  2**0
+ 22 .debug_str    00198120  00000000  00000000  0028c616  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .comment      00000088  00000000  00000000  00424734  2**0
+ 23 .comment      00000088  00000000  00000000  00424736  2**0
                   CONTENTS, READONLY
- 24 .debug_frame  0000fed0  00000000  00000000  004247bc  2**2
+ 24 .debug_frame  0000fed0  00000000  00000000  004247c0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 25 .debug_line_str 0000006d  00000000  00000000  0043468c  2**0
+ 25 .debug_line_str 0000006d  00000000  00000000  00434690  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2258,8 +2258,8 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     PeriphClkInitStruct.PLL3.PLL3Q = 2;
  8001092:	2302      	movs	r3, #2
  8001094:	657b      	str	r3, [r7, #84]	@ 0x54
-    PeriphClkInitStruct.PLL3.PLL3R = 28;
- 8001096:	231c      	movs	r3, #28
+    PeriphClkInitStruct.PLL3.PLL3R = 32;
+ 8001096:	2320      	movs	r3, #32
  8001098:	65bb      	str	r3, [r7, #88]	@ 0x58
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
  800109a:	f44f 6300 	mov.w	r3, #2048	@ 0x800
@@ -4044,32 +4044,32 @@ void MPU_Config(void)
   MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
  8001d50:	2300      	movs	r3, #0
  8001d52:	737b      	strb	r3, [r7, #13]
-  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
- 8001d54:	2301      	movs	r3, #1
- 8001d56:	73bb      	strb	r3, [r7, #14]
   MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
- 8001d58:	2301      	movs	r3, #1
- 8001d5a:	73fb      	strb	r3, [r7, #15]
+ 8001d54:	2301      	movs	r3, #1
+ 8001d56:	73fb      	strb	r3, [r7, #15]
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
- 8001d5c:	463b      	mov	r3, r7
- 8001d5e:	4618      	mov	r0, r3
- 8001d60:	f000 ff02 	bl	8002b68 <HAL_MPU_ConfigRegion>
+ 8001d58:	463b      	mov	r3, r7
+ 8001d5a:	4618      	mov	r0, r3
+ 8001d5c:	f000 ff04 	bl	8002b68 <HAL_MPU_ConfigRegion>
 
   /** Initializes and configures the Region and the memory to be protected
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER2;
- 8001d64:	2302      	movs	r3, #2
- 8001d66:	707b      	strb	r3, [r7, #1]
+ 8001d60:	2302      	movs	r3, #2
+ 8001d62:	707b      	strb	r3, [r7, #1]
   MPU_InitStruct.BaseAddress = 0x90000000;
- 8001d68:	f04f 4310 	mov.w	r3, #2415919104	@ 0x90000000
- 8001d6c:	607b      	str	r3, [r7, #4]
+ 8001d64:	f04f 4310 	mov.w	r3, #2415919104	@ 0x90000000
+ 8001d68:	607b      	str	r3, [r7, #4]
   MPU_InitStruct.Size = MPU_REGION_SIZE_256MB;
- 8001d6e:	231b      	movs	r3, #27
- 8001d70:	723b      	strb	r3, [r7, #8]
+ 8001d6a:	231b      	movs	r3, #27
+ 8001d6c:	723b      	strb	r3, [r7, #8]
   MPU_InitStruct.SubRegionDisable = 0x0;
- 8001d72:	2300      	movs	r3, #0
- 8001d74:	727b      	strb	r3, [r7, #9]
+ 8001d6e:	2300      	movs	r3, #0
+ 8001d70:	727b      	strb	r3, [r7, #9]
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+ 8001d72:	2301      	movs	r3, #1
+ 8001d74:	73bb      	strb	r3, [r7, #14]
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
  8001d76:	463b      	mov	r3, r7
