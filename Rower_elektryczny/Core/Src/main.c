@@ -270,7 +270,7 @@ int main(void)
 	        int32_t rpm_raw = vescM.rpm;
 	        if (rpm_raw < 0) rpm_raw = 0;
 
-	        // Tuta wchodzi filtr średniej kroczącej - wygładzi te "góry i doliny" z wykresu
+	        //filtr uśredniający nieregularne ERPM z generatora
 	        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
 
 	        // 3. LOGIKA AUTOMATYCZNEJ SKRZYNI BIEGÓW
@@ -330,10 +330,10 @@ int main(void)
 	        {
 	            // A. LOGIKA STARTU (LAUNCH) vs JAZDA (CRUISE)
 	            if (rpm_filtered < 1000) {
-	                // START: Dajemy 20A, żeby ruszyć z miejsca (jak prosiłeś)
-	                // Robimy szybki ramp od 0 do 20A w zakresie 200-500 RPM
+	                // START: Dajemy 8A, żeby ruszyć z miejsca (jak prosiłeś)
+	                // Robimy szybki ramp od 0 do 8A w zakresie 200-500 RPM
 	                target_drive = 8.0f;
-	                target_drag = 1.0f; // Minimalny opór przy starcie
+	                target_drag = 0.1f; // Minimalny opór przy starcie
 	            }
 	            else {
 	                // JAZDA (CRUISE): 3A - 12A + BIEGI
