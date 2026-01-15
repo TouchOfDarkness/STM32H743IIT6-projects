@@ -10,8 +10,17 @@ KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE;
 // Remap all strings
 TEXT_LOCATION_FLASH_PRAGMA
 KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE = {
-    13, // T_TEXTRAMP: "TEST VAR2 <>"
-    0,  // T_TEXTTOGGLE: "TEST VAR1  <>"
-    25, // T_VAR2: "0.000000"
-    32  // T_VAR1: "0"
+    17,  // T_PARAMETERNAMEWILDCARD: ""
+    108, // T_PARAMETERNAME: "<>"
+    17,  // T_PARAMETERVALUEWILDCARD: ""
+    108, // T_PARAMETERVALUE: "<>"
+    67,  // T_CURRENT_IN: "Current In"
+    0,   // T_TEMP_FET: "MOSFET Teperature"
+    18,  // T_WATT_HOURS_CHG: "WattHours Charged"
+    89,  // T_WATT_HOURS: "WattHours"
+    36,  // T_AMP_HOURS_CHG: "AmpHours Charged"
+    99,  // T_AMP_HOURS: "AmpHours"
+    78,  // T_DUTY_CYCLE: "Duty Cicle"
+    53,  // T_CURRENT_MOTOR: "Motor Current"
+    108  // T_RPM: "<>"
 };

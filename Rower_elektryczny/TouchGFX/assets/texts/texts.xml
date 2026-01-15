@@ -4,27 +4,54 @@
     <Language Id="GB" />
   </Languages>
   <Texts>
-    <TextGroup Id="TestText">
-      <Text Id="textRamp" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">TEST VAR2 &lt;V&gt;</Translation>
+    <TextGroup Id="ParameterName">
+      <Text Id="ParameterNameWildCard" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB"></Translation>
       </Text>
-      <Text Id="textToggle" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">TEST VAR1  &lt;v&gt;</Translation>
+      <Text Id="ParameterName" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">&lt;V&gt;</Translation>
       </Text>
     </TextGroup>
-    <TextGroup Id="Unsorted">
-      <Text Id="VAR2" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0.000000</Translation>
+    <TextGroup Id="ParameterValue">
+      <Text Id="ParameterValueWildCard" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB"></Translation>
       </Text>
-      <Text Id="VAR1" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">0</Translation>
+      <Text Id="ParameterValue" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">&lt;V&gt;</Translation>
+      </Text>
+    </TextGroup>
+    <TextGroup Id="Vesc1">
+      <Text Id="current_in" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">Current In</Translation>
+      </Text>
+      <Text Id="temp_fet" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">MOSFET Teperature</Translation>
+      </Text>
+      <Text Id="watt_hours_chg" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">WattHours Charged</Translation>
+      </Text>
+      <Text Id="watt_hours" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">WattHours</Translation>
+      </Text>
+      <Text Id="amp_hours_chg" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">AmpHours Charged</Translation>
+      </Text>
+      <Text Id="amp_hours" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">AmpHours</Translation>
+      </Text>
+      <Text Id="duty_cycle" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">Duty Cicle</Translation>
+      </Text>
+      <Text Id="current_motor" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">Motor Current</Translation>
+      </Text>
+      <Text Id="rpm" Alignment="Left" TypographyId="ParameterValue">
+        <Translation Language="GB">&lt;V&gt;</Translation>
       </Text>
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
-    <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="Typography1" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="ParameterValue" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=".-" WildcardCharacterRanges="0-9" />
+    <Typography Id="ParameterName" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=" " WildcardCharacterRanges="A-Z,a-z,0-9" />
   </Typographies>
 </TextDatabase>

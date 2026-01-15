@@ -3,6 +3,7 @@
     "Screens": [
       {
         "Name": "MainScreen",
+        "CanvasBufferSize": 15360,
         "Components": [
           {
             "Type": "Image",
@@ -10,25 +11,159 @@
             "Width": 1024,
             "Height": 600,
             "RelativeFilename": "__generated\\alternate_theme_images_backgrounds_1024x600_meteor_rain.png"
-          }
-        ],
-        "Interactions": []
-      },
-      {
-        "Name": "ParametersScreen",
-        "Components": [
+          },
           {
-            "Type": "Image",
-            "Name": "Background",
+            "Type": "SwipeContainer",
+            "Name": "swipeContainer",
             "Width": 1024,
             "Height": 600,
-            "RelativeFilename": "__generated\\alternate_theme_images_backgrounds_1024x600_meteor_rain.png"
+            "SwipeCutoff": 50,
+            "ShowPageIndicator": true,
+            "IndicatorImageNormal": "__generated\\alternate_theme_images_widgets_swipecontainer_large_off_normal.png",
+            "IndicatorImageHighlight": "__generated\\alternate_theme_images_widgets_swipecontainer_large_on_active.png",
+            "EndSwipeElasticWidth": 50,
+            "SelectedPage": "swipeContainerParameterPage",
+            "Preset": "alternate_theme\\presets\\swipecontainer\\large_active.json",
+            "Components": [
+              {
+                "Type": "Container",
+                "Name": "swipeContainerGraphPage",
+                "Width": 1024,
+                "Height": 600,
+                "Components": [
+                  {
+                    "Type": "DynamicGraph",
+                    "Name": "dynamicGraph",
+                    "X": 34,
+                    "Y": 55,
+                    "Width": 957,
+                    "Height": 491,
+                    "DataSeed": 1096199829,
+                    "NumberOfValues": 100,
+                    "MaxY": 100.0,
+                    "Precision": "1",
+                    "LastIndex": 99,
+                    "XAxisScale": 1.0,
+                    "InsertRandomValues": true,
+                    "GraphType": "GraphScroll",
+                    "GraphDrawers": [
+                      {
+                        "Type": "LineDrawer",
+                        "LineWidth": 2,
+                        "FileNameImage": "",
+                        "Color": {
+                          "Red": 20,
+                          "Green": 151,
+                          "Blue": 197
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "Type": "Container",
+                "Name": "swipeContainerParameterPage",
+                "Width": 1024,
+                "Height": 600,
+                "Components": [
+                  {
+                    "Type": "ScrollList",
+                    "Name": "scrollList",
+                    "X": 462,
+                    "Y": 30,
+                    "Width": 403,
+                    "Height": 489,
+                    "ItemTemplateName": "CustomContainer1",
+                    "NumberofItems": 27,
+                    "Easing": "Back",
+                    "EasingOption": "Out",
+                    "SwipeAcceleration": 1.0,
+                    "DragAcceleration": 1.0,
+                    "OverShootPercentage": 75
+                  }
+                ]
+              },
+              {
+                "Type": "Container",
+                "Name": "swipeContainerMainPage",
+                "Width": 1024,
+                "Height": 600,
+                "Components": []
+              }
+            ]
           }
         ],
         "Interactions": []
       }
     ],
-    "CustomContainerDefinitions": [],
+    "CustomContainerDefinitions": [
+      {
+        "Name": "CustomContainer1",
+        "Width": 403,
+        "Height": 68,
+        "Components": [
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage1",
+            "Width": 403,
+            "Height": 68,
+            "Filename": "__generated\\alternate_theme_images_containers_large_narrow_dark.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage2",
+            "X": 194,
+            "Width": 15,
+            "Height": 68,
+            "Filename": "__generated\\alternate_theme_images_dividers_vertical_large_normal_neutral.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "ParameterText",
+            "X": 21,
+            "Y": 22,
+            "Width": 9,
+            "Height": 25,
+            "TextId": "ParameterName",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 77,
+              "Green": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "ParameterNameWildCard",
+              "UseBuffer": true,
+              "BufferSize": 20
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "ValueText",
+            "X": 224,
+            "Y": 22,
+            "Width": 80,
+            "Height": 25,
+            "TextId": "ParameterValue",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 77,
+              "Green": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "ParameterValueWildCard",
+              "UseBuffer": true,
+              "BufferSize": 20
+            }
+          }
+        ],
+        "Interactions": []
+      }
+    ],
     "Name": "Rower_elektryczny",
     "Resolution": {
       "Width": 1024,

@@ -9,6 +9,13 @@
 #include <gui/mainscreen_screen/MainScreenPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
+#include <touchgfx/containers/SwipeContainer.hpp>
+#include <touchgfx/containers/Container.hpp>
+#include <touchgfx/widgets/graph/GraphScroll.hpp>
+#include <touchgfx/widgets/graph/GraphElements.hpp>
+#include <touchgfx/widgets/canvas/PainterRGB565.hpp>
+#include <touchgfx/containers/scrollers/ScrollList.hpp>
+#include <gui/containers/CustomContainer1.hpp>
 
 class MainScreenViewBase : public touchgfx::View<MainScreenPresenter>
 {
@@ -16,6 +23,11 @@ public:
     MainScreenViewBase();
     virtual ~MainScreenViewBase();
     virtual void setupScreen();
+
+    virtual void scrollListUpdateItem(CustomContainer1& item, int16_t itemIndex)
+    {
+        // Override and implement this function in MainScreen
+    }
 
 protected:
     FrontendApplication& application() {
@@ -27,8 +39,33 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Image Background;
+    touchgfx::SwipeContainer swipeContainer;
+    touchgfx::Container swipeContainerGraphPage;
+    touchgfx::GraphScroll<100> dynamicGraph;
+    touchgfx::GraphElementLine dynamicGraphLine1;
+    touchgfx::PainterRGB565 dynamicGraphLine1Painter;
+    touchgfx::Container swipeContainerParameterPage;
+    touchgfx::ScrollList scrollList;
+    touchgfx::DrawableListItems<CustomContainer1, 9> scrollListListItems;
+    touchgfx::Container swipeContainerMainPage;
 
 private:
+
+    /*
+     * Canvas Buffer Size
+     */
+    static const uint32_t CANVAS_BUFFER_SIZE = 15360;
+    uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];
+
+    /*
+     * Callback Declarations
+     */
+    touchgfx::Callback<MainScreenViewBase, touchgfx::DrawableListItemsInterface*, int16_t, int16_t> updateItemCallback;
+
+    /*
+     * Callback Handler Declarations
+     */
+    void updateItemCallbackHandler(touchgfx::DrawableListItemsInterface* items, int16_t containerIndex, int16_t itemIndex);
 
 };
 

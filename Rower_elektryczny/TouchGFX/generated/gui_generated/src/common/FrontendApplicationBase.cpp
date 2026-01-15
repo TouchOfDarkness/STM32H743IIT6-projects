@@ -10,8 +10,6 @@
 #include <touchgfx/hal/HAL.hpp>
 #include <gui/mainscreen_screen/MainScreenView.hpp>
 #include <gui/mainscreen_screen/MainScreenPresenter.hpp>
-#include <gui/parametersscreen_screen/ParametersScreenView.hpp>
-#include <gui/parametersscreen_screen/ParametersScreenPresenter.hpp>
 
 using namespace touchgfx;
 

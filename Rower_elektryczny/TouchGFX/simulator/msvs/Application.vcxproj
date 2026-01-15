@@ -24,9 +24,8 @@
     <ClCompile Include="..\..\gui\src\mainscreen_screen\MainScreenPresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\mainscreen_screen\MainScreenView.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\mainscreen_screen\MainScreenViewBase.cpp"/>
-    <ClCompile Include="..\..\gui\src\parametersscreen_screen\ParametersScreenPresenter.cpp"/>
-    <ClCompile Include="..\..\gui\src\parametersscreen_screen\ParametersScreenView.cpp"/>
-    <ClCompile Include="..\..\generated\gui_generated\src\parametersscreen_screen\ParametersScreenViewBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\containers\CustomContainer1.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\containers\CustomContainer1Base.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml"/>
@@ -180,9 +179,8 @@
     <ClInclude Include="..\..\gui\include\gui\mainscreen_screen\MainScreenPresenter.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\mainscreen_screen\MainScreenView.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\mainscreen_screen\MainScreenViewBase.hpp"/>
-    <ClInclude Include="..\..\gui\include\gui\parametersscreen_screen\ParametersScreenPresenter.hpp"/>
-    <ClInclude Include="..\..\gui\include\gui\parametersscreen_screen\ParametersScreenView.hpp"/>
-    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\parametersscreen_screen\ParametersScreenViewBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\containers\CustomContainer1.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\CustomContainer1Base.hpp"/>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(ApplicationRoot)\generated\simulator\touchgfx.rc"/>
