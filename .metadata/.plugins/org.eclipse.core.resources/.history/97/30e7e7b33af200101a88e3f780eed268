@@ -229,8 +229,8 @@ int main(void)
 
         // Parametry automatu
         const int32_t UPSHIFT_RPM = 7000;
-        const int32_t DOWNSHIFT_RPM = 4000;
-        const uint32_t SHIFT_DELAY = 1000;
+        const int32_t DOWNSHIFT_RPM = 5000;
+        const uint32_t SHIFT_DELAY = 6000;
 
         // Parametry NAPĘDU (Koła)
         const float CURRENT_STEP = 2.5f;    // +2.5A na koła za każdy bieg
@@ -291,7 +291,7 @@ int main(void)
 	                    timer_upshift = 0;
 	                }
 	            }
-	            else if (rpm_filtered < 2000) {
+	            else if (rpm_filtered < 3000) {
 	               timer_upshift = 0; // Reset dopiero przy niskich obrotach
 	               if (rpm_filtered < DOWNSHIFT_RPM) {
 	                   timer_downshift += dt_ms;
@@ -306,80 +306,92 @@ int main(void)
 	             timer_upshift = 0;
 	             timer_downshift = 0;
 	        }
-	        float target_drive = 0.0f;
+	        // ====================================================================
+	              // 4. OBLICZANIE PRĄDÓW - SYMULACJA WOLNOBIEGU (VIRTUAL FLYWHEEL)
+	              // ====================================================================
+
+	              float target_drive = 0.0f;
 	              float target_drag = 0.0f;
 
+	              // Zmienna przechowująca wirtualną prędkość roweru (musi być static!)
+	              // To symuluje energię kinetyczną rozpędzonego kolarza.
 	              static float virtual_speed = 0.0f;
 
-	              // --- PARAMETRY ---
-	              const float CLUTCH_STIFFNESS = 0.003f;
-	              const float VIRTUAL_ACCEL_FACTOR = 0.15f;
-	              const float COASTING_DECAY = 0.996f;
+	              // --- PARAMETRY STROJENIA ---
+	              // 1. MASA ROWERU (Inercja):
+	              //    Mała wartość = rower lekki (szybko przyspiesza, szybko zwalnia wirtualnie)
+	              //    Duża wartość = rower ciężki (trudno rozpędzić, długo się toczy)
+	              //    Zwiększaj to, jeśli chcesz czuć większy opór przy rozpędzaniu.
+	              const float VIRTUAL_MASS = 0.05f;
 
-	              // Parametr Mocy: Ile Amperów na koła daje wciśnięty gaz (RPM) na danym biegu?
-	              // Zwiększ to, jeśli rower jest za słaby przy szybkiej jeździe.
-	              const float DRIVE_POWER_FACTOR = 2.5f;
+	              // 2. OPÓR TOCZENIA (Rolling Resistance):
+	              //    Jak szybko wirtualny rower zwalnia, gdy nie pedałujesz.
+	              //    0.995 = bardzo dobre łożyska, 0.900 = jazda w piachu.
+	              const float COASTING_DECAY = 0.995f;
 
 	              if (rpm_filtered > 100)
 	              {
+	                  // KROK 1: Fizyka Wolnobiegu
+	                  // Różnica między Twoimi nogami a wirtualnym kołem
 	                  float speed_delta = (float)rpm_filtered - virtual_speed;
 
 	                  if (speed_delta > 0)
 	                  {
-	                      // === SYTUACJA A: JAZDA (Aktywne pedałowanie) ===
+	                      // SYTUACJA A: PCHASZ ROWER (Nogi szybsze niż koło)
+	                      // Tutaj generujemy opór i napęd.
 
-	                      // 1. Fizyka wirtualnego koła (goni nogi)
-	                      virtual_speed += (speed_delta * VIRTUAL_ACCEL_FACTOR);
+	                      // Wirtualny rower przyspiesza, ale powoli (symulacja masy)
+	                      virtual_speed += (speed_delta * VIRTUAL_MASS);
 
-	                      // 2. OPÓR (Generator) - Zostawiamy miękki, bo to było dobre
-	                      float gear_base_drag = (current_gear - 1) * 0.5f;
-	                      target_drag = (speed_delta * CLUTCH_STIFFNESS) + gear_base_drag;
+	                      // Opór generatora zależy od tego, jak mocno "naciskasz" na wolnobieg
+	                      // BAZA: speed_delta * 0.05 (czucie nacisku)
+	                      // BIEG: current_gear * 0.8 (ciężkość przełożenia)
+	                      target_drag = (speed_delta * 0.05f) + ((current_gear - 1) * 0.8f);
 
-	                      // 3. NAPĘD (KOŁA) - TU JEST POPRAWKA!
-	                      // Wcześniej zależało to tylko od 'speed_delta' (dlatego znikało przy stałej jeździe).
-	                      // Teraz zależy od FAKTYCZNEGO RPM i BIEGU.
+	                      // Napęd na koła - proporcjonalny do włożonego wysiłku
+	                      float power_factor = speed_delta * current_gear;
+	                      // Skalowanie do np. 30A max
+	                      target_drive = power_factor * 0.02f;
 
-	                      // A. Baza: Im szybciej kręcisz (RPM) i wyższy bieg, tym więcej mocy.
-	                      // Normalizacja: (RPM / 7000) * (Bieg * MocNaBieg)
-	                      float rpm_ratio = (float)rpm_filtered / 7000.0f;
-	                      if(rpm_ratio > 1.0f) rpm_ratio = 1.0f;
-
-	                      float cruising_power = rpm_ratio * (current_gear * DRIVE_POWER_FACTOR);
-
-	                      // B. Boost: Dodatek za "deptanie" (speed_delta)
-	                      float acceleration_boost = speed_delta * 0.01f;
-
-	                      // Suma
-	                      target_drive = cruising_power + acceleration_boost;
-
-	                      // Start Assist (żeby ruszył z miejsca)
-	                      if (virtual_speed < 1000) target_drive += 5.0f;
+	                      // Boost przy ruszaniu z miejsca (gdy virtual_speed jest małe)
+	                      if (virtual_speed < 2000) {
+	                          target_drag += 2.0f; // Extra opór statyczny na start
+	                          target_drive += 5.0f; // Extra moc na start
+	                      }
 	                  }
 	                  else
 	                  {
-	                      // === SYTUACJA B: WOLNOBIEG (Luz) ===
-	                      target_drag = 0.0f;
+	                      // SYTUACJA B: LUZ (Nogi wolniejsze niż koło - "Freewheeling")
+	                      // Tutaj nie ma oporu! (Wolnobieg cyka)
+	                      // To eliminuje uderzenie w ścianę przy wznawianiu pedałowania.
+
+	                      target_drag = 0.5f; // Minimalny opór, żeby łańcuch był napięty
+
+	                      // Napęd: Utrzymujemy lekki prąd ("tempomat"), albo 0
 	                      target_drive = 0.0f;
+
+	                      // Wirtualny rower powoli zwalnia (toczy się)
 	                      virtual_speed *= COASTING_DECAY;
 	                  }
 
-	                  // --- LIMITY ---
-	                  // Generator (Opór)
-	                  if (target_drag > 15.0f) target_drag = 15.0f;
+	                  // KROK 2: Limity Bezpieczeństwa
+	                  if (target_drag > 25.0f) target_drag = 25.0f; // Max opór
+	                  if (target_drive > 35.0f) target_drive = 35.0f; // Max prąd silnika
 
-	                  // Silniki (Napęd) - Tu masz 40A w VESC, więc w kodzie też pozwól na więcej
-	                  if (target_drive > 35.0f) target_drive = 35.0f;
-
+	                  // Zabezpieczenie przed ujemnym wirtualnym speedem (błędy zaokrągleń)
 	                  if (virtual_speed < 0) virtual_speed = 0;
 	              }
 	              else
 	              {
+	                  // Postój
 	                  target_drag = 0.0f;
 	                  target_drive = 0.0f;
+	                  // Rower zwalnia szybciej na postoju
 	                  virtual_speed *= 0.98f;
 	              }
 
 	              // 5. FILTROWANIE WYJŚCIA
+	              // Tutaj możemy dać mniejsze filtrowanie, bo logika wolnobiegu jest naturalnie płynna
 	              current_drive_filtered = (current_drive_filtered * 0.85f) + (target_drive * 0.15f);
 	              current_drag_filtered = (current_drag_filtered * 0.85f) + (target_drag * 0.15f);
 

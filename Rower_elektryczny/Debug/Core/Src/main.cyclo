@@ -1,9 +1,9 @@
 ../Core/Src/main.c:116:5:_write	1
 ../Core/Src/main.c:122:9:Get_Filtered_RPM	3
-../Core/Src/main.c:152:5:main	21
-../Core/Src/main.c:495:6:SystemClock_Config	4
-../Core/Src/main.c:570:6:HAL_FDCAN_RxFifo0Callback	12
-../Core/Src/main.c:643:6:VESC_SetCurrent	4
-../Core/Src/main.c:687:6:VESC_SetBrakeCurrent	4
-../Core/Src/main.c:730:6:MPU_Config	1
-../Core/Src/main.c:761:6:Error_Handler	1
+../Core/Src/main.c:152:5:main	22
+../Core/Src/main.c:512:6:SystemClock_Config	4
+../Core/Src/main.c:587:6:HAL_FDCAN_RxFifo0Callback	12
+../Core/Src/main.c:660:6:VESC_SetCurrent	4
+../Core/Src/main.c:704:6:VESC_SetBrakeCurrent	4
+../Core/Src/main.c:747:6:MPU_Config	1
+../Core/Src/main.c:778:6:Error_Handler	1

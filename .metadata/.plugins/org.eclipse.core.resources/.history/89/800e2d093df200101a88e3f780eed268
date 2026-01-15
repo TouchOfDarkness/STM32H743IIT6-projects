@@ -229,8 +229,8 @@ int main(void)
 
         // Parametry automatu
         const int32_t UPSHIFT_RPM = 7000;
-        const int32_t DOWNSHIFT_RPM = 4000;
-        const uint32_t SHIFT_DELAY = 1000;
+        const int32_t DOWNSHIFT_RPM = 5000;
+        const uint32_t SHIFT_DELAY = 6000;
 
         // Parametry NAPĘDU (Koła)
         const float CURRENT_STEP = 2.5f;    // +2.5A na koła za każdy bieg
@@ -291,7 +291,7 @@ int main(void)
 	                    timer_upshift = 0;
 	                }
 	            }
-	            else if (rpm_filtered < 2000) {
+	            else if (rpm_filtered < 3000) {
 	               timer_upshift = 0; // Reset dopiero przy niskich obrotach
 	               if (rpm_filtered < DOWNSHIFT_RPM) {
 	                   timer_downshift += dt_ms;
