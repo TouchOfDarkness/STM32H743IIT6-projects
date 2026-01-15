@@ -5,13 +5,25 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.cpp 
+../TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.cpp \
+../TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.cpp \
+../TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.cpp \
+../TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.cpp \
+../TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.cpp 
 
 OBJS += \
-./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.o 
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.o \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.o \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.o \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.o \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.o 
 
 CPP_DEPS += \
-./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.d 
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.d \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.d \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.d \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.d \
+./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +33,7 @@ TouchGFX/generated/images/src/__generated/%.o TouchGFX/generated/images/src/__ge
 clean: clean-TouchGFX-2f-generated-2f-images-2f-src-2f-__generated
 
 clean-TouchGFX-2f-generated-2f-images-2f-src-2f-__generated:
-	-$(RM) ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.cyclo ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.d ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.o ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.su
+	-$(RM) ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.cyclo ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.d ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.o ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_backgrounds_1024x600_meteor_rain.su ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.cyclo ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.d ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.o ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_large_narrow_dark.su ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.cyclo ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.d ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.o ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_dividers_vertical_large_normal_neutral.su ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.cyclo ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.d ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.o ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_off_normal.su ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.cyclo ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.d ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.o ./TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_swipecontainer_large_on_active.su
 
 .PHONY: clean-TouchGFX-2f-generated-2f-images-2f-src-2f-__generated
 

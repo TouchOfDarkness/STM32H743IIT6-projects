@@ -61,15 +61,15 @@ TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/driver/touch \
 TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/hal/simulator/sdl2 \
 TouchGFX/generated/fonts/src \
 TouchGFX/generated/gui_generated/src/common \
+TouchGFX/generated/gui_generated/src/containers \
 TouchGFX/generated/gui_generated/src/mainscreen_screen \
-TouchGFX/generated/gui_generated/src/parametersscreen_screen \
 TouchGFX/generated/images/src \
 TouchGFX/generated/images/src/__generated \
 TouchGFX/generated/texts/src \
 TouchGFX/gui/src/common \
+TouchGFX/gui/src/containers \
 TouchGFX/gui/src/mainscreen_screen \
 TouchGFX/gui/src/model \
-TouchGFX/gui/src/parametersscreen_screen \
 TouchGFX/target \
 TouchGFX/target/generated \
 

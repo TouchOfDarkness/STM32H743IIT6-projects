@@ -2,6 +2,7 @@
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	16	static
 ../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	16	static
+../TouchGFX/generated/gui_generated/include/gui_generated/mainscreen_screen/MainScreenViewBase.hpp:27:18:virtual void MainScreenViewBase::scrollListUpdateItem(CustomContainer1&, int16_t)	24	static
 ../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:11:13:MainScreenView::~MainScreenView()	16	static
 ../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:11:13:virtual MainScreenView::~MainScreenView()	16	static
 ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:4:1:MainScreenView::MainScreenView()	16	static
