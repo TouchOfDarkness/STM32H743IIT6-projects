@@ -2259,8 +2259,8 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     PeriphClkInitStruct.PLL3.PLL3Q = 2;
  8001092:	2302      	movs	r3, #2
  8001094:	657b      	str	r3, [r7, #84]	@ 0x54
-    PeriphClkInitStruct.PLL3.PLL3R = 28;
- 8001096:	231c      	movs	r3, #28
+    PeriphClkInitStruct.PLL3.PLL3R = 32;
+ 8001096:	2320      	movs	r3, #32
  8001098:	65bb      	str	r3, [r7, #88]	@ 0x58
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
  800109a:	f44f 6300 	mov.w	r3, #2048	@ 0x800
