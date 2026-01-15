@@ -29,7 +29,7 @@
 #include "gpio.h"
 #include "fmc.h"
 #include "app_touchgfx.h"
-#include "gt911.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os.h"
@@ -199,9 +199,6 @@ int main(void)
     if (BSP_QSPI_Init() != HAL_OK)
     {
       Error_Handler();
-    }
-    if (GT911_Init(&hi2c2) == 0) {
-        // Obsługa błędu inicjalizacji dotyku
     }
 
 
