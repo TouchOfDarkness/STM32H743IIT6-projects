@@ -18,6 +18,7 @@ public:
 
     void tick();
     VescData_t getVescData(int controllerIndex);
+    float getVehicleSpeed();
 protected:
     ModelListener* modelListener;
 };

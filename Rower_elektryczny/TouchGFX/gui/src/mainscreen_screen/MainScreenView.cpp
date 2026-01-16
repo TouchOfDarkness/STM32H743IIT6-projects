@@ -76,4 +76,19 @@ void MainScreenView::handleTickEvent()
 	        scrollListM.itemChanged(i);
 	        scrollListR.itemChanged(i);
 	    }
+	// 1. Obsługa listy (to co miałeś wcześniej)
+	    static int tickCounter = 0;
+	    tickCounter++;
+	    if (tickCounter >= 10)
+	    {
+	        // ... odświeżanie listy ...
+	        tickCounter = 0;
+	    }
+
+	    // 2. Obsługa Zegara (Gauge)
+	    // Pobieramy prędkość (float)
+	    float speed = presenter->getSpeed();
+	    Unicode::snprintf(VelocityTextBuffer, VELOCITYTEXT_SIZE, "%d", (int)speed);
+	    VelocityText.invalidate();
+
 }

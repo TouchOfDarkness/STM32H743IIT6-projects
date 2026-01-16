@@ -24,3 +24,7 @@ VescData_t Model::getVescData(int controllerIndex)
         default: return vescL; // Zabezpieczenie
     }
 }
+float Model::getVehicleSpeed()
+{
+    return vehicleSpeedKmh;
+}

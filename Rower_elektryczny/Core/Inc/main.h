@@ -87,6 +87,14 @@ typedef struct {
 extern VescData_t vescL;
 extern VescData_t vescM;
 extern VescData_t vescR;
+
+#define MOTOR_POLE_PAIRS 24.0f
+
+// 2. Średnica koła w metrach (np. 26 cali = ~0.66m, 10 cali = ~0.254m)
+#define WHEEL_DIAMETER_M 0.30f
+
+// Zmienna globalna przechowująca obliczoną prędkość
+extern volatile float vehicleSpeedKmh;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

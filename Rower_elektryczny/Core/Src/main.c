@@ -26,9 +26,12 @@
 #include "ltdc.h"
 #include "memorymap.h"
 #include "quadspi.h"
+#include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
 #include "app_touchgfx.h"
+#include "mpu6050.h"
+#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -70,6 +73,10 @@ FDCAN_TxHeaderTypeDef TxHeader;
 VescData_t vescL; // Zmienna dla lewego
 VescData_t vescM; // Zmienna dla środkowego
 VescData_t vescR; // Zmienna dla prawego
+
+MPU6050_t MPU6050;
+float AngX, AngY;
+volatile float vehicleSpeedKmh = 0.0f;
 
 
 /* USER CODE END PV */
@@ -131,6 +138,7 @@ int main(void)
   MX_I2C2_Init();
   MX_CRC_Init();
   MX_QUADSPI_Init();
+  MX_USART1_UART_Init();
   MX_TouchGFX_Init();
   /* Call PreOsInit function */
   MX_TouchGFX_PreOSInit();
@@ -179,6 +187,7 @@ int main(void)
         // Obsługa błędu inicjalizacji dotyku
     }
 
+    MPU6050_Init(&hi2c2);
 
   /* USER CODE END 2 */
 
@@ -234,9 +243,12 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_CSI
-                              |RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+                              |RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE
+                              |RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.CSIState = RCC_CSI_ON;
   RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
@@ -457,6 +469,34 @@ int32_t Get_Filtered_RPM(int32_t new_val) {
 
     return sum / count;
 }
+
+void CalculateVehicleSpeed(void)
+{
+    // Zabezpieczenie przed dzieleniem przez zero (gdybyś zapomniał ustawić define)
+    #if MOTOR_POLE_PAIRS == 0
+        return;
+    #endif
+
+    // 1. Pobierz RPM (wartość bezwzględna)
+    float rpmL = (float)vescL.rpm;
+    float rpmR = (float)vescR.rpm;
+
+    if (rpmL < 0) rpmL = -rpmL;
+    if (rpmR < 0) rpmR = -rpmR;
+
+    // 2. Średnia obrotów elektrycznych (ERPM)
+    float avgErpm = (rpmL + rpmR) / 2.0f;
+
+    // 3. Przeliczenie na obroty mechaniczne (RPM)
+    float mechRpm = avgErpm / MOTOR_POLE_PAIRS;
+
+    // 4. Przeliczenie na prędkość liniową (m/min) -> Obwód = PI * D
+    float speedMetersPerMin = mechRpm * (M_PI * WHEEL_DIAMETER_M);
+
+    // 5. Przeliczenie na km/h: (m/min * 60) / 1000
+    vehicleSpeedKmh = (speedMetersPerMin * 60.0f) / 1000.0f;
+}
+
 void MotorControl_Task_Entry(void)
 {
 	 uint8_t current_gear = 1;
@@ -473,13 +513,13 @@ void MotorControl_Task_Entry(void)
 	        static float current_drive_filtered = 0.0f;
 	        static float current_drag_filtered = 0.0f;
 
-	        // Do obliczania różniczki (przyspieszenia)
-	        static int32_t prev_rpm = 0;
 
     // Pętla nieskończona zadania
     while (1)
     {
     	// 1. ODCZYT I FILTRACJA RPM
+    	CalculateVehicleSpeed();
+    	MPU6050_Read_All(&hi2c2, &MPU6050);
     		        int32_t rpm_raw = vescM.rpm;
     		        if (rpm_raw < 0) rpm_raw = 0;
     		        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
@@ -603,6 +643,52 @@ void MotorControl_Task_Entry(void)
     		        VESC_SetCurrent(VESC_ID_R, current_drive_filtered);
     		        HAL_Delay(1);
     		        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
+    		        AngX = MPU6050.KalmanAngleX;
+    		        AngY = MPU6050.KalmanAngleY;
+    		        printf("%lu,%d,%lu,%ld,%.2f,%.2f,",
+    		      	                     HAL_GetTick(),            // Czas
+    		      	                     current_gear,             // Bieg
+    		      	                     timer_upshift,            // Timer
+    		      	                     rpm_filtered,             // RPM Filtrowane
+    		      	                     current_drive_filtered,   // Prąd Zadany Napęd
+    		      	                     current_drag_filtered     // Prąd Zadany Opór
+    		      	              );
+
+    		      	              // 2. VESC LEWY (L) - Struktura VescData_t
+    		      	              printf("%ld,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.1f,%.1f,%.2f,%.2f,%ld,%.1f,",
+    		      	                     vescL.rpm, vescL.current_motor, vescL.duty_cycle,
+    		      	                     vescL.amp_hours, vescL.amp_hours_chg, vescL.watt_hours, vescL.watt_hours_chg,
+    		      	                     vescL.temp_fet, vescL.temp_motor, vescL.current_in, vescL.pid_pos, vescL.tacho_value, vescL.v_in
+    		      	              );
+
+    		      	              // 3. VESC ŚRODKOWY (M) - Generator
+    		      	              printf("%ld,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.1f,%.1f,%.2f,%.2f,%ld,%.1f,",
+    		      	                     vescM.rpm, vescM.current_motor, vescM.duty_cycle,
+    		      	                     vescM.amp_hours, vescM.amp_hours_chg, vescM.watt_hours, vescM.watt_hours_chg,
+    		      	                     vescM.temp_fet, vescM.temp_motor, vescM.current_in, vescM.pid_pos, vescM.tacho_value, vescM.v_in
+    		      	              );
+
+    		      	              // 4. VESC PRAWY (R)
+    		      	              printf("%ld,%.2f,%.2f,%.4f,%.4f,%.4f,%.4f,%.1f,%.1f,%.2f,%.2f,%ld,%.1f,",
+    		      	                     vescR.rpm, vescR.current_motor, vescR.duty_cycle,
+    		      	                     vescR.amp_hours, vescR.amp_hours_chg, vescR.watt_hours, vescR.watt_hours_chg,
+    		      	                     vescR.temp_fet, vescR.temp_motor, vescR.current_in, vescR.pid_pos, vescR.tacho_value, vescR.v_in
+    		      	              );
+
+    		      	              // 5. MPU6050 (Z poprawnymi nazwami Kalman)
+    		      	              // Format: Ax, Ay, Az, Gx, Gy, Gz, Temp, KalmanX, KalmanY
+    		      	              // Używamy MPU6050.KalmanAngleX zgodnie z Twoim plikiem .h
+    		      	              printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.2f,%.2f,%.2f\r\n",
+    		      	                     MPU6050.Ax, MPU6050.Ay, MPU6050.Az,
+    		      	                     MPU6050.Gx, MPU6050.Gy, MPU6050.Gz,
+    		      	                     MPU6050.Temperature,
+    		      	                     MPU6050.KalmanAngleX,  // <--- POPRAWIONE
+    		      	                     MPU6050.KalmanAngleY   // <--- POPRAWIONE
+    		      	              );
+
+
+
+    		      	        osDelay(1);
     }
 }
 /* USER CODE END 4 */

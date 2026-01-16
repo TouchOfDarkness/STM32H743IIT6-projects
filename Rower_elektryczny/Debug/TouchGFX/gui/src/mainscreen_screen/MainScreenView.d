@@ -84,6 +84,8 @@ TouchGFX/gui/src/mainscreen_screen/MainScreenView.o: \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_fmc.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
+ ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h \
+ ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h \
  ../Middlewares/ST/touchgfx/framework/include/mvp/View.hpp \
  ../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp \
  ../TouchGFX/gui/include/gui/model/ModelListener.hpp \
@@ -189,6 +191,8 @@ TouchGFX/gui/src/mainscreen_screen/MainScreenView.o: \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_fmc.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h:
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h:
 ../Middlewares/ST/touchgfx/framework/include/mvp/View.hpp:
 ../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenPresenter.hpp:
 ../TouchGFX/gui/include/gui/model/ModelListener.hpp:

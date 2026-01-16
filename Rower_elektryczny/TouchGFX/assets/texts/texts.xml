@@ -4,6 +4,14 @@
     <Language Id="GB" />
   </Languages>
   <Texts>
+    <TextGroup Id="Velocity">
+      <Text Id="VelocityWildCard" Alignment="Left" TypographyId="Velocity">
+        <Translation Language="GB">00000</Translation>
+      </Text>
+      <Text Id="VelacityUnit" Alignment="Left" TypographyId="Velocity">
+        <Translation Language="GB">&lt;VEL&gt;    km/h</Translation>
+      </Text>
+    </TextGroup>
     <TextGroup Id="ParameterName">
       <Text Id="ParameterNameWildCard" Alignment="Left" TypographyId="ParameterName">
         <Translation Language="GB">0000000000000000</Translation>
@@ -35,5 +43,6 @@
   <Typographies>
     <Typography Id="ParameterValue" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=".-" WildcardCharacterRanges="0-9" />
     <Typography Id="ParameterName" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=" " WildcardCharacterRanges="A-Z,a-z,0-9" />
+    <Typography Id="Velocity" Font="timesbd.ttf" Size="70" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="." WildcardCharacterRanges="0-9" />
   </Typographies>
 </TextDatabase>

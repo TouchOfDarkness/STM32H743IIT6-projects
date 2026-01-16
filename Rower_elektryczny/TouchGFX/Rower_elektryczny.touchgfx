@@ -21,7 +21,7 @@
             "IndicatorImageNormal": "__generated\\alternate_theme_images_widgets_swipecontainer_large_off_normal.png",
             "IndicatorImageHighlight": "__generated\\alternate_theme_images_widgets_swipecontainer_large_on_active.png",
             "EndSwipeElasticWidth": 50,
-            "SelectedPage": "swipeContainerParameterPage",
+            "SelectedPage": "swipeContainerMainPage",
             "Preset": "alternate_theme\\presets\\swipecontainer\\large_active.json",
             "Components": [
               {
@@ -140,6 +140,22 @@
                 ]
               }
             ]
+          },
+          {
+            "Type": "TextArea",
+            "Name": "VelocityText",
+            "X": 382,
+            "Y": 228,
+            "Width": 402,
+            "Height": 72,
+            "TextId": "VelacityUnit",
+            "TextRotation": "0",
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "VelocityWildCard",
+              "UseBuffer": true,
+              "BufferSize": 10
+            }
           }
         ],
         "Interactions": []

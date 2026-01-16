@@ -15,13 +15,15 @@ struct Typography
 {
     static const touchgfx::FontId PARAMETERVALUE = 0;
     static const touchgfx::FontId PARAMETERNAME = 1;
+    static const touchgfx::FontId VELOCITY = 2;
 };
 
 struct TypographyFontIndex
 {
     static const touchgfx::FontId PARAMETERVALUE = 0; // timesbd_20_4bpp
     static const touchgfx::FontId PARAMETERNAME = 0;  // timesbd_20_4bpp
-    static const uint16_t NUMBER_OF_FONTS = 1;
+    static const touchgfx::FontId VELOCITY = 1;       // timesbd_70_4bpp
+    static const uint16_t NUMBER_OF_FONTS = 2;
 };
 
 class ApplicationFontProvider : public touchgfx::FontProvider

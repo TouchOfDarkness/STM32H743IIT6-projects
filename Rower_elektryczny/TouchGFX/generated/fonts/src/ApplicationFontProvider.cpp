@@ -15,6 +15,9 @@ touchgfx::Font* ApplicationFontProvider::getFont(touchgfx::FontId typography)
     case Typography::PARAMETERNAME:
         // timesbd_20_4bpp
         return const_cast<touchgfx::Font*>(TypedTextDatabase::getFonts()[0]);
+    case Typography::VELOCITY:
+        // timesbd_70_4bpp
+        return const_cast<touchgfx::Font*>(TypedTextDatabase::getFonts()[1]);
     default:
         return 0;
     }

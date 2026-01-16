@@ -95,8 +95,17 @@ MainScreenViewBase::MainScreenViewBase() :
 
     swipeContainer.add(swipeContainerParameterPage);
 
-    swipeContainer.setSelectedPage(2);
+    swipeContainer.setSelectedPage(1);
     add(swipeContainer);
+
+    VelocityText.setXY(382, 228);
+    VelocityText.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    VelocityText.setLinespacing(0);
+    Unicode::snprintf(VelocityTextBuffer, VELOCITYTEXT_SIZE, "%s", touchgfx::TypedText(T_VELOCITYWILDCARD).getText());
+    VelocityText.setWildcard(VelocityTextBuffer);
+    VelocityText.resizeToCurrentText();
+    VelocityText.setTypedText(touchgfx::TypedText(T_VELACITYUNIT));
+    add(VelocityText);
 }
 
 MainScreenViewBase::~MainScreenViewBase()

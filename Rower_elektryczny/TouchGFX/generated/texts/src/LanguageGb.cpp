@@ -10,11 +10,13 @@ KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE;
 // Remap all strings
 TEXT_LOCATION_FLASH_PRAGMA
 KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE = {
+    11, // T_VELOCITYWILDCARD: "00000"
+    17, // T_VELACITYUNIT: "<>    km/h"
     0,  // T_PARAMETERNAMEWILDCARD: "0000000000000000"
-    52, // T_PARAMETERNAME: "<>"
+    62, // T_PARAMETERNAME: "<>"
     4,  // T_PARAMETERVALUEWILDCARD: "000000000000"
-    52, // T_PARAMETERVALUE: "<>"
-    17, // T___SINGLEUSE_D03D: "Silnik Prawy"
-    30, // T___SINGLEUSE_XAB6: "Silnik Lewy"
-    42  // T___SINGLEUSE_0VQV: "Generator"
+    62, // T_PARAMETERVALUE: "<>"
+    27, // T___SINGLEUSE_D03D: "Silnik Prawy"
+    40, // T___SINGLEUSE_XAB6: "Silnik Lewy"
+    52  // T___SINGLEUSE_0VQV: "Generator"
 };

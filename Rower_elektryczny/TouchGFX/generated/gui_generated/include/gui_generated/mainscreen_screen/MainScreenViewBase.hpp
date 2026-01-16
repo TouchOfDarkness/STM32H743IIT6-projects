@@ -14,6 +14,7 @@
 #include <touchgfx/containers/scrollers/ScrollList.hpp>
 #include <gui/containers/CustomContainer1.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class MainScreenViewBase : public touchgfx::View<MainScreenPresenter>
 {
@@ -60,6 +61,13 @@ protected:
     touchgfx::TextArea TextM;
     touchgfx::TextArea TextR;
     touchgfx::TextArea TextL;
+    touchgfx::TextAreaWithOneWildcard VelocityText;
+
+    /*
+     * Wildcard Buffers
+     */
+    static const uint16_t VELOCITYTEXT_SIZE = 10;
+    touchgfx::Unicode::UnicodeChar VelocityTextBuffer[VELOCITYTEXT_SIZE];
 
 private:
 
