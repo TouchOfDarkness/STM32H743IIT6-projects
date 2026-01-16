@@ -4,7 +4,7 @@
 ../Core/Src/main.c:366:6:VESC_SetCurrent	4
 ../Core/Src/main.c:408:6:VESC_SetBrakeCurrent	4
 ../Core/Src/main.c:443:9:Get_Filtered_RPM	3
-../Core/Src/main.c:460:6:MotorControl_Task_Entry	12
-../Core/Src/main.c:562:6:MPU_Config	1
-../Core/Src/main.c:622:6:HAL_TIM_PeriodElapsedCallback	2
-../Core/Src/main.c:639:6:Error_Handler	1
+../Core/Src/main.c:460:6:MotorControl_Task_Entry	19
+../Core/Src/main.c:612:6:MPU_Config	1
+../Core/Src/main.c:672:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:689:6:Error_Handler	1

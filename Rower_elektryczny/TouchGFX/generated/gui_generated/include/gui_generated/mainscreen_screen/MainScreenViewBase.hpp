@@ -11,10 +11,6 @@
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/containers/SwipeContainer.hpp>
 #include <touchgfx/containers/Container.hpp>
-#include <touchgfx/widgets/graph/GraphScroll.hpp>
-#include <touchgfx/widgets/graph/GraphElements.hpp>
-#include <touchgfx/widgets/graph/GraphLabels.hpp>
-#include <touchgfx/widgets/canvas/PainterRGB565.hpp>
 #include <touchgfx/containers/scrollers/ScrollList.hpp>
 #include <gui/containers/CustomContainer1.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
@@ -53,11 +49,6 @@ protected:
     touchgfx::Image Background;
     touchgfx::SwipeContainer swipeContainer;
     touchgfx::Container swipeContainerGraphPage;
-    touchgfx::GraphScroll<100> dynamicGraph;
-    touchgfx::GraphElementGridX dynamicGraphMajorXAxisGrid;
-    touchgfx::GraphLabelsX dynamicGraphMajorXAxisLabel;
-    touchgfx::GraphElementLine dynamicGraphLine1;
-    touchgfx::PainterRGB565 dynamicGraphLine1Painter;
     touchgfx::Container swipeContainerMainPage;
     touchgfx::Container swipeContainerParameterPage;
     touchgfx::ScrollList scrollListL;
@@ -66,17 +57,11 @@ protected:
     touchgfx::DrawableListItems<CustomContainer1, 5> scrollListRListItems;
     touchgfx::ScrollList scrollListM;
     touchgfx::DrawableListItems<CustomContainer1, 5> scrollListMListItems;
-    touchgfx::TextArea textArea1;
-    touchgfx::TextArea textArea1_2;
-    touchgfx::TextArea textArea1_1;
+    touchgfx::TextArea TextM;
+    touchgfx::TextArea TextR;
+    touchgfx::TextArea TextL;
 
 private:
-
-    /*
-     * Canvas Buffer Size
-     */
-    static const uint32_t CANVAS_BUFFER_SIZE = 15360;
-    uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];
 
     /*
      * Callback Declarations

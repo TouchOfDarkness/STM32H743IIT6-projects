@@ -14,7 +14,6 @@ KEEP extern const uint32_t indicesGb[] TEXT_LOCATION_FLASH_ATTRIBUTE = {
     52, // T_PARAMETERNAME: "<>"
     4,  // T_PARAMETERVALUEWILDCARD: "000000000000"
     52, // T_PARAMETERVALUE: "<>"
-    52, // T___SINGLEUSE_TODZ: "<>"
     17, // T___SINGLEUSE_D03D: "Silnik Prawy"
     30, // T___SINGLEUSE_XAB6: "Silnik Lewy"
     42  // T___SINGLEUSE_0VQV: "Generator"

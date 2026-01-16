@@ -3,7 +3,6 @@
     "Screens": [
       {
         "Name": "MainScreen",
-        "CanvasBufferSize": 15360,
         "Components": [
           {
             "Type": "Image",
@@ -22,7 +21,7 @@
             "IndicatorImageNormal": "__generated\\alternate_theme_images_widgets_swipecontainer_large_off_normal.png",
             "IndicatorImageHighlight": "__generated\\alternate_theme_images_widgets_swipecontainer_large_on_active.png",
             "EndSwipeElasticWidth": 50,
-            "SelectedPage": "swipeContainerMainPage",
+            "SelectedPage": "swipeContainerParameterPage",
             "Preset": "alternate_theme\\presets\\swipecontainer\\large_active.json",
             "Components": [
               {
@@ -30,59 +29,7 @@
                 "Name": "swipeContainerGraphPage",
                 "Width": 1024,
                 "Height": 600,
-                "Components": [
-                  {
-                    "Type": "DynamicGraph",
-                    "Name": "dynamicGraph",
-                    "X": 34,
-                    "Y": 55,
-                    "Width": 957,
-                    "Height": 491,
-                    "DataSeed": 1096199829,
-                    "NumberOfValues": 100,
-                    "MaxY": 100.0,
-                    "Precision": "1",
-                    "LastIndex": 99,
-                    "XAxisScale": 1.0,
-                    "InsertRandomValues": true,
-                    "GraphType": "GraphScroll",
-                    "GraphDrawers": [
-                      {
-                        "Type": "LineDrawer",
-                        "LineWidth": 2,
-                        "FileNameImage": "",
-                        "Color": {
-                          "Red": 20,
-                          "Green": 151,
-                          "Blue": 197
-                        }
-                      }
-                    ],
-                    "XAxisGrid": {
-                      "Type": "GraphGrid",
-                      "Color": {
-                        "Red": 170,
-                        "Green": 178,
-                        "Blue": 181
-                      },
-                      "Interval": 10.0,
-                      "LineWidth": 1
-                    },
-                    "XAxisLabel": {
-                      "Type": "GraphLabel",
-                      "Interval": 10.0,
-                      "DecimalSeparator": "Point",
-                      "TextColor": {
-                        "Red": 20,
-                        "Green": 151,
-                        "Blue": 197
-                      },
-                      "TextId": "__SingleUse_TODZ",
-                      "TextRotation": "0",
-                      "Position": "Bottom"
-                    }
-                  }
-                ]
+                "Components": []
               },
               {
                 "Type": "Container",
@@ -141,58 +88,58 @@
                     "SwipeAcceleration": 1.0,
                     "DragAcceleration": 1.0,
                     "OverShootPercentage": 75
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "TextM",
+                    "X": 467,
+                    "Y": 554,
+                    "Width": 90,
+                    "Height": 25,
+                    "TextId": "__SingleUse_0VQV",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 219,
+                      "Green": 112,
+                      "Blue": 31
+                    },
+                    "AutoSize": true
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "TextR",
+                    "X": 738,
+                    "Y": 18,
+                    "Width": 111,
+                    "Height": 25,
+                    "TextId": "__SingleUse_D03D",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 219,
+                      "Green": 112,
+                      "Blue": 31
+                    },
+                    "AutoSize": true
+                  },
+                  {
+                    "Type": "TextArea",
+                    "Name": "TextL",
+                    "X": 184,
+                    "Y": 18,
+                    "Width": 102,
+                    "Height": 25,
+                    "TextId": "__SingleUse_XAB6",
+                    "TextRotation": "0",
+                    "Color": {
+                      "Red": 219,
+                      "Green": 112,
+                      "Blue": 31
+                    },
+                    "AutoSize": true
                   }
                 ]
               }
             ]
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textArea1",
-            "X": 498,
-            "Y": 534,
-            "Width": 90,
-            "Height": 25,
-            "TextId": "__SingleUse_0VQV",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 219,
-              "Green": 112,
-              "Blue": 31
-            },
-            "AutoSize": true
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textArea1_2",
-            "X": 738,
-            "Y": 18,
-            "Width": 111,
-            "Height": 25,
-            "TextId": "__SingleUse_D03D",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 219,
-              "Green": 112,
-              "Blue": 31
-            },
-            "AutoSize": true
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textArea1_1",
-            "X": 184,
-            "Y": 18,
-            "Width": 102,
-            "Height": 25,
-            "TextId": "__SingleUse_XAB6",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 219,
-              "Green": 112,
-              "Blue": 31
-            },
-            "AutoSize": true
           }
         ],
         "Interactions": []

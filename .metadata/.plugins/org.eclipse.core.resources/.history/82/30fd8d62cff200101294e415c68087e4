@@ -459,150 +459,100 @@ int32_t Get_Filtered_RPM(int32_t new_val) {
 }
 void MotorControl_Task_Entry(void)
 {
-	 uint8_t current_gear = 1;
-	        const uint8_t MAX_GEAR = 16;
+    // --- ZMIENNE PRZENIESIONE Z MAIN ---
+    uint8_t current_gear = 1;
+    const uint8_t MAX_GEAR = 16;
+    uint32_t timer_upshift = 0;
+    uint32_t timer_downshift = 0;
 
-	        // Parametry automatu
-	        const int32_t UPSHIFT_RPM = 7000;
-	        const int32_t DOWNSHIFT_RPM = 4000;
-	        const uint32_t SHIFT_DELAY = 1000;
+    const int32_t UPSHIFT_RPM = 7000;
+    const int32_t DOWNSHIFT_RPM = 5000;
+    const uint32_t SHIFT_DELAY = 6000;
 
-	        // Zmienne operacyjne
-	        uint32_t timer_upshift = 0;
-	        uint32_t timer_downshift = 0;
-	        static float current_drive_filtered = 0.0f;
-	        static float current_drag_filtered = 0.0f;
+    const float CURRENT_STEP = 1.0f;
+    const float DRAG_STEP = 0.2f;
 
-	        // Do obliczania różniczki (przyspieszenia)
-	        static int32_t prev_rpm = 0;
+    static float current_drive_filtered = 0.0f;
+    static float current_drag_filtered = 0.0f;
 
     // Pętla nieskończona zadania
     while (1)
     {
-    	// 1. ODCZYT I FILTRACJA RPM
-    		        int32_t rpm_raw = vescM.rpm;
-    		        if (rpm_raw < 0) rpm_raw = 0;
-    		        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
+        // 1. ODCZYT OBROTÓW + FILTRACJA
+        int32_t rpm_raw = vescM.rpm;
+        if (rpm_raw < 0) rpm_raw = 0;
+        int32_t rpm_filtered = Get_Filtered_RPM(rpm_raw);
 
-    		        // 2. LOGIKA ZMIANY BIEGÓW (Ulepszona o histerezę)
-    		        static uint32_t last_tick = 0;
-    		        uint32_t current_tick = HAL_GetTick();
-    		        if(last_tick == 0) last_tick = current_tick;
-    		        uint32_t dt_ms = current_tick - last_tick;
-    		        last_tick = current_tick;
+        // 2. LOGIKA AUTOMATYCZNEJ SKRZYNI BIEGÓW
+        static uint32_t last_tick = 0;
+        uint32_t current_tick = HAL_GetTick();
+        uint32_t dt = current_tick - last_tick;
+        last_tick = current_tick;
 
-    		        // Zabezpieczenie przed dzieleniem przez zero
-    		        if (dt_ms == 0) dt_ms = 1;
+        if (rpm_filtered > 200)
+        {
+            if (rpm_filtered > UPSHIFT_RPM) {
+                timer_upshift += dt;
+                timer_downshift = 0;
+                if (timer_upshift > SHIFT_DELAY) {
+                    if (current_gear < MAX_GEAR) current_gear++;
+                    timer_upshift = 0;
+                }
+            }
+            else if (rpm_filtered < DOWNSHIFT_RPM) {
+                timer_downshift += dt;
+                timer_upshift = 0;
+                if (timer_downshift > SHIFT_DELAY) {
+                    if (current_gear > 1) current_gear--;
+                    timer_downshift = 0;
+                }
+            }
+            else {
+                timer_upshift = 0;
+                timer_downshift = 0;
+            }
+        } else {
+             current_gear = 1;
+             timer_upshift = 0;
+             timer_downshift = 0;
+        }
 
-    		        if (rpm_filtered > 200)
-    		        {
-    		            // Automat biegów (Twój kod z poprzednich iteracji jest OK)
-    		            if (rpm_filtered > UPSHIFT_RPM) {
-    		                timer_upshift += dt_ms;
-    		                timer_downshift = 0;
-    		                if (timer_upshift > SHIFT_DELAY) {
-    		                    if (current_gear < MAX_GEAR) current_gear++;
-    		                    timer_upshift = 0;
-    		                }
-    		            }
-    		            else if (rpm_filtered < 2000) {
-    		               timer_upshift = 0; // Reset dopiero przy niskich obrotach
-    		               if (rpm_filtered < DOWNSHIFT_RPM) {
-    		                   timer_downshift += dt_ms;
-    		                   if (timer_downshift > SHIFT_DELAY) {
-    		                       if (current_gear > 1) current_gear--;
-    		                       timer_downshift = 0;
-    		                   }
-    		               }
-    		            }
-    		        } else {
-    		             current_gear = 1;
-    		             timer_upshift = 0;
-    		             timer_downshift = 0;
-    		        }
-    		        float target_drive = 0.0f;
-    		              float target_drag = 0.0f;
+        // 3. OBLICZANIE PRĄDÓW
+        float target_drive = 0.0f;
+        float target_drag = 0.0f;
 
-    		              static float virtual_speed = 0.0f;
+        if (rpm_filtered > 200)
+        {
+            if (rpm_filtered < 1000) {
+                target_drive = 8.0f;
+                target_drag = 1.0f;
+            }
+            else {
+                float progress = (float)(rpm_filtered - 1000) / (9000.0f - 1000.0f);
+                if (progress > 1.0f) progress = 1.0f;
 
-    		              // --- PARAMETRY ---
-    		              const float CLUTCH_STIFFNESS = 0.003f;
-    		              const float VIRTUAL_ACCEL_FACTOR = 0.15f;
-    		              const float COASTING_DECAY = 0.996f;
+                float base_drive = 1.0f + (progress * (3.0f - 1.0f));
+                float base_drag = 2.0f + (progress * 6.0f);
 
-    		              // Parametr Mocy: Ile Amperów na koła daje wciśnięty gaz (RPM) na danym biegu?
-    		              // Zwiększ to, jeśli rower jest za słaby przy szybkiej jeździe.
-    		              const float DRIVE_POWER_FACTOR = 2.5f;
+                float gear_drive_bonus = (current_gear - 1) * CURRENT_STEP;
+                float gear_drag_bonus = (current_gear - 1) * DRAG_STEP;
 
-    		              if (rpm_filtered > 100)
-    		              {
-    		                  float speed_delta = (float)rpm_filtered - virtual_speed;
+                target_drive = base_drive + gear_drive_bonus;
+                target_drag = base_drag + gear_drag_bonus;
+            }
+        }
 
-    		                  if (speed_delta > 0)
-    		                  {
-    		                      // === SYTUACJA A: JAZDA (Aktywne pedałowanie) ===
+        // 4. FILTROWANIE WYJŚCIA
+        current_drive_filtered = (current_drive_filtered * 0.9f) + (target_drive * 0.1f);
+        current_drag_filtered = (current_drag_filtered * 0.9f) + (target_drag * 0.1f);
 
-    		                      // 1. Fizyka wirtualnego koła (goni nogi)
-    		                      virtual_speed += (speed_delta * VIRTUAL_ACCEL_FACTOR);
-
-    		                      // 2. OPÓR (Generator) - Zostawiamy miękki, bo to było dobre
-    		                      float gear_base_drag = (current_gear - 1) * 0.5f;
-    		                      target_drag = (speed_delta * CLUTCH_STIFFNESS) + gear_base_drag;
-
-    		                      // 3. NAPĘD (KOŁA) - TU JEST POPRAWKA!
-    		                      // Wcześniej zależało to tylko od 'speed_delta' (dlatego znikało przy stałej jeździe).
-    		                      // Teraz zależy od FAKTYCZNEGO RPM i BIEGU.
-
-    		                      // A. Baza: Im szybciej kręcisz (RPM) i wyższy bieg, tym więcej mocy.
-    		                      // Normalizacja: (RPM / 7000) * (Bieg * MocNaBieg)
-    		                      float rpm_ratio = (float)rpm_filtered / 7000.0f;
-    		                      if(rpm_ratio > 1.0f) rpm_ratio = 1.0f;
-
-    		                      float cruising_power = rpm_ratio * (current_gear * DRIVE_POWER_FACTOR);
-
-    		                      // B. Boost: Dodatek za "deptanie" (speed_delta)
-    		                      float acceleration_boost = speed_delta * 0.01f;
-
-    		                      // Suma
-    		                      target_drive = cruising_power + acceleration_boost;
-
-    		                      // Start Assist (żeby ruszył z miejsca)
-    		                      if (virtual_speed < 1000) target_drive += 5.0f;
-    		                  }
-    		                  else
-    		                  {
-    		                      // === SYTUACJA B: WOLNOBIEG (Luz) ===
-    		                      target_drag = 0.0f;
-    		                      target_drive = 0.0f;
-    		                      virtual_speed *= COASTING_DECAY;
-    		                  }
-
-    		                  // --- LIMITY ---
-    		                  // Generator (Opór)
-    		                  if (target_drag > 15.0f) target_drag = 15.0f;
-
-    		                  // Silniki (Napęd) - Tu masz 40A w VESC, więc w kodzie też pozwól na więcej
-    		                  if (target_drive > 35.0f) target_drive = 35.0f;
-
-    		                  if (virtual_speed < 0) virtual_speed = 0;
-    		              }
-    		              else
-    		              {
-    		                  target_drag = 0.0f;
-    		                  target_drive = 0.0f;
-    		                  virtual_speed *= 0.98f;
-    		              }
-
-    		              // 5. FILTROWANIE WYJŚCIA
-    		              current_drive_filtered = (current_drive_filtered * 0.85f) + (target_drive * 0.15f);
-    		              current_drag_filtered = (current_drag_filtered * 0.85f) + (target_drag * 0.15f);
-
-    		        // 6. WYSYŁANIE DO VESC
-    		        VESC_SetCurrent(VESC_ID_L, current_drive_filtered);
-    		        HAL_Delay(1);
-    		        VESC_SetCurrent(VESC_ID_R, current_drive_filtered);
-    		        HAL_Delay(1);
-    		        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
+        // 5. WYSYŁANIE DO VESC
+        VESC_SetCurrent(VESC_ID_L, current_drive_filtered);
+        osDelay(1);
+        VESC_SetCurrent(VESC_ID_R, current_drive_filtered);
+        osDelay(1);
+        VESC_SetBrakeCurrent(VESC_ID_M, current_drag_filtered);
+        osDelay(20);
     }
 }
 /* USER CODE END 4 */

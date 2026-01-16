@@ -21,9 +21,6 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
-      <Text Id="__SingleUse_TODZ" Alignment="Left" TypographyId="ParameterName">
-        <Translation Language="GB">&lt;&gt;</Translation>
-      </Text>
       <Text Id="__SingleUse_D03D" Alignment="Left" TypographyId="ParameterName">
         <Translation Language="GB">Silnik Prawy</Translation>
       </Text>
@@ -37,6 +34,6 @@
   </Texts>
   <Typographies>
     <Typography Id="ParameterValue" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=".-" WildcardCharacterRanges="0-9" />
-    <Typography Id="ParameterName" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=" " WidgetWildcardCharacters="-., 0123456789" WildcardCharacterRanges="A-Z,a-z,0-9" />
+    <Typography Id="ParameterName" Font="timesbd.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters=" " WildcardCharacterRanges="A-Z,a-z,0-9" />
   </Typographies>
 </TextDatabase>
