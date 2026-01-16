@@ -42,4 +42,7 @@
 		<item key="width" value="649"/>
 		<item key="height" value="881"/>
 	</section>
+	<section name="OptionalMessageDialog.hide.">
+		<item key="askReindex.detail" value="0"/>
+	</section>
 </section>
