@@ -34,6 +34,7 @@ public:
     VescData_t getVescData(int index) {
             return model->getVescData(index);
         }
+    float getSpeed() { return model->getVehicleSpeed(); }
 
 
 private:

@@ -29,6 +29,15 @@ MainScreenViewBase::MainScreenViewBase() :
 
     swipeContainerMainPage.setWidth(1024);
     swipeContainerMainPage.setHeight(600);
+    VelocityText.setXY(382, 228);
+    VelocityText.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    VelocityText.setLinespacing(0);
+    Unicode::snprintf(VelocityTextBuffer, VELOCITYTEXT_SIZE, "%s", touchgfx::TypedText(T_VELOCITYWILDCARD).getText());
+    VelocityText.setWildcard(VelocityTextBuffer);
+    VelocityText.resizeToCurrentText();
+    VelocityText.setTypedText(touchgfx::TypedText(T_VELACITYUNIT));
+    swipeContainerMainPage.add(VelocityText);
+
     swipeContainer.add(swipeContainerMainPage);
 
     swipeContainerParameterPage.setWidth(1024);
@@ -97,15 +106,6 @@ MainScreenViewBase::MainScreenViewBase() :
 
     swipeContainer.setSelectedPage(1);
     add(swipeContainer);
-
-    VelocityText.setXY(382, 228);
-    VelocityText.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
-    VelocityText.setLinespacing(0);
-    Unicode::snprintf(VelocityTextBuffer, VELOCITYTEXT_SIZE, "%s", touchgfx::TypedText(T_VELOCITYWILDCARD).getText());
-    VelocityText.setWildcard(VelocityTextBuffer);
-    VelocityText.resizeToCurrentText();
-    VelocityText.setTypedText(touchgfx::TypedText(T_VELACITYUNIT));
-    add(VelocityText);
 }
 
 MainScreenViewBase::~MainScreenViewBase()

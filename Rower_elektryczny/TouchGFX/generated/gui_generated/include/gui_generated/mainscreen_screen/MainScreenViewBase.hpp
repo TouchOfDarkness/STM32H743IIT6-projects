@@ -11,10 +11,10 @@
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/containers/SwipeContainer.hpp>
 #include <touchgfx/containers/Container.hpp>
+#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 #include <touchgfx/containers/scrollers/ScrollList.hpp>
 #include <gui/containers/CustomContainer1.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
-#include <touchgfx/widgets/TextAreaWithWildcard.hpp>
 
 class MainScreenViewBase : public touchgfx::View<MainScreenPresenter>
 {
@@ -51,6 +51,7 @@ protected:
     touchgfx::SwipeContainer swipeContainer;
     touchgfx::Container swipeContainerGraphPage;
     touchgfx::Container swipeContainerMainPage;
+    touchgfx::TextAreaWithOneWildcard VelocityText;
     touchgfx::Container swipeContainerParameterPage;
     touchgfx::ScrollList scrollListL;
     touchgfx::DrawableListItems<CustomContainer1, 5> scrollListLListItems;
@@ -61,7 +62,6 @@ protected:
     touchgfx::TextArea TextM;
     touchgfx::TextArea TextR;
     touchgfx::TextArea TextL;
-    touchgfx::TextAreaWithOneWildcard VelocityText;
 
     /*
      * Wildcard Buffers

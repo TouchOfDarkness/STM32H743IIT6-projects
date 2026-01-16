@@ -1,113 +1,26 @@
-13:13:14 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+13:23:54 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
 arm-none-eabi-g++ "../TouchGFX/target/generated/TouchGFXConfiguration.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/target/generated/TouchGFXConfiguration.d" -MT"TouchGFX/target/generated/TouchGFXConfiguration.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/target/generated/TouchGFXConfiguration.o"
 arm-none-eabi-g++ "../TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/target/generated/TouchGFXGeneratedHAL.d" -MT"TouchGFX/target/generated/TouchGFXGeneratedHAL.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/target/generated/TouchGFXGeneratedHAL.o"
 arm-none-eabi-g++ "../TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.d" -MT"TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.o"
 arm-none-eabi-g++ "../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/gui/src/mainscreen_screen/MainScreenView.d" -MT"TouchGFX/gui/src/mainscreen_screen/MainScreenView.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/gui/src/mainscreen_screen/MainScreenView.o"
-arm-none-eabi-g++ "../TouchGFX/gui/src/containers/CustomContainer1.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/gui/src/containers/CustomContainer1.d" -MT"TouchGFX/gui/src/containers/CustomContainer1.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/gui/src/containers/CustomContainer1.o"
-arm-none-eabi-g++ "../TouchGFX/gui/src/common/FrontendApplication.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/gui/src/common/FrontendApplication.d" -MT"TouchGFX/gui/src/common/FrontendApplication.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/gui/src/common/FrontendApplication.o"
 arm-none-eabi-g++ "../TouchGFX/generated/gui_generated/src/mainscreen_screen/MainScreenViewBase.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/generated/gui_generated/src/mainscreen_screen/MainScreenViewBase.d" -MT"TouchGFX/generated/gui_generated/src/mainscreen_screen/MainScreenViewBase.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/generated/gui_generated/src/mainscreen_screen/MainScreenViewBase.o"
-arm-none-eabi-g++ "../TouchGFX/generated/gui_generated/src/containers/CustomContainer1Base.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/generated/gui_generated/src/containers/CustomContainer1Base.d" -MT"TouchGFX/generated/gui_generated/src/containers/CustomContainer1Base.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/generated/gui_generated/src/containers/CustomContainer1Base.o"
 arm-none-eabi-g++ "../TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -femit-class-debug-always -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.d" -MT"TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.o"
-arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
-arm-none-eabi-gcc "../Core/Src/gpio.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/gpio.d" -MT"Core/Src/gpio.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/gpio.o"
-arm-none-eabi-gcc "../Core/Src/gt911.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -I../TouchGFX/App -I../TouchGFX/target/generated -I../TouchGFX/target -I../Middlewares/ST/touchgfx/framework/include -I../TouchGFX/generated/fonts/include -I../TouchGFX/generated/gui_generated/include -I../TouchGFX/generated/images/include -I../TouchGFX/generated/texts/include -I../TouchGFX/generated/videos/include -I../TouchGFX/gui/include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/gt911.d" -MT"Core/Src/gt911.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/gt911.o"
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/gui/src/common/FrontendApplication.cpp:1:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/mainscreen_screen/MainScreenViewBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:4,
-                 from ../TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.cpp:1:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/containers/CustomContainer1Base.hpp:7,
-                 from ../TouchGFX/gui/include/gui/containers/CustomContainer1.hpp:4,
-                 from ../TouchGFX/gui/src/containers/CustomContainer1.cpp:1:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendHeapBase.hpp:12,
-                 from ../TouchGFX/gui/include/gui/common/FrontendHeap.hpp:4,
-                 from ../TouchGFX/target/generated/TouchGFXConfiguration.cpp:21:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/mainscreen_screen/MainScreenViewBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/mainscreen_screen/MainScreenView.hpp:4,
-                 from ../TouchGFX/gui/src/mainscreen_screen/MainScreenView.cpp:1:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-../Core/Src/freertos.c: In function 'StartDefaultTask':
-../Core/Src/freertos.c:161:9: warning: implicit declaration of function 'MotorControl_Task_Entry' [-Wimplicit-function-declaration]
-  161 |         MotorControl_Task_Entry();
-      |         ^~~~~~~~~~~~~~~~~~~~~~~
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendHeapBase.hpp:12,
-                 from ../TouchGFX/gui/include/gui/common/FrontendHeap.hpp:4,
-                 from ../TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp:21:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope; did you mean 'mode_t'?
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-      |                               mode_t
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/mainscreen_screen/MainScreenViewBase.hpp:7,
-                 from ../TouchGFX/generated/gui_generated/src/mainscreen_screen/MainScreenViewBase.cpp:4:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/gui/include/gui/common/FrontendApplication.hpp:4,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/containers/CustomContainer1Base.hpp:7,
-                 from ../TouchGFX/generated/gui_generated/src/containers/CustomContainer1Base.cpp:4:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-make: *** [TouchGFX/gui/src/common/subdir.mk:19: TouchGFX/gui/src/common/FrontendApplication.o] Error 1
-make: *** Waiting for unfinished jobs....
-make: *** [TouchGFX/gui/src/containers/subdir.mk:19: TouchGFX/gui/src/containers/CustomContainer1.o] Error 1
-make: *** [TouchGFX/target/generated/subdir.mk:28: TouchGFX/target/generated/TouchGFXConfiguration.o] Error 1
-make: *** [TouchGFX/target/generated/subdir.mk:28: TouchGFX/target/generated/TouchGFXGeneratedHAL.o] Error 1
-make: *** [TouchGFX/gui/src/mainscreen_screen/subdir.mk:22: TouchGFX/gui/src/mainscreen_screen/MainScreenView.o] Error 1
-In file included from ../Middlewares/ST/touchgfx/framework/include/mvp/MVPApplication.hpp:24,
-                 from ../TouchGFX/generated/gui_generated/include/gui_generated/common/FrontendApplicationBase.hpp:7,
-                 from ../TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.cpp:5:
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp: In member function 'float touchgfx::Presenter::getSpeed()':
-../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:55:31: error: 'model' was not declared in this scope
-   55 |     float getSpeed() { return model->getVehicleSpeed(); }
-      |                               ^~~~~
-make: *** [TouchGFX/gui/src/mainscreen_screen/subdir.mk:22: TouchGFX/gui/src/mainscreen_screen/MainScreenPresenter.o] Error 1
-make: *** [TouchGFX/generated/gui_generated/src/mainscreen_screen/subdir.mk:19: TouchGFX/generated/gui_generated/src/mainscreen_screen/MainScreenViewBase.o] Error 1
-make: *** [TouchGFX/generated/gui_generated/src/containers/subdir.mk:19: TouchGFX/generated/gui_generated/src/containers/CustomContainer1Base.o] Error 1
-make: *** [TouchGFX/generated/gui_generated/src/common/subdir.mk:19: TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.o] Error 1
-"make -j12 all" terminated with exit code 2. Build might be incomplete.
+arm-none-eabi-g++ -o "Rower_elektryczny.elf" @"objects.list"  -l:libtouchgfx-float-abi-hard.a -mcpu=cortex-m7 -T"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static -L"C:\Users\romel\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\Middlewares\ST\touchgfx\lib\core\cortex_m7\gcc" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Rower_elektryczny.elf
+ 
+arm-none-eabi-size  Rower_elektryczny.elf 
+arm-none-eabi-objdump -h -S Rower_elektryczny.elf  > "Rower_elektryczny.list"
+   text	   data	    bss	    dec	    hex	filename
+1754616	   1156	  59784	1815556	 1bb404	Rower_elektryczny.elf
+Finished building: default.size.stdout
+ 
+Finished building: Rower_elektryczny.list
+ 
+13:24:04 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+make -j12 all 
+arm-none-eabi-size  Rower_elektryczny.elf 
+   text	   data	    bss	    dec	    hex	filename
+1754616	   1156	  59784	1815556	 1bb404	Rower_elektryczny.elf
+Finished building: default.size.stdout
+ 

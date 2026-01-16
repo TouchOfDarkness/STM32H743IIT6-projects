@@ -52,7 +52,7 @@ public:
     virtual ~Presenter()
     {
     }
-    float getSpeed() { return model->getVehicleSpeed(); }
+
 
 protected:
     /** Initializes a new instance of the Presenter class. */

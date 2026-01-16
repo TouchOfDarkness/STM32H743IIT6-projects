@@ -1,0 +1,11 @@
+../Core/Src/main.c:105:5:main	5
+../Core/Src/main.c:221:6:SystemClock_Config	4
+../Core/Src/main.c:305:6:HAL_FDCAN_RxFifo0Callback	12
+../Core/Src/main.c:378:6:VESC_SetCurrent	4
+../Core/Src/main.c:420:6:VESC_SetBrakeCurrent	4
+../Core/Src/main.c:455:9:Get_Filtered_RPM	3
+../Core/Src/main.c:473:6:CalculateVehicleSpeed	3
+../Core/Src/main.c:500:6:MotorControl_Task_Entry	19
+../Core/Src/main.c:698:6:MPU_Config	1
+../Core/Src/main.c:758:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:775:6:Error_Handler	1

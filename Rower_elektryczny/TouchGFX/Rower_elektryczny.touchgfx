@@ -36,7 +36,24 @@
                 "Name": "swipeContainerMainPage",
                 "Width": 1024,
                 "Height": 600,
-                "Components": []
+                "Components": [
+                  {
+                    "Type": "TextArea",
+                    "Name": "VelocityText",
+                    "X": 382,
+                    "Y": 228,
+                    "Width": 402,
+                    "Height": 72,
+                    "TextId": "VelacityUnit",
+                    "TextRotation": "0",
+                    "AutoSize": true,
+                    "Wildcard1": {
+                      "TextId": "VelocityWildCard",
+                      "UseBuffer": true,
+                      "BufferSize": 10
+                    }
+                  }
+                ]
               },
               {
                 "Type": "Container",
@@ -140,22 +157,6 @@
                 ]
               }
             ]
-          },
-          {
-            "Type": "TextArea",
-            "Name": "VelocityText",
-            "X": 382,
-            "Y": 228,
-            "Width": 402,
-            "Height": 72,
-            "TextId": "VelacityUnit",
-            "TextRotation": "0",
-            "AutoSize": true,
-            "Wildcard1": {
-              "TextId": "VelocityWildCard",
-              "UseBuffer": true,
-              "BufferSize": 10
-            }
           }
         ],
         "Interactions": []
