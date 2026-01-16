@@ -1,0 +1,8 @@
+../Core/Src/quadspi.c:62:6:MX_QUADSPI_Init	3
+../Core/Src/quadspi.c:97:6:HAL_QSPI_MspInit	3
+../Core/Src/quadspi.c:172:6:HAL_QSPI_MspDeInit	2
+../Core/Src/quadspi.c:209:9:BSP_QSPI_Init	3
+../Core/Src/quadspi.c:231:16:QSPI_ResetMemory	4
+../Core/Src/quadspi.c:271:16:QSPI_WriteEnable	3
+../Core/Src/quadspi.c:317:16:QSPI_AutoPollingMemReady	2
+../Core/Src/quadspi.c:354:16:QSPI_QuadMode	10

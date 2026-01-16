@@ -95,7 +95,10 @@ void MotorControl_Task_Entry(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+int _write(int file, int* ptr,  int len){
+	HAL_UART_Transmit(&huart1, (uint8_t*)ptr, len, 10);
+	return len;
+}
 /* USER CODE END 0 */
 
 /**
@@ -688,9 +691,10 @@ void MotorControl_Task_Entry(void)
 
 
 
-    		      	        osDelay(1);
+    		      	        osDelay(10);
     }
 }
+
 /* USER CODE END 4 */
 
  /* MPU Configuration */

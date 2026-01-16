@@ -1,0 +1,4 @@
+../TouchGFX/gui/src/model/Model.cpp:6:1:Model::Model()	1
+../TouchGFX/gui/src/model/Model.cpp:11:6:void Model::tick()	1
+../TouchGFX/gui/src/model/Model.cpp:18:12:VescData_t Model::getVescData(int)	5
+../TouchGFX/gui/src/model/Model.cpp:27:7:float Model::getVehicleSpeed()	1
