@@ -152,3 +152,267 @@ Finished building: default.size.stdout
  
 Finished building: Rower_elektryczny.list
  
+19:15:38 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+make -j12 all 
+arm-none-eabi-size  Rower_elektryczny.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52620	    616	   3192	  56428	   dc6c	Rower_elektryczny.elf
+Finished building: default.size.stdout
+ 
+19:18:18 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+make -j12 all 
+arm-none-eabi-size  Rower_elektryczny.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52620	    616	   3192	  56428	   dc6c	Rower_elektryczny.elf
+Finished building: default.size.stdout
+ 
+19:30:33 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+make -j12 all 
+arm-none-eabi-size  Rower_elektryczny.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52620	    616	   3192	  56428	   dc6c	Rower_elektryczny.elf
+Finished building: default.size.stdout
+ 
+19:37:06 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+make -j12 all 
+arm-none-eabi-size  Rower_elektryczny.elf 
+   text	   data	    bss	    dec	    hex	filename
+  52620	    616	   3192	  56428	   dc6c	Rower_elektryczny.elf
+Finished building: default.size.stdout
+ 
+00:11:09 **** Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_exti.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_exti.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_exti.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_exti.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_flash_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_i2c_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.d" -MT"Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.o"
+arm-none-eabi-gcc -mcpu=cortex-m7 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Core/Startup/startup_stm32f746zgtx.d" -MT"Core/Startup/startup_stm32f746zgtx.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Startup/startup_stm32f746zgtx.o" "../Core/Startup/startup_stm32f746zgtx.s"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/mpu6050.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/mpu6050.d" -MT"Core/Src/mpu6050.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/mpu6050.o"
+arm-none-eabi-gcc "../Core/Src/stm32f7xx_hal_msp.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f7xx_hal_msp.d" -MT"Core/Src/stm32f7xx_hal_msp.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f7xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f7xx_it.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f7xx_it.d" -MT"Core/Src/stm32f7xx_it.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f7xx_it.o"
+In file included from ../Core/Src/mpu6050.c:2:
+../Core/Inc/mpu6050.h:7:10: fatal error: i2c.h: No such file or directory
+    7 | #include "i2c.h"
+      |          ^~~~~~~
+compilation terminated.
+make: *** [Core/Src/subdir.mk:37: Core/Src/mpu6050.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:13:07 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/mpu6050.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/mpu6050.d" -MT"Core/Src/mpu6050.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/mpu6050.o"
+arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/syscalls.o"
+arm-none-eabi-gcc "../Core/Src/sysmem.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/sysmem.d" -MT"Core/Src/sysmem.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/sysmem.o"
+arm-none-eabi-gcc "../Core/Src/system_stm32f7xx.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/system_stm32f7xx.d" -MT"Core/Src/system_stm32f7xx.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/system_stm32f7xx.o"
+In file included from ../Core/Src/mpu6050.c:2:
+../Core/Inc/mpu6050.h:44:22: error: unknown type name 'I2C_HandleTypeDef'
+   44 | uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx);
+      |                      ^~~~~~~~~~~~~~~~~
+../Core/Inc/mpu6050.h:46:25: error: unknown type name 'I2C_HandleTypeDef'
+   46 | void MPU6050_Read_Accel(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Inc/mpu6050.h:48:24: error: unknown type name 'I2C_HandleTypeDef'
+   48 | void MPU6050_Read_Gyro(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
+      |                        ^~~~~~~~~~~~~~~~~
+../Core/Inc/mpu6050.h:50:24: error: unknown type name 'I2C_HandleTypeDef'
+   50 | void MPU6050_Read_Temp(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
+      |                        ^~~~~~~~~~~~~~~~~
+../Core/Inc/mpu6050.h:52:23: error: unknown type name 'I2C_HandleTypeDef'
+   52 | void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
+      |                       ^~~~~~~~~~~~~~~~~
+../Core/Src/mpu6050.c:34:22: error: unknown type name 'I2C_HandleTypeDef'
+   34 | uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx) {
+      |                      ^~~~~~~~~~~~~~~~~
+../Core/Src/mpu6050.c:67:25: error: unknown type name 'I2C_HandleTypeDef'
+   67 | void MPU6050_Read_Accel(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
+      |                         ^~~~~~~~~~~~~~~~~
+../Core/Src/mpu6050.c:89:24: error: unknown type name 'I2C_HandleTypeDef'
+   89 | void MPU6050_Read_Gyro(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
+      |                        ^~~~~~~~~~~~~~~~~
+../Core/Src/mpu6050.c:110:24: error: unknown type name 'I2C_HandleTypeDef'
+  110 | void MPU6050_Read_Temp(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
+      |                        ^~~~~~~~~~~~~~~~~
+../Core/Src/mpu6050.c:122:23: error: unknown type name 'I2C_HandleTypeDef'
+  122 | void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct) {
+      |                       ^~~~~~~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/mpu6050.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:14:12 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/mpu6050.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/mpu6050.d" -MT"Core/Src/mpu6050.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/mpu6050.o"
+arm-none-eabi-gcc -o "Dzialajace MPU z kalmanem i wysylanie.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\kamil\STM32CubeIDE\workspace_1.17.0\Dzialajace MPU z kalmanem i wysylanie\STM32F746ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Dzialajace MPU z kalmanem i wysylanie.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Dzialajace MPU z kalmanem i wysylanie.elf
+ 
+arm-none-eabi-size  Dzialajace\ MPU\ z\ kalmanem\ i\ wysylanie.elf 
+arm-none-eabi-objdump -h -S Dzialajace\ MPU\ z\ kalmanem\ i\ wysylanie.elf  > "Dzialajace MPU z kalmanem i wysylanie.list"
+   text	   data	    bss	    dec	    hex	filename
+  30832	    788	   3612	  35232	   89a0	Dzialajace MPU z kalmanem i wysylanie.elf
+Finished building: default.size.stdout
+ 
+Finished building: Dzialajace MPU z kalmanem i wysylanie.list
+ 
+00:14:29 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:81:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+   81 | static void MX_I2C1_Init(void);
+      |             ^~~~~~~~~~~~
+In file included from ../Core/Inc/mpu6050.h:7,
+                 from ../Core/Src/main.c:22:
+../Core/Inc/i2c.h:41:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   41 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+../Core/Src/main.c: In function '_write':
+../Core/Src/main.c:91:24: error: 'huart1' undeclared (first use in this function); did you mean 'huart3'?
+   91 |     HAL_UART_Transmit(&huart1, (uint8_t*)ptr, len, 10);
+      |                        ^~~~~~
+      |                        huart3
+../Core/Src/main.c:91:24: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:131:17: error: 'hi2c2' undeclared (first use in this function); did you mean 'hi2c1'?
+  131 |   MPU6050_Init(&hi2c2);
+      |                 ^~~~~
+      |                 hi2c1
+../Core/Src/main.c:141:37: error: 'MPU6050' undeclared (first use in this function); did you mean 'MPU6050_t'?
+  141 |           MPU6050_Read_All(&hi2c2, &MPU6050);
+      |                                     ^~~~~~~
+      |                                     MPU6050_t
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:16:04 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:81:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+   81 | static void MX_I2C1_Init(void);
+      |             ^~~~~~~~~~~~
+In file included from ../Core/Inc/mpu6050.h:7,
+                 from ../Core/Src/main.c:22:
+../Core/Inc/i2c.h:41:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   41 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:141:29: error: 'hi2c2' undeclared (first use in this function); did you mean 'hi2c1'?
+  141 |           MPU6050_Read_All(&hi2c2, &MPU6050);
+      |                             ^~~~~
+      |                             hi2c1
+../Core/Src/main.c:141:29: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:141:37: error: 'MPU6050' undeclared (first use in this function); did you mean 'MPU6050_t'?
+  141 |           MPU6050_Read_All(&hi2c2, &MPU6050);
+      |                                     ^~~~~~~
+      |                                     MPU6050_t
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:16:50 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:81:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+   81 | static void MX_I2C1_Init(void);
+      |             ^~~~~~~~~~~~
+In file included from ../Core/Inc/mpu6050.h:7,
+                 from ../Core/Src/main.c:22:
+../Core/Inc/i2c.h:41:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   41 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:141:37: error: 'MPU6050' undeclared (first use in this function); did you mean 'MPU6050_t'?
+  141 |           MPU6050_Read_All(&hi2c1, &MPU6050);
+      |                                     ^~~~~~~
+      |                                     MPU6050_t
+../Core/Src/main.c:141:37: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:17:28 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:81:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+   81 | static void MX_I2C1_Init(void);
+      |             ^~~~~~~~~~~~
+In file included from ../Core/Inc/mpu6050.h:7,
+                 from ../Core/Src/main.c:22:
+../Core/Inc/i2c.h:41:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   41 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:17:57 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:259:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+  259 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+In file included from ../Core/Inc/mpu6050.h:7,
+                 from ../Core/Src/main.c:22:
+../Core/Inc/i2c.h:41:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   41 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+../Core/Src/main.c:259:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  259 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:18:48 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:81:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+   81 | static void MX_I2C1_Init(void);
+      |             ^~~~~~~~~~~~
+In file included from ../Core/Inc/mpu6050.h:7,
+                 from ../Core/Src/main.c:22:
+../Core/Inc/i2c.h:41:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   41 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:19:12 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:259:13: error: static declaration of 'MX_I2C1_Init' follows non-static declaration
+  259 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:81:6: note: previous declaration of 'MX_I2C1_Init' with type 'void(void)'
+   81 | void MX_I2C1_Init(void);
+      |      ^~~~~~~~~~~~
+../Core/Src/main.c:259:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  259 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+00:19:27 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Dzialajace MPU z kalmanem i wysylanie.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\kamil\STM32CubeIDE\workspace_1.17.0\Dzialajace MPU z kalmanem i wysylanie\STM32F746ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Dzialajace MPU z kalmanem i wysylanie.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Dzialajace MPU z kalmanem i wysylanie.elf
+ 
+arm-none-eabi-size  Dzialajace\ MPU\ z\ kalmanem\ i\ wysylanie.elf 
+arm-none-eabi-objdump -h -S Dzialajace\ MPU\ z\ kalmanem\ i\ wysylanie.elf  > "Dzialajace MPU z kalmanem i wysylanie.list"
+   text	   data	    bss	    dec	    hex	filename
+  37572	    952	   3704	  42228	   a4f4	Dzialajace MPU z kalmanem i wysylanie.elf
+Finished building: default.size.stdout
+ 
+Finished building: Dzialajace MPU z kalmanem i wysylanie.list
+ 
+00:27:00 **** Incremental Build of configuration Debug for project Dzialajace MPU z kalmanem i wysylanie ****
+make -j12 all 
+arm-none-eabi-size  Dzialajace\ MPU\ z\ kalmanem\ i\ wysylanie.elf 
+   text	   data	    bss	    dec	    hex	filename
+  37572	    952	   3704	  42228	   a4f4	Dzialajace MPU z kalmanem i wysylanie.elf
+Finished building: default.size.stdout
+ 

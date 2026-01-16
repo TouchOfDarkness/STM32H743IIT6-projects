@@ -1,33 +1,10 @@
-19:07:21 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
+19:37:06 **** Incremental Build of configuration Debug for project Rower_elektryczny ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_PWR_LDO_SUPPLY -DUSE_HAL_DRIVER -DSTM32H743xx -c -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:257:24: warning: unused variable 'prev_rpm' [-Wunused-variable]
-  257 |         static int32_t prev_rpm = 0;
-      |                        ^~~~~~~~
-../Core/Src/main.c:248:21: warning: unused variable 'GEAR_RESISTANCE_STEP' [-Wunused-variable]
-  248 |         const float GEAR_RESISTANCE_STEP = 0.5f;
-      |                     ^~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:245:21: warning: unused variable 'FRICTION_GAIN' [-Wunused-variable]
-  245 |         const float FRICTION_GAIN = 0.0000f;
-      |                     ^~~~~~~~~~~~~
-../Core/Src/main.c:241:21: warning: unused variable 'INERTIA_GAIN' [-Wunused-variable]
-  241 |         const float INERTIA_GAIN = 0.08f;
-      |                     ^~~~~~~~~~~~
-../Core/Src/main.c:236:21: warning: unused variable 'CURRENT_STEP' [-Wunused-variable]
-  236 |         const float CURRENT_STEP = 2.5f;    // +2.5A na koła za każdy bieg
-      |                     ^~~~~~~~~~~~
-arm-none-eabi-gcc -o "Rower_elektryczny.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\kamil\STM32CubeIDE\workspace_1.17.0\Rower_elektryczny\STM32H743IITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Rower_elektryczny.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Rower_elektryczny.elf
- 
 arm-none-eabi-size  Rower_elektryczny.elf 
-arm-none-eabi-objdump -h -S Rower_elektryczny.elf  > "Rower_elektryczny.list"
    text	   data	    bss	    dec	    hex	filename
   52620	    616	   3192	  56428	   dc6c	Rower_elektryczny.elf
 Finished building: default.size.stdout
  
-Finished building: Rower_elektryczny.list
- 
 
-19:07:23 Build Finished. 0 errors, 5 warnings. (took 2s.384ms)
+19:37:07 Build Finished. 0 errors, 0 warnings. (took 651ms)
 

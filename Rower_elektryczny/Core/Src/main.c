@@ -55,8 +55,8 @@
 FDCAN_RxHeaderTypeDef RxHeader;
 uint8_t RxData[8]; // Bufor na dane odebrane z VESC
 uint8_t TxData[8]; // Bufor na dane do wysłania
-// --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
 FDCAN_TxHeaderTypeDef TxHeader;
+// --- 1. DEFINICJA STRUKTURY DLA WSZYSTKICH STATUSÓW ---
 typedef struct {
     // === STATUS 1 (Komenda 0x09) ===
     volatile int32_t rpm;           // Prędkość obrotowa (ERPM)
@@ -500,7 +500,7 @@ int main(void)
 
 
 
-	        HAL_Delay(1);
+	        HAL_Delay(20);
   }
   /* USER CODE END 3 */
 }
