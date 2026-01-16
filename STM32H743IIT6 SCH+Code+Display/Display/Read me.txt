@@ -1,0 +1,8 @@
+The "ExternalFlash" code runs in the external flash and needs to burn the bootloader for the microcontroller.
+The board needs to be re-powered to run after the external flash burn-in is complete
+
+
+The "InternalFlash" code runs in the internal flash of the microcontroller and needs to be burned directly.
+
+
+

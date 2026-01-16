@@ -1,0 +1,1 @@
+先把H743IIT6_16M.FLM文件拷贝进keil\ARM\Flash文件夹，再在工程设置里把它添加进来，否则无法烧写外部Flash。另外还需把RAM for Algorithm的Size由0x00008000改成0x0000F000，太小也会下载失败
